@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace projeto_pratica.classes
 {
-	internal class banco
+	internal class Banco
 	{
 		private static readonly string connectionString =
 			"Data Source=localhost\\SQLEXPRESS;Initial Catalog=projeto_pratica;Integrated Security=True;Encrypt=False";
@@ -23,11 +23,12 @@ namespace projeto_pratica.classes
 			try
 			{
 				cnn.Open();
+				//MessageBox.Show("Conexão bem-sucedida!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return cnn;
 			}
 			catch (SqlException ex)
 			{
-				MessageBox.Show("Erro ao conectar ao banco de dados:\n" + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Erro ao conectar ao Banco de dados:\n" + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return null;
 			}
 		}

@@ -1,4 +1,5 @@
 ﻿using projeto_pratica.classes;
+using projeto_pratica.controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,17 +12,21 @@ namespace projeto_pratica.pages.cadastro
 {
 	public partial class frmCadastroCondpag : projeto_pratica.pages.cadastro.frmCadastro
 	{
-		private condicaoPagamento oCondicaoPagamento;
+		private CondicaoPagamento oCondicaoPagamento;
+		private CtrlCondPag aCtrlCondPag;
 
 		public frmCadastroCondpag()
 		{
 			InitializeComponent();
-			oCondicaoPagamento = new condicaoPagamento();
+			oCondicaoPagamento = new CondicaoPagamento();
+			aCtrlCondPag = new CtrlCondPag();
 		}
 
-		public override void ConhecaObj(object obj)
+		public override void ConhecaObj(object obj, object ctrl)
 		{
-			oCondicaoPagamento = (condicaoPagamento)obj;
+			oCondicaoPagamento = (CondicaoPagamento)obj;
+			aCtrlCondPag = (CtrlCondPag)ctrl;
+			this.CarregarTxt();
 		}
 
 		public override void LimparTxt()
@@ -45,15 +50,8 @@ namespace projeto_pratica.pages.cadastro
 			oCondicaoPagamento.Descricao = txtDescricao.Text;
 			oCondicaoPagamento.NumParcelas = Convert.ToInt32(txtParcelas.Text);
 			
-			if (int.TryParse(txtCodigo.Text, out int existingId) && existingId > 0)
-			{
-				oCondicaoPagamento.Id = existingId;
-			}
+			string resultado = aCtrlCondPag.Salvar(oCondicaoPagamento);
 
-			// Save to the database
-			string resultado = condicaoPagamento.Salvar(oCondicaoPagamento);
-
-			// If a new ID was generated, update txtCodigo
 			if (int.TryParse(resultado, out int novoId))
 			{
 				txtCodigo.Text = novoId.ToString();

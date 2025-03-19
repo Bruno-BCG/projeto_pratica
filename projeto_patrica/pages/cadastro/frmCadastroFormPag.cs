@@ -6,21 +6,25 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using projeto_pratica.classes;
+using projeto_pratica.controllers;
 
 namespace projeto_pratica.pages.cadastro
 {
 	public partial class frmCadastroFormPag : projeto_pratica.pages.cadastro.frmCadastro
 	{
-		private formaPagamento aFormaPagamento;
+		private FormaPagamento aFormaPagamento;
+		private CtrlFormPag aCtrlFormPag;
 		public frmCadastroFormPag()
 		{
 			InitializeComponent();
-			aFormaPagamento = new formaPagamento();
+			aFormaPagamento = new FormaPagamento();
 		}
 
-		public override void ConhecaObj(object obj)
+		public override void ConhecaObj(object obj, object ctrl)
 		{
-			base.ConhecaObj(obj);
+			aFormaPagamento = (FormaPagamento)obj;
+			aCtrlFormPag = (CtrlFormPag)ctrl;
+			this.CarregarTxt();
 		}
 
 		public override void LimparTxt()
@@ -69,7 +73,7 @@ namespace projeto_pratica.pages.cadastro
 				aFormaPagamento.Id = existingId;
 			}
 
-			string resultado = formaPagamento.Salvar(aFormaPagamento);
+			string resultado = aCtrlFormPag.Salvar(aFormaPagamento);
 
 			if (int.TryParse(resultado, out int novoId))
 			{
@@ -81,6 +85,5 @@ namespace projeto_pratica.pages.cadastro
 				MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
-
 	}
 }

@@ -15,7 +15,7 @@ namespace projeto_pratica.pages.consulta
 			InitializeComponent();
 		}
 
-		public virtual void ConhecaObj(object obj)
+		public virtual void ConhecaObj(object obj, object ctrl)
 		{
 
 		}

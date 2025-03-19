@@ -1,26 +1,26 @@
-﻿using System;
+﻿using projeto_pratica.classes;
+using projeto_pratica.controllers;
+using projeto_pratica.pages.cadastro;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using projeto_pratica.pages.cadastro;
-using projeto_pratica.classes;
-using System.Collections;
-using projeto_pratica.controllers;
+
 
 namespace projeto_pratica.pages.consulta
 {
-	public partial class frmConsultaCondPag : projeto_pratica.pages.consulta.frmConsulta
+	public partial class frmConsultaFormPag : projeto_pratica.pages.consulta.frmConsulta
 	{
-		private frmCadastroCondpag oFrmCadastroCondpag;
-		private CondicaoPagamento aCondPag;
-		private CtrlCondPag aCtrlCondPag;
-		public frmConsultaCondPag()
+		private frmCadastroFormPag oFrmCadastroFormPag;
+		private FormaPagamento aFormPag;
+		private CtrlFormPag aCtrlFormPag;
+
+		public frmConsultaFormPag()
 		{
 			InitializeComponent();
-			oFrmCadastroCondpag = new frmCadastroCondpag();
 		}
 
 		public override void setFrmCadastro(object obj)
@@ -28,26 +28,25 @@ namespace projeto_pratica.pages.consulta
 			base.setFrmCadastro(obj);
 			if (obj != null)
 			{
-				oFrmCadastroCondpag = (frmCadastroCondpag)obj;
+				oFrmCadastroFormPag = (frmCadastroFormPag)obj;
 			}
 		}
 
 		public override void ConhecaObj(object obj, object ctrl)
 		{
-			aCondPag = (CondicaoPagamento)obj;
-			aCtrlCondPag = (CtrlCondPag)ctrl;
+			aFormPag = (FormaPagamento)obj;
+			aCtrlFormPag = (CtrlFormPag)ctrl;
 			this.CarregaLV();
 		}
 
 		public override void CarregaLV()
 		{
 			this.listV.Items.Clear();
-			var lista = aCtrlCondPag.Listar();
+			var lista = aCtrlFormPag.Listar();
 			foreach (var cond in lista)
 			{
 				ListViewItem item = new ListViewItem(Convert.ToString(cond.Id));
 				item.SubItems.Add(cond.Descricao);
-				item.SubItems.Add(Convert.ToString(cond.NumParcelas));
 				listV.Items.Add(item);
 			}
 		}
@@ -55,28 +54,28 @@ namespace projeto_pratica.pages.consulta
 		public override void Incluir()
 		{
 			base.Incluir();
-			oFrmCadastroCondpag.ConhecaObj(aCondPag, aCtrlCondPag);
-			oFrmCadastroCondpag.LimparTxt();
-			oFrmCadastroCondpag.ShowDialog();
+			oFrmCadastroFormPag.ConhecaObj(aFormPag, aCtrlFormPag);
+			oFrmCadastroFormPag.LimparTxt();
+			oFrmCadastroFormPag.ShowDialog();
 			this.CarregaLV();
 		}
 
 		public override void Alterar()
 		{
 			base.Incluir();
-			oFrmCadastroCondpag.ConhecaObj(aCondPag, aCtrlCondPag);
-			oFrmCadastroCondpag.CarregarTxt();
-			oFrmCadastroCondpag.ShowDialog();
+			oFrmCadastroFormPag.ConhecaObj(aFormPag, aCtrlFormPag);
+			oFrmCadastroFormPag.CarregarTxt();
+			oFrmCadastroFormPag.ShowDialog();
 		}
 
 		public override void Excluir()
 		{
 			base.Excluir();
-			oFrmCadastroCondpag.ConhecaObj(aCondPag, aCtrlCondPag);
-			oFrmCadastroCondpag.CarregarTxt();
-			oFrmCadastroCondpag.BloqueiaTxt();
-			oFrmCadastroCondpag.ShowDialog(this);
-			oFrmCadastroCondpag.DesbloqueiaTxt();
+			oFrmCadastroFormPag.ConhecaObj(aFormPag, aCtrlFormPag);
+			oFrmCadastroFormPag.CarregarTxt();
+			oFrmCadastroFormPag.BloqueiaTxt();
+			oFrmCadastroFormPag.ShowDialog(this);
+			oFrmCadastroFormPag.DesbloqueiaTxt();
 		}
 
 		private void listV_SelectedIndexChanged(object sender, EventArgs e)
@@ -86,11 +85,10 @@ namespace projeto_pratica.pages.consulta
 				ListViewItem item = listV.SelectedItems[0]; // Get selected row
 
 				// Store data in an object (already available in ListView)
-				aCondPag = new CondicaoPagamento
+				aFormPag = new FormaPagamento
 				{
 					Id = Convert.ToInt32(item.Text), // First column (ID)
 					Descricao = item.SubItems[1].Text, // Second column (Description)
-					NumParcelas = Convert.ToInt32(item.SubItems[2].Text) // Third column (NumParcelas)
 				};
 			}
 		}

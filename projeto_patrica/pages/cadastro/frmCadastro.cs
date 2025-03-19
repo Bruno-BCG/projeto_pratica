@@ -14,7 +14,7 @@ namespace projeto_pratica.pages.cadastro
 		{
 			InitializeComponent();
 		}
-		public virtual void ConhecaObj(object obj)
+		public virtual void ConhecaObj(object obj, object ctrl)
 		{
 
 		}

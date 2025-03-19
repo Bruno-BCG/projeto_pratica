@@ -39,6 +39,7 @@
 			// txtCodigo
 			// 
 			this.txtCodigo.ReadOnly = true;
+			this.txtCodigo.Text = "0";
 			// 
 			// btnSave
 			// 

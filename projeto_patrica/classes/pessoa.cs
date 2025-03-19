@@ -6,19 +6,8 @@ using System.Threading.Tasks;
 
 namespace projeto_pratica.classes
 {
-	internal class Pai
+	internal class Pessoa : Pai
 	{
-		protected int id;
 
-		public Pai()
-		{
-			id = 0;
-		}
-		public Pai(int id)
-		{
-			this.id = id;
-		}
-
-		public int Id { get; set; }
 	}
 }
