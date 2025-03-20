@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace projeto_pratica.daos
 {
 	internal class DaoCondPag : Dao
@@ -59,6 +60,45 @@ namespace projeto_pratica.daos
 					catch (SqlException ex)
 					{
 						resultado = "Erro ao salvar: " + ex.Message;
+					}
+				}
+			}
+			return resultado;
+		}
+
+		public override string Excluir(object obj)
+		{
+			CondicaoPagamento pagamento = (CondicaoPagamento)obj; // Cast obj to condicaoPagamento
+			string resultado = "";
+			string sql = "DELETE FROM COND_PAGAMENTO WHERE CONDPAG_ID = @Id";
+
+			using (SqlConnection conexao = Banco.Abrir())
+			{
+				if (conexao == null)
+				{
+					return "Erro ao conectar ao Banco de dados.";
+				}
+
+				using (SqlCommand cmd = new SqlCommand(sql, conexao))
+				{
+					cmd.Parameters.AddWithValue("@Id", pagamento.Id);
+
+					try
+					{
+						int rowsAffected = cmd.ExecuteNonQuery();
+
+						if (rowsAffected > 0)
+						{
+							resultado = "OK"; // Successfully deleted
+						}
+						else
+						{
+							resultado = "Nenhum registro foi encontrado para exclusão.";
+						}
+					}
+					catch (SqlException ex)
+					{
+						resultado = "Erro ao excluir: " + ex.Message;
 					}
 				}
 			}

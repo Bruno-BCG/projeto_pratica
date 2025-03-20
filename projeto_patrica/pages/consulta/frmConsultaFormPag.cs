@@ -70,12 +70,14 @@ namespace projeto_pratica.pages.consulta
 
 		public override void Excluir()
 		{
-			base.Excluir();
+			string aux = oFrmCadastroFormPag.btnSave.Text;
+			oFrmCadastroFormPag.btnSave.Text = "Excluir";
 			oFrmCadastroFormPag.ConhecaObj(aFormPag, aCtrlFormPag);
 			oFrmCadastroFormPag.CarregarTxt();
 			oFrmCadastroFormPag.BloqueiaTxt();
 			oFrmCadastroFormPag.ShowDialog(this);
 			oFrmCadastroFormPag.DesbloqueiaTxt();
+			oFrmCadastroFormPag.btnSave.Text = aux;
 		}
 
 		private void listV_SelectedIndexChanged(object sender, EventArgs e)

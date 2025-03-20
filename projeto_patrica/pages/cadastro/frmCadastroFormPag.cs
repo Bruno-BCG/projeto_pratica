@@ -73,16 +73,33 @@ namespace projeto_pratica.pages.cadastro
 				aFormaPagamento.Id = existingId;
 			}
 
-			string resultado = aCtrlFormPag.Salvar(aFormaPagamento);
 
-			if (int.TryParse(resultado, out int novoId))
+			if (btnSave.Text == "Salvar")
 			{
-				txtCodigo.Text = novoId.ToString();
-				MessageBox.Show($"Forma de pagamento '{aFormaPagamento.Descricao}' foi salva com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				string resultado = aCtrlFormPag.Salvar(aFormaPagamento);
+
+				if (int.TryParse(resultado, out int novoId))
+				{
+					txtCodigo.Text = novoId.ToString();
+					MessageBox.Show($"Forma de pagamento '{aFormaPagamento.Descricao}' foi salva com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
-			else
+			else if (btnSave.Text == "Excluir")
 			{
-				MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				string resultado = aCtrlFormPag.Excluir(aFormaPagamento);
+
+				if (resultado == "OK")
+				{
+					MessageBox.Show("Registro excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 	}

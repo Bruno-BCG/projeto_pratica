@@ -49,18 +49,35 @@ namespace projeto_pratica.pages.cadastro
 
 			oCondicaoPagamento.Descricao = txtDescricao.Text;
 			oCondicaoPagamento.NumParcelas = Convert.ToInt32(txtParcelas.Text);
-			
-			string resultado = aCtrlCondPag.Salvar(oCondicaoPagamento);
 
-			if (int.TryParse(resultado, out int novoId))
+			if (btnSave.Text == "Salvar")
 			{
-				txtCodigo.Text = novoId.ToString();
-				MessageBox.Show($"A condição de pagamento '{oCondicaoPagamento.Descricao}' foi salva com o código {txtCodigo.Text}.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				string resultado = aCtrlCondPag.Salvar(oCondicaoPagamento);
+
+				if (int.TryParse(resultado, out int novoId))
+				{
+					txtCodigo.Text = novoId.ToString();
+					MessageBox.Show($"A condição de pagamento '{oCondicaoPagamento.Descricao}' foi salva com o código {txtCodigo.Text}.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
-			else
+			else if (btnSave.Text == "Excluir")
 			{
-				MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				string resultado = aCtrlCondPag.Excluir(oCondicaoPagamento);
+
+				if (resultado == "OK")
+				{
+					MessageBox.Show("Registro excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
+			
 		}
 
 		public override void CarregarTxt()

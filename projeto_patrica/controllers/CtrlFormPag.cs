@@ -20,6 +20,11 @@ namespace projeto_pratica.controllers
 		{
 			return aDaoFormPag.Salvar(obj);
 		}
+		public override string Excluir(object obj)
+		{
+			return aDaoFormPag.Excluir(obj);
+		}
+
 		public List<FormaPagamento> Listar()
 		{
 			return aDaoFormPag.Listar();

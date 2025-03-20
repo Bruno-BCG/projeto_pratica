@@ -78,8 +78,7 @@
 		}
 
 		#endregion
-
-		protected System.Windows.Forms.Button btnSave;
 		protected System.Windows.Forms.Label lblCod;
+		public System.Windows.Forms.Button btnSave;
 	}
 }

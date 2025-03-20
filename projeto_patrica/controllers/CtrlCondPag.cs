@@ -21,6 +21,11 @@ namespace projeto_pratica.controllers
 			return aDaoCondPag.Salvar(obj);
 		}
 
+		public override string Excluir(object obj)
+		{
+			return aDaoCondPag.Excluir(obj);
+		}
+
 		public List<CondicaoPagamento> Listar()
 		{
 			return aDaoCondPag.Listar();

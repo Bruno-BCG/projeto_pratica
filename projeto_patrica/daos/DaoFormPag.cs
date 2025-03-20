@@ -64,6 +64,45 @@ namespace projeto_pratica.daos
 			return resultado;
 		}
 
+		public override string Excluir(object obj)
+		{
+			FormaPagamento pagamento = (FormaPagamento)obj; // Cast obj to condicaoPagamento
+			string resultado = "";
+			string sql = "DELETE FROM FORM_PAGAMENTO WHERE FORMPAG_ID = @Id";
+
+			using (SqlConnection conexao = Banco.Abrir())
+			{
+				if (conexao == null)
+				{
+					return "Erro ao conectar ao Banco de dados.";
+				}
+
+				using (SqlCommand cmd = new SqlCommand(sql, conexao))
+				{
+					cmd.Parameters.AddWithValue("@Id", pagamento.Id);
+
+					try
+					{
+						int rowsAffected = cmd.ExecuteNonQuery();
+
+						if (rowsAffected > 0)
+						{
+							resultado = "OK"; // Successfully deleted
+						}
+						else
+						{
+							resultado = "Nenhum registro foi encontrado para exclusão.";
+						}
+					}
+					catch (SqlException ex)
+					{
+						resultado = "Erro ao excluir: " + ex.Message;
+					}
+				}
+			}
+			return resultado;
+		}
+
 		public List<FormaPagamento> Listar()
 		{
 			List<FormaPagamento> lista = new List<FormaPagamento>();

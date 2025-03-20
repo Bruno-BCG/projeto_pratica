@@ -67,16 +67,20 @@ namespace projeto_pratica.pages.consulta
 			oFrmCadastroCondpag.ConhecaObj(aCondPag, aCtrlCondPag);
 			oFrmCadastroCondpag.CarregarTxt();
 			oFrmCadastroCondpag.ShowDialog();
+			this.CarregaLV();
 		}
 
 		public override void Excluir()
 		{
-			base.Excluir();
+			string aux = oFrmCadastroCondpag.btnSave.Text;
+			oFrmCadastroCondpag.btnSave.Text = "Excluir";
 			oFrmCadastroCondpag.ConhecaObj(aCondPag, aCtrlCondPag);
 			oFrmCadastroCondpag.CarregarTxt();
 			oFrmCadastroCondpag.BloqueiaTxt();
 			oFrmCadastroCondpag.ShowDialog(this);
 			oFrmCadastroCondpag.DesbloqueiaTxt();
+			oFrmCadastroCondpag.btnSave.Text = aux;
+			this.CarregaLV();
 		}
 
 		private void listV_SelectedIndexChanged(object sender, EventArgs e)
