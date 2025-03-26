@@ -49,15 +49,18 @@
     <Compile Include="classes\Banco.cs" />
     <Compile Include="classes\CondicaoPagamento.cs" />
     <Compile Include="classes\Interfaces.cs" />
+    <Compile Include="classes\ParcelaCondPag.cs" />
     <Compile Include="classes\Pessoa.cs" />
     <Compile Include="controllers\Controller.cs" />
     <Compile Include="classes\FormaPagamento.cs" />
     <Compile Include="classes\Pai.cs" />
     <Compile Include="controllers\CtrlCondPag.cs" />
     <Compile Include="controllers\CtrlFormPag.cs" />
+    <Compile Include="controllers\CtrlParcCondPag.cs" />
     <Compile Include="daos\Dao.cs" />
     <Compile Include="daos\DaoCondPag.cs" />
     <Compile Include="daos\DaoFormPag.cs" />
+    <Compile Include="daos\DaoParcCondPag.cs" />
     <Compile Include="frmBase.cs">
       <SubType>Form</SubType>
     </Compile>
