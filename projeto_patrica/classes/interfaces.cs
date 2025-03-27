@@ -14,20 +14,38 @@ namespace projeto_pratica.classes
 	{
 		frmConsultaCondPag aFrmConsCondPag;
 		frmConsultaFormPag aFrmConsFormPag;
+		frmConsultaPais aFrmConsPais;
+		frmConsultaEstados aFrmConsEstados;
+		frmConsultaCidade aFrmConsCidade;
 
 		frmCadastroCondpag aFrmCadCondPag;
 		frmCadastroFormPag aFrmCadFormPag;
+		frmCadastroPais aFrmCadPais;
+		frmCadastroEstado aFrmCadEstado;
+		frmCadastroCidade aFrmCadCidade;
 
 		public Interfaces()
 		{
 			aFrmConsCondPag = new frmConsultaCondPag();
 			aFrmConsFormPag = new frmConsultaFormPag();
+			aFrmConsPais = new frmConsultaPais();
+			aFrmConsEstados = new frmConsultaEstados();
+			aFrmConsCidade = new frmConsultaCidade();
 
 			aFrmCadCondPag = new frmCadastroCondpag();
 			aFrmCadFormPag = new frmCadastroFormPag();
+			aFrmCadPais = new frmCadastroPais();
+			aFrmCadEstado = new frmCadastroEstado();
+			aFrmCadCidade = new frmCadastroCidade();
 
 			aFrmConsCondPag.setFrmCadastro(aFrmCadCondPag);
 			aFrmConsFormPag.setFrmCadastro(aFrmCadFormPag);
+			aFrmConsCidade.setFrmCadastro(aFrmCadCidade);
+			aFrmConsEstados.setFrmCadastro(aFrmCadEstado);
+			aFrmConsPais.setFrmCadastro(aFrmCadPais);
+
+			aFrmCadCidade.setFrmConsultaEstado(aFrmConsEstados);
+			aFrmCadEstado.setFrmConsultaPais(aFrmConsPais);
 		}
 
 		public void PecaCondPag(CondicaoPagamento aCondPag, CtrlCondPag aCtrlCondPag)
@@ -40,6 +58,24 @@ namespace projeto_pratica.classes
 		{
 			aFrmConsFormPag.ConhecaObj(aFormPag, aCtrlFormPag);
 			aFrmConsFormPag.ShowDialog();
+		}
+
+		public void PecaCidade(Cidade aCidade, CtrlCidade aCtrlCidade)
+		{
+			aFrmConsCidade.ConhecaObj(aCidade, aCtrlCidade);
+			aFrmConsCidade.ShowDialog();
+		}
+
+		public void PecaEstado(Estado oEstado, CtrlEstado aCtrlEstado)
+		{
+			aFrmConsEstados.ConhecaObj(oEstado, aCtrlEstado);
+			aFrmConsEstados.ShowDialog();
+		}
+
+		public void PecaPais(Pais oPais, CtrlPaises aCtrlPais)
+		{
+			aFrmConsPais.ConhecaObj(oPais, aCtrlPais);
+			aFrmConsPais.ShowDialog();
 		}
 	}
 }

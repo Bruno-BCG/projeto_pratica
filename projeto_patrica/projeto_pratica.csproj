@@ -47,19 +47,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\Banco.cs" />
+    <Compile Include="classes\Cidade.cs" />
+    <Compile Include="classes\Cliente.cs" />
     <Compile Include="classes\CondicaoPagamento.cs" />
+    <Compile Include="classes\Estado.cs" />
+    <Compile Include="classes\Fornecedor.cs" />
+    <Compile Include="classes\Funcionario.cs" />
     <Compile Include="classes\Interfaces.cs" />
+    <Compile Include="classes\Pais.cs" />
     <Compile Include="classes\ParcelaCondPag.cs" />
     <Compile Include="classes\Pessoa.cs" />
     <Compile Include="controllers\Controller.cs" />
     <Compile Include="classes\FormaPagamento.cs" />
     <Compile Include="classes\Pai.cs" />
+    <Compile Include="controllers\CtrlCidade.cs" />
     <Compile Include="controllers\CtrlCondPag.cs" />
+    <Compile Include="controllers\CtrlEstado.cs" />
     <Compile Include="controllers\CtrlFormPag.cs" />
+    <Compile Include="controllers\CtrlPaises.cs" />
     <Compile Include="controllers\CtrlParcCondPag.cs" />
     <Compile Include="daos\Dao.cs" />
+    <Compile Include="daos\DaoCidade.cs" />
     <Compile Include="daos\DaoCondPag.cs" />
+    <Compile Include="daos\DaoEstado.cs" />
     <Compile Include="daos\DaoFormPag.cs" />
+    <Compile Include="daos\DaoPaises.cs" />
     <Compile Include="daos\DaoParcCondPag.cs" />
     <Compile Include="frmBase.cs">
       <SubType>Form</SubType>
@@ -79,11 +91,23 @@
     <Compile Include="pages\cadastro\frmCadastro.Designer.cs">
       <DependentUpon>frmCadastro.cs</DependentUpon>
     </Compile>
+    <Compile Include="pages\cadastro\frmCadastroCidades.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\cadastro\frmCadastroCidades.Designer.cs">
+      <DependentUpon>frmCadastroCidades.cs</DependentUpon>
+    </Compile>
     <Compile Include="pages\cadastro\frmCadastroCondPag.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="pages\cadastro\frmCadastroCondPag.Designer.cs">
       <DependentUpon>frmCadastroCondPag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\cadastro\frmCadastroEstado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\cadastro\frmCadastroEstado.Designer.cs">
+      <DependentUpon>frmCadastroEstado.cs</DependentUpon>
     </Compile>
     <Compile Include="pages\cadastro\frmCadastroFormPag.cs">
       <SubType>Form</SubType>
@@ -91,11 +115,23 @@
     <Compile Include="pages\cadastro\frmCadastroFormPag.Designer.cs">
       <DependentUpon>frmCadastroFormPag.cs</DependentUpon>
     </Compile>
+    <Compile Include="pages\cadastro\frmCadastroPaises.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\cadastro\frmCadastroPaises.Designer.cs">
+      <DependentUpon>frmCadastroPaises.cs</DependentUpon>
+    </Compile>
     <Compile Include="pages\consulta\frmConsulta.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="pages\consulta\frmConsulta.Designer.cs">
       <DependentUpon>frmConsulta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\consulta\frmConsultaCidade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\consulta\frmConsultaCidade.Designer.cs">
+      <DependentUpon>frmConsultaCidade.cs</DependentUpon>
     </Compile>
     <Compile Include="pages\consulta\frmConsultaCondPag.cs">
       <SubType>Form</SubType>
@@ -103,11 +139,23 @@
     <Compile Include="pages\consulta\frmConsultaCondPag.Designer.cs">
       <DependentUpon>frmConsultaCondPag.cs</DependentUpon>
     </Compile>
+    <Compile Include="pages\consulta\frmConsultaEstados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\consulta\frmConsultaEstados.Designer.cs">
+      <DependentUpon>frmConsultaEstados.cs</DependentUpon>
+    </Compile>
     <Compile Include="pages\consulta\frmConsultaFormPag.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="pages\consulta\frmConsultaFormPag.Designer.cs">
       <DependentUpon>frmConsultaFormPag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\consulta\frmConsultaPais.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\consulta\frmConsultaPais.Designer.cs">
+      <DependentUpon>frmConsultaPais.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -120,20 +168,38 @@
     <EmbeddedResource Include="pages\cadastro\frmCadastro.resx">
       <DependentUpon>frmCadastro.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="pages\cadastro\frmCadastroCidades.resx">
+      <DependentUpon>frmCadastroCidades.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="pages\cadastro\frmCadastroCondPag.resx">
       <DependentUpon>frmCadastroCondPag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\cadastro\frmCadastroEstado.resx">
+      <DependentUpon>frmCadastroEstado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pages\cadastro\frmCadastroFormPag.resx">
       <DependentUpon>frmCadastroFormPag.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="pages\cadastro\frmCadastroPaises.resx">
+      <DependentUpon>frmCadastroPaises.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="pages\consulta\frmConsulta.resx">
       <DependentUpon>frmConsulta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\consulta\frmConsultaCidade.resx">
+      <DependentUpon>frmConsultaCidade.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pages\consulta\frmConsultaCondPag.resx">
       <DependentUpon>frmConsultaCondPag.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="pages\consulta\frmConsultaEstados.resx">
+      <DependentUpon>frmConsultaEstados.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="pages\consulta\frmConsultaFormPag.resx">
       <DependentUpon>frmConsultaFormPag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\consulta\frmConsultaPais.resx">
+      <DependentUpon>frmConsultaPais.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -158,6 +224,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

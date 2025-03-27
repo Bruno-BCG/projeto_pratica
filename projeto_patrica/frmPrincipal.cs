@@ -20,35 +20,36 @@ namespace projeto_pratica
 	{
 		private CondicaoPagamento aCondPag;
 		private FormaPagamento aFormPag;
+		private Pais oPais;
+		private Estado oEstado;
+		private Cidade aCidade;
 
-        private Interfaces aInter;
+		private Interfaces aInter;
 
 		private CtrlCondPag aCtrlCondPag;
 		private CtrlFormPag aCtrlFormPag;
+		private CtrlPaises aCtrlPais;
+		private CtrlEstado aCtrlEstado;
+		private CtrlCidade aCtrlCidade;
 
-        public frmPrincipal()
+		public frmPrincipal()
 		{
 			InitializeComponent();
 			aCondPag = new CondicaoPagamento();
 			aFormPag = new FormaPagamento();
+			oPais = new Pais();
+			oEstado = new Estado();
+			aCidade = new Cidade();
 
 			aInter = new Interfaces();
 
 			aCtrlCondPag = new CtrlCondPag();
 			aCtrlFormPag = new CtrlFormPag();
+			aCtrlPais = new CtrlPaises();
+			aCtrlEstado = new CtrlEstado();
+			aCtrlCidade = new CtrlCidade();
 
 		}	
-
-	
-		private void condiçãoDePagamentopToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void formaDePagamentoToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-
-		}
 
 		private void condiçãoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -58,6 +59,24 @@ namespace projeto_pratica
 		private void formaDePagamentoToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			aInter.PecaFormPag(aFormPag, aCtrlFormPag);
+		}
+
+		private void cidadeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			aInter.PecaCidade(aCidade, aCtrlCidade);
+
+		}
+
+		private void estadoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			aInter.PecaEstado(oEstado, aCtrlEstado);
+
+		}
+
+		private void paisToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			aInter.PecaPais(oPais, aCtrlPais);
+
 		}
 	}
 }

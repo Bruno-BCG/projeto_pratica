@@ -32,6 +32,9 @@
 			this.consultaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.condiçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.formaDePagamentoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.cidadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.estadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.paisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -52,7 +55,10 @@
 			// 
 			this.consultaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.condiçãoToolStripMenuItem,
-            this.formaDePagamentoToolStripMenuItem1});
+            this.formaDePagamentoToolStripMenuItem1,
+            this.cidadeToolStripMenuItem,
+            this.estadoToolStripMenuItem,
+            this.paisToolStripMenuItem});
 			this.consultaToolStripMenuItem.Name = "consultaToolStripMenuItem";
 			this.consultaToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
 			this.consultaToolStripMenuItem.Text = "Consulta";
@@ -70,6 +76,27 @@
 			this.formaDePagamentoToolStripMenuItem1.Size = new System.Drawing.Size(255, 26);
 			this.formaDePagamentoToolStripMenuItem1.Text = "Forma de Pagamento";
 			this.formaDePagamentoToolStripMenuItem1.Click += new System.EventHandler(this.formaDePagamentoToolStripMenuItem1_Click);
+			// 
+			// cidadeToolStripMenuItem
+			// 
+			this.cidadeToolStripMenuItem.Name = "cidadeToolStripMenuItem";
+			this.cidadeToolStripMenuItem.Size = new System.Drawing.Size(255, 26);
+			this.cidadeToolStripMenuItem.Text = "Cidade";
+			this.cidadeToolStripMenuItem.Click += new System.EventHandler(this.cidadeToolStripMenuItem_Click);
+			// 
+			// estadoToolStripMenuItem
+			// 
+			this.estadoToolStripMenuItem.Name = "estadoToolStripMenuItem";
+			this.estadoToolStripMenuItem.Size = new System.Drawing.Size(255, 26);
+			this.estadoToolStripMenuItem.Text = "Estado";
+			this.estadoToolStripMenuItem.Click += new System.EventHandler(this.estadoToolStripMenuItem_Click);
+			// 
+			// paisToolStripMenuItem
+			// 
+			this.paisToolStripMenuItem.Name = "paisToolStripMenuItem";
+			this.paisToolStripMenuItem.Size = new System.Drawing.Size(255, 26);
+			this.paisToolStripMenuItem.Text = "Pais";
+			this.paisToolStripMenuItem.Click += new System.EventHandler(this.paisToolStripMenuItem_Click);
 			// 
 			// frmPrincipal
 			// 
@@ -93,6 +120,9 @@
 		private System.Windows.Forms.ToolStripMenuItem consultaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem condiçãoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem formaDePagamentoToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem cidadeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem estadoToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem paisToolStripMenuItem;
 	}
 }
 
