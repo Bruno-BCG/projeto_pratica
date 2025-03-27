@@ -64,6 +64,7 @@ namespace projeto_pratica.pages.consulta
 		public override void Alterar()
 		{
 			base.Incluir();
+			CarregarParcelas();
 			oFrmCadastroCondpag.ConhecaObj(aCondPag, aCtrlCondPag);
 			oFrmCadastroCondpag.CarregarTxt();
 			oFrmCadastroCondpag.ShowDialog();
@@ -74,6 +75,7 @@ namespace projeto_pratica.pages.consulta
 		{
 			string aux = oFrmCadastroCondpag.btnSave.Text;
 			oFrmCadastroCondpag.btnSave.Text = "Excluir";
+			CarregarParcelas();
 			oFrmCadastroCondpag.ConhecaObj(aCondPag, aCtrlCondPag);
 			oFrmCadastroCondpag.CarregarTxt();
 			oFrmCadastroCondpag.BloqueiaTxt();
@@ -81,6 +83,16 @@ namespace projeto_pratica.pages.consulta
 			oFrmCadastroCondpag.DesbloqueiaTxt();
 			oFrmCadastroCondpag.btnSave.Text = aux;
 			this.CarregaLV();
+		}
+
+		private void CarregarParcelas()
+		{
+			if (aCondPag != null && aCondPag.Id > 0)
+			{
+				CtrlParcCondPag ctrlParc = new CtrlParcCondPag();
+				var listaParcelas = ctrlParc.Listar(aCondPag.Id);
+				aCondPag.ParcelasCondPag = listaParcelas;
+			}
 		}
 
 		private void listV_SelectedIndexChanged(object sender, EventArgs e)

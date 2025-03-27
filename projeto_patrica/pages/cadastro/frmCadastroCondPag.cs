@@ -15,7 +15,7 @@ namespace projeto_pratica.pages.cadastro
 	{
 		private CondicaoPagamento oCondicaoPagamento;
 		private CtrlCondPag aCtrlCondPag;
-		private ParcelaCondPag oParcelaCondPag; 
+		private ParcelaCondPag oParcelaCondPag;
 		private CtrlParcCondPag aCtrlParcCondPag;
 		private CtrlFormPag aCtrlFormaPag;
 
@@ -51,7 +51,17 @@ namespace projeto_pratica.pages.cadastro
 			this.txtNumParc.Clear();
 			this.txtPercent.Clear();
 
-			this.listV.Items.Clear(); 
+			this.listV.Items.Clear();
+		}
+
+		public void LimparTxtParcela()
+		{
+			txtNumParc.Clear();
+			txtPrazo.Clear();
+			txtPercent.Clear();
+			cbFormaPagamentos.SelectedIndex = -1;
+			txtCodFormPag.Clear();
+
 		}
 
 		public override void Salvar()
@@ -67,18 +77,16 @@ namespace projeto_pratica.pages.cadastro
 			oCondicaoPagamento.Descricao = txtDescricao.Text;
 			oCondicaoPagamento.NumParcelas = Convert.ToInt32(txtParcelas.Text);
 
-			// Save CondicaoPagamento and get the generated ID
 			string resultado = aCtrlCondPag.Salvar(oCondicaoPagamento);
 
 			if (int.TryParse(resultado, out int novoId))
 			{
-				oCondicaoPagamento.Id = novoId; // Store the generated ID
+				oCondicaoPagamento.Id = novoId;
 
-				// Insert each ParcelaCondPag with the new CondicaoPagamento ID
 				foreach (var parcela in oCondicaoPagamento.ParcelasCondPag)
 				{
-					parcela.CondPagId = novoId; // Assign the new ID to the parcela
-					aCtrlParcCondPag.Salvar(parcela); // Save parcela to the database
+					parcela.CondPagId = novoId;
+					aCtrlParcCondPag.Salvar(parcela); 
 				}
 
 				txtCodigo.Text = novoId.ToString();
@@ -93,7 +101,7 @@ namespace projeto_pratica.pages.cadastro
 
 		public void CriarParcela()
 		{
-		
+
 			if (string.IsNullOrWhiteSpace(txtNumParc.Text) ||
 				string.IsNullOrWhiteSpace(txtPrazo.Text) ||
 				string.IsNullOrWhiteSpace(txtPercent.Text) ||
@@ -103,13 +111,13 @@ namespace projeto_pratica.pages.cadastro
 				return;
 			}
 
-	
+
 			int numParcela = Convert.ToInt32(txtNumParc.Text);
 			int prazo = Convert.ToInt32(txtPrazo.Text);
 			decimal percentual = Convert.ToDecimal(txtPercent.Text);
 			FormaPagamento formaSelecionada = (FormaPagamento)cbFormaPagamentos.SelectedItem;
 
-	
+
 			ParcelaCondPag novaParcela = new ParcelaCondPag
 			{
 				NumeroParcela = numParcela,
@@ -128,18 +136,77 @@ namespace projeto_pratica.pages.cadastro
 			item.SubItems.Add(novaParcela.FormPagDesc);
 			item.Tag = novaParcela;
 			listV.Items.Add(item);
-
-
-			txtNumParc.Clear();
-			txtPrazo.Clear();
-			txtPercent.Clear();
-			cbFormaPagamentos.SelectedIndex = -1;
-			txtCodFormPag.Clear();
+			LimparTxtParcela();
 		}
+		public void iniciarAlteracao()
+		{
+			this.btnCriarParc.Text = "Salvar";
+			this.btnCancel.Enabled = true;
+
+			if (listV.SelectedItems.Count == 0)
+			{
+				MessageBox.Show("Selecione uma parcela para alterar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			if (oParcelaCondPag != null)
+			{
+				txtNumParc.Text = oParcelaCondPag.NumeroParcela.ToString();
+				txtPrazo.Text = oParcelaCondPag.Prazo.ToString();
+				txtPercent.Text = oParcelaCondPag.Percentual.ToString();
+				txtCodFormPag.Text = oParcelaCondPag.FormPagId.ToString();
+
+				for (int i = 0; i < cbFormaPagamentos.Items.Count; i++)
+				{
+					FormaPagamento forma = (FormaPagamento)cbFormaPagamentos.Items[i];
+					if (forma.Id == oParcelaCondPag.FormPagId)
+					{
+						cbFormaPagamentos.SelectedIndex = i;
+						break;
+					}
+				}
+			}
+		}
+
 
 		public void AlterarParcela()
 		{
-			
+			if (oParcelaCondPag == null)
+			{
+				MessageBox.Show("Nenhuma parcela selecionada para alterar.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(txtNumParc.Text) ||
+				string.IsNullOrWhiteSpace(txtPrazo.Text) ||
+				string.IsNullOrWhiteSpace(txtPercent.Text) ||
+				cbFormaPagamentos.SelectedItem == null)
+			{
+				MessageBox.Show("Preencha todos os campos da parcela antes de salvar.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			if (!int.TryParse(txtNumParc.Text, out int numParcela) ||
+				!int.TryParse(txtPrazo.Text, out int prazo) ||
+				!decimal.TryParse(txtPercent.Text, out decimal percentual))
+			{
+				MessageBox.Show("Valores inválidos nos campos da parcela.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			FormaPagamento formaSelecionada = (FormaPagamento)cbFormaPagamentos.SelectedItem;
+
+			oParcelaCondPag.NumeroParcela = numParcela;
+			oParcelaCondPag.Prazo = prazo;
+			oParcelaCondPag.Percentual = percentual;
+			oParcelaCondPag.FormPagId = formaSelecionada.Id;
+			oParcelaCondPag.FormPagDesc = formaSelecionada.Descricao;
+
+			CarregaLV();
+
+			btnCriarParc.Text = "Criar Parcela";
+			btnCancel.Enabled = false;
+			LimparTxtParcela();
 		}
 
 		public void ExcluirParcela()
@@ -154,7 +221,7 @@ namespace projeto_pratica.pages.cadastro
 			this.txtDescricao.Text = oCondicaoPagamento.Descricao;
 			this.txtParcelas.Text = oCondicaoPagamento.NumParcelas.ToString();
 
-			CarregaLV(); 
+			CarregaLV();
 		}
 
 		public override void BloqueiaTxt()
@@ -191,20 +258,20 @@ namespace projeto_pratica.pages.cadastro
 			this.txtPercent.Enabled = true;
 		}
 
-		public void CarregaLV() 
+		public void CarregaLV()
 		{
-			if (oCondicaoPagamento.Id == 0) return; 
+			if (oCondicaoPagamento.Id == 0) return;
 
 			this.listV.Items.Clear();
-			var lista = aCtrlParcCondPag.Listar(oCondicaoPagamento.Id);
+			var lista = oCondicaoPagamento.ParcelasCondPag;
 
 			foreach (var parcela in lista)
 			{
-				ListViewItem item = new ListViewItem(parcela.NumeroParcela.ToString()); 
-				item.SubItems.Add(parcela.Prazo.ToString() + " dias"); 
-				item.SubItems.Add(parcela.Percentual.ToString() + "%"); 
+				ListViewItem item = new ListViewItem(parcela.NumeroParcela.ToString());
+				item.SubItems.Add(parcela.Prazo.ToString() + " dias");
+				item.SubItems.Add(parcela.Percentual.ToString() + "%");
 				item.SubItems.Add(parcela.FormPagDesc);
-				item.Tag = parcela; 
+				item.Tag = parcela;
 
 				listV.Items.Add(item);
 			}
@@ -213,7 +280,7 @@ namespace projeto_pratica.pages.cadastro
 		private void CarregarComboBoxFormaPag()
 		{
 			cbFormaPagamentos.Items.Clear();
-			cbFormaPagamentos.DisplayMember = "Descricao"; 
+			cbFormaPagamentos.DisplayMember = "Descricao";
 			cbFormaPagamentos.ValueMember = "Id";
 
 			var listaFormas = aCtrlFormaPag.Listar();
@@ -225,17 +292,17 @@ namespace projeto_pratica.pages.cadastro
 
 		private void cbFormaPagamentos_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (cbFormaPagamentos.SelectedItem is FormaPagamento formaSelecionada) 
+			if (cbFormaPagamentos.SelectedItem is FormaPagamento formaSelecionada)
 			{
-				txtCodFormPag.Text = formaSelecionada.Id.ToString(); 
-			}																	 	
+				txtCodFormPag.Text = formaSelecionada.Id.ToString();
+			}
 		}
 		private void listV_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (listV.SelectedItems.Count > 0)
 			{
 				ListViewItem selectedItem = listV.SelectedItems[0];
-				oParcelaCondPag = (ParcelaCondPag)selectedItem.Tag;  
+				oParcelaCondPag = (ParcelaCondPag)selectedItem.Tag;
 
 				// Enable buttons
 				btnAlterarFormPag.Enabled = true;
@@ -251,39 +318,17 @@ namespace projeto_pratica.pages.cadastro
 			}
 			else if (btnCriarParc.Text == "Salvar")
 			{
-
+				AlterarParcela();
+			}
+			else if (btnCriarParc.Text == "Excluir")
+			{
+				ExcluirParcela();
 			}
 		}
 
 		private void btnAlterarFormPag_Click(object sender, EventArgs e)
 		{
-			this.btnCriarParc.Text = "Salvar";
-			this.btnCancel.Enabled = true;
-			
-			if (listV.SelectedItems.Count == 0)
-			{
-				MessageBox.Show("Selecione uma parcela para alterar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			if (oParcelaCondPag != null)
-			{
-				txtNumParc.Text = oParcelaCondPag.NumeroParcela.ToString();
-				txtPrazo.Text = oParcelaCondPag.Prazo.ToString();
-				txtPercent.Text = oParcelaCondPag.Percentual.ToString();
-				txtCodFormPag.Text = oParcelaCondPag.FormPagId.ToString();
-
-				for (int i = 0; i < cbFormaPagamentos.Items.Count; i++)
-				{
-					FormaPagamento forma = (FormaPagamento)cbFormaPagamentos.Items[i];
-					if (forma.Id == oParcelaCondPag.FormPagId)
-					{
-						cbFormaPagamentos.SelectedIndex = i;
-						break;
-					}
-				}
-			}
-
+			iniciarAlteracao();
 		}
 
 		private void btnExcluirFormPag_Click(object sender, EventArgs e)
@@ -296,11 +341,7 @@ namespace projeto_pratica.pages.cadastro
 			this.btnCriarParc.Text = "Criar Parcela";
 			this.btnCancel.Enabled = false;
 
-			txtNumParc.Clear();
-			txtPrazo.Clear();
-			txtPercent.Clear();
-			cbFormaPagamentos.SelectedIndex = -1;
-			txtCodFormPag.Clear();
+			LimparTxtParcela();
 		}
 	}
 }
