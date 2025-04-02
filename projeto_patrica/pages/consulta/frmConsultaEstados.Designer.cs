@@ -41,22 +41,28 @@
             this.clUF,
             this.clPais,
             this.clIdPais});
+			this.listV.Location = new System.Drawing.Point(41, 74);
+			this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
 			// 
 			// clNome
 			// 
 			this.clNome.Text = "Nome";
+			this.clNome.Width = 116;
 			// 
 			// clUF
 			// 
 			this.clUF.Text = "UF";
+			this.clUF.Width = 173;
 			// 
 			// clPais
 			// 
 			this.clPais.Text = "Pais";
+			this.clPais.Width = 200;
 			// 
 			// clIdPais
 			// 
 			this.clIdPais.Text = "Cod. Pais";
+			this.clIdPais.Width = 140;
 			// 
 			// frmConsultaEstados
 			// 

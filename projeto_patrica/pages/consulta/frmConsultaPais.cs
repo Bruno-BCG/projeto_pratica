@@ -61,7 +61,7 @@ namespace projeto_pratica
         public override void Excluir()
         {
             base.Excluir();
-            frmCadPais.ConhecaObj(oPais, aCtrlPais  );
+            frmCadPais.ConhecaObj(oPais, aCtrlPais);
             frmCadPais.CarregarTxt();
             frmCadPais.BloqueiaTxt();
             frmCadPais.ShowDialog(this);
@@ -86,8 +86,19 @@ namespace projeto_pratica
 
         private void ListV_SelectedIndexChanged(object sender, EventArgs e)
         {
+			if (listV.SelectedItems.Count > 0)
+			{
+				btnExcluir.Enabled = true;
+				btnAlterar.Enabled = true;
+				ListViewItem selectedItem = listV.SelectedItems[0];
 
-        }
+				oPais.Id = Convert.ToInt32(selectedItem.Text); 
+				oPais.Nome = selectedItem.SubItems[1].Text;    
+				oPais.Sigla = selectedItem.SubItems[2].Text;   
+				oPais.Moeda = selectedItem.SubItems[3].Text; 
+				oPais.Ddi = selectedItem.SubItems[4].Text;     
+			}
+		}
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {

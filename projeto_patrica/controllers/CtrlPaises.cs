@@ -26,25 +26,13 @@ namespace projeto_pratica
 
         public override string Excluir(object obj)
         {
-            return " ";
-        }
+			return aDaoPaises.Excluir(obj);
+		}
 
-        public List<Pais> ListarPaises() 
+		public List<Pais> ListarPaises() 
         { 
             return aDaoPaises.ListarPaises();
         }
-
-        /*
-        public override List<object> Pesquisar(string chave)
-        {
-
-        }
-
-        public override void CarregarObj(object obj)
-        {
-
-        }
-        */
 
     }
 }

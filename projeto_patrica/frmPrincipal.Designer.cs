@@ -35,6 +35,9 @@
 			this.cidadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.estadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.paisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.funcionarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.fornecedorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -58,7 +61,10 @@
             this.formaDePagamentoToolStripMenuItem1,
             this.cidadeToolStripMenuItem,
             this.estadoToolStripMenuItem,
-            this.paisToolStripMenuItem});
+            this.paisToolStripMenuItem,
+            this.clienteToolStripMenuItem,
+            this.funcionarioToolStripMenuItem,
+            this.fornecedorToolStripMenuItem});
 			this.consultaToolStripMenuItem.Name = "consultaToolStripMenuItem";
 			this.consultaToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
 			this.consultaToolStripMenuItem.Text = "Consulta";
@@ -98,6 +104,27 @@
 			this.paisToolStripMenuItem.Text = "Pais";
 			this.paisToolStripMenuItem.Click += new System.EventHandler(this.paisToolStripMenuItem_Click);
 			// 
+			// clienteToolStripMenuItem
+			// 
+			this.clienteToolStripMenuItem.Name = "clienteToolStripMenuItem";
+			this.clienteToolStripMenuItem.Size = new System.Drawing.Size(255, 26);
+			this.clienteToolStripMenuItem.Text = "Cliente";
+			this.clienteToolStripMenuItem.Click += new System.EventHandler(this.clienteToolStripMenuItem_Click);
+			// 
+			// funcionarioToolStripMenuItem
+			// 
+			this.funcionarioToolStripMenuItem.Name = "funcionarioToolStripMenuItem";
+			this.funcionarioToolStripMenuItem.Size = new System.Drawing.Size(255, 26);
+			this.funcionarioToolStripMenuItem.Text = "Funcionario";
+			this.funcionarioToolStripMenuItem.Click += new System.EventHandler(this.funcionarioToolStripMenuItem_Click);
+			// 
+			// fornecedorToolStripMenuItem
+			// 
+			this.fornecedorToolStripMenuItem.Name = "fornecedorToolStripMenuItem";
+			this.fornecedorToolStripMenuItem.Size = new System.Drawing.Size(255, 26);
+			this.fornecedorToolStripMenuItem.Text = "Fornecedor";
+			this.fornecedorToolStripMenuItem.Click += new System.EventHandler(this.fornecedorToolStripMenuItem_Click);
+			// 
 			// frmPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -123,6 +150,9 @@
 		private System.Windows.Forms.ToolStripMenuItem cidadeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem estadoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem paisToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem clienteToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem funcionarioToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem fornecedorToolStripMenuItem;
 	}
 }
 

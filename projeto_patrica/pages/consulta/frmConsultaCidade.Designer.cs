@@ -41,6 +41,7 @@
             this.clDDD,
             this.clIdEstado,
             this.clEstado});
+			this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
 			// 
 			// clNome
 			// 

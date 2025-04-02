@@ -23,19 +23,12 @@ namespace projeto_pratica
 
         public override string Excluir(object obj)
         {
-            return " ";
-        }
+			return aDaoEstado.Excluir(obj);
+		}
 
-        /*
-        public override List<object> Pesquisar(string chave)
-        {
-
-        }
-
-        public override void CarregarObj(object obj)
-        {
-
-        }
-        */
-    }
+		public List<Estado> Listar()
+		{
+			return aDaoEstado.Listar();
+		}
+	}
 }

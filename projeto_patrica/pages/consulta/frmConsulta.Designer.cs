@@ -42,6 +42,7 @@
 			// 
 			// btnExcluir
 			// 
+			this.btnExcluir.Enabled = false;
 			this.btnExcluir.Location = new System.Drawing.Point(634, 408);
 			this.btnExcluir.Name = "btnExcluir";
 			this.btnExcluir.Size = new System.Drawing.Size(80, 35);
@@ -52,6 +53,7 @@
 			// 
 			// btnAlterar
 			// 
+			this.btnAlterar.Enabled = false;
 			this.btnAlterar.Location = new System.Drawing.Point(548, 408);
 			this.btnAlterar.Name = "btnAlterar";
 			this.btnAlterar.Size = new System.Drawing.Size(80, 35);
@@ -110,24 +112,24 @@
 			this.Controls.Add(this.btnExcluir);
 			this.Name = "frmConsulta";
 			this.Text = "Consulta";
-			this.Controls.SetChildIndex(this.btnSair, 0);
-			this.Controls.SetChildIndex(this.txtCodigo, 0);
 			this.Controls.SetChildIndex(this.btnExcluir, 0);
 			this.Controls.SetChildIndex(this.btnAlterar, 0);
 			this.Controls.SetChildIndex(this.btnIncluir, 0);
 			this.Controls.SetChildIndex(this.btnPesquisar, 0);
 			this.Controls.SetChildIndex(this.listV, 0);
+			this.Controls.SetChildIndex(this.btnSair, 0);
+			this.Controls.SetChildIndex(this.txtCodigo, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
 
 		#endregion
-		private System.Windows.Forms.Button btnAlterar;
-		private System.Windows.Forms.Button btnIncluir;
 		protected System.Windows.Forms.Button btnExcluir;
 		private System.Windows.Forms.Button btnPesquisar;
 		protected System.Windows.Forms.ListView listV;
 		protected System.Windows.Forms.ColumnHeader clmCod;
+		protected System.Windows.Forms.Button btnAlterar;
+		protected System.Windows.Forms.Button btnIncluir;
 	}
 }

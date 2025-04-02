@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace projeto_pratica.classes
 {
-	internal class Cliente : Pai
+	internal class Cliente : Pessoa
 	{
 	}
 }

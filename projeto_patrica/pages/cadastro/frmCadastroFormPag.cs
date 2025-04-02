@@ -24,7 +24,6 @@ namespace projeto_pratica.pages.cadastro
 		{
 			aFormaPagamento = (FormaPagamento)obj;
 			aCtrlFormPag = (CtrlFormPag)ctrl;
-			this.CarregarTxt();
 		}
 
 		public override void LimparTxt()
@@ -95,7 +94,7 @@ namespace projeto_pratica.pages.cadastro
 				if (resultado == "OK")
 				{
 					MessageBox.Show("Registro excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				}
+				} 
 				else
 				{
 					MessageBox.Show($"Erro: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);

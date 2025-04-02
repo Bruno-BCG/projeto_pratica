@@ -104,5 +104,53 @@ namespace projeto_pratica
 
 			return resultado;
 		}
+
+		public List<Estado> Listar()
+		{
+			List<Estado> lista = new List<Estado>();
+
+			using (SqlConnection conexao = Banco.Abrir())
+			{
+				if (conexao == null)
+				{
+					throw new Exception("Erro ao conectar ao Banco de dados.");
+				}
+
+				using (SqlCommand cmd = new SqlCommand(@"
+				SELECT 
+					E.ESTADO_ID, E.ESTADO_NOME, E.ESTADO_UF, E.PAIS_ID,
+					P.PAIS_NOME, P.PAIS_SIGLA, P.PAIS_MOEDA, P.PAIS_DDI
+				FROM 
+					ESTADO E
+				INNER JOIN 
+					PAIS P ON E.PAIS_ID = P.PAIS_ID", conexao))
+				{
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						while (dr.Read())
+						{
+							lista.Add(new Estado
+							{
+								Id = Convert.ToInt32(dr["ESTADO_ID"]),
+								Nome = dr["ESTADO_NOME"].ToString(),
+								Uf = dr["ESTADO_UF"].ToString(),
+								OPais = new Pais
+								{
+									Id = Convert.ToInt32(dr["PAIS_ID"]),
+									Nome = dr["PAIS_NOME"].ToString(),
+									Sigla = dr["PAIS_SIGLA"].ToString(),
+									Moeda = dr["PAIS_MOEDA"].ToString(),
+									Ddi = dr["PAIS_DDI"].ToString()
+								}
+							});
+						}
+					}
+				}
+			}
+
+			return lista;
+		}
+
+
 	}
 }

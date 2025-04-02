@@ -98,7 +98,8 @@ namespace projeto_pratica
 
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
-            frmConPais.ConhecaObj(oEstado.OPais, aCtrlEstado);
+            CtrlPaises aCtrlPais = new CtrlPaises(); 
+            frmConPais.ConhecaObj(oEstado.OPais, aCtrlPais);
             frmConPais.ShowDialog();
             txtPais.Text = Convert.ToString(oEstado.OPais.Nome);
             txtIdPais.Text = Convert.ToString(oEstado.OPais.Id);

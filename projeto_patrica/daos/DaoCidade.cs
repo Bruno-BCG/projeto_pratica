@@ -103,5 +103,60 @@ namespace projeto_pratica
 
 			return resultado;
 		}
-    }
+
+		public List<Cidade> Listar()
+		{
+			List<Cidade> lista = new List<Cidade>();
+
+			using (SqlConnection conexao = Banco.Abrir())
+			{
+				if (conexao == null)
+				{
+					throw new Exception("Erro ao conectar ao Banco de dados.");
+				}
+
+				string sql = @"
+			SELECT 
+				C.CIDADE_ID, C.CIDADE_NOME, C.CIDADE_DDD,
+				E.ESTADO_ID, E.ESTADO_NOME, E.ESTADO_UF,
+				P.PAIS_ID, P.PAIS_NOME, P.PAIS_SIGLA, P.PAIS_MOEDA, P.PAIS_DDI
+			FROM CIDADE C
+			INNER JOIN ESTADO E ON C.ESTADO_ID = E.ESTADO_ID
+			INNER JOIN PAIS P ON E.PAIS_ID = P.PAIS_ID";
+
+				using (SqlCommand cmd = new SqlCommand(sql, conexao))
+				{
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						while (dr.Read())
+						{
+							lista.Add(new Cidade
+							{
+								Id = Convert.ToInt32(dr["CIDADE_ID"]),
+								Nome = dr["CIDADE_NOME"].ToString(),
+								Ddd = dr["CIDADE_DDD"].ToString(),
+								OEstado = new Estado
+								{
+									Id = Convert.ToInt32(dr["ESTADO_ID"]),
+									Nome = dr["ESTADO_NOME"].ToString(),
+									Uf = dr["ESTADO_UF"].ToString(),
+									OPais = new Pais
+									{
+										Id = Convert.ToInt32(dr["PAIS_ID"]),
+										Nome = dr["PAIS_NOME"].ToString(),
+										Sigla = dr["PAIS_SIGLA"].ToString(),
+										Moeda = dr["PAIS_MOEDA"].ToString(),
+										Ddi = dr["PAIS_DDI"].ToString()
+									}
+								}
+							});
+						}
+					}
+				}
+			}
+
+			return lista;
+		}
+
+	}
 }

@@ -34,17 +34,18 @@
 			this.clDDI = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
 			// 
-			// ListV
-			// 
-			this.listV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.clNome,
-			this.clSigla,
-			this.clMoeda,
-			this.clDDI});
-			// 
 			// btnExcluir
 			// 
 			this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
+			// 
+			// listV
+			// 
+			this.listV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clNome,
+            this.clSigla,
+            this.clMoeda,
+            this.clDDI});
+			this.listV.SelectedIndexChanged += new System.EventHandler(this.ListV_SelectedIndexChanged);
 			// 
 			// clNome
 			// 

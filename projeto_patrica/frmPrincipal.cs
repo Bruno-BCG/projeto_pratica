@@ -23,6 +23,9 @@ namespace projeto_pratica
 		private Pais oPais;
 		private Estado oEstado;
 		private Cidade aCidade;
+		private Cliente oCliente;
+		private Funcionario oFuncionario;
+		private Fornecedor oFornecedor;
 
 		private Interfaces aInter;
 
@@ -31,6 +34,9 @@ namespace projeto_pratica
 		private CtrlPaises aCtrlPais;
 		private CtrlEstado aCtrlEstado;
 		private CtrlCidade aCtrlCidade;
+		private CtrlCliente aCtrlCliente;
+		private CtrlFuncionario aCtrlFuncionario;
+		private CtrlFornecedor aCtrlFornecedor;
 
 		public frmPrincipal()
 		{
@@ -40,6 +46,9 @@ namespace projeto_pratica
 			oPais = new Pais();
 			oEstado = new Estado();
 			aCidade = new Cidade();
+			oCliente = new Cliente();
+			oFuncionario = new Funcionario();
+			oFornecedor = new Fornecedor();
 
 			aInter = new Interfaces();
 
@@ -48,6 +57,9 @@ namespace projeto_pratica
 			aCtrlPais = new CtrlPaises();
 			aCtrlEstado = new CtrlEstado();
 			aCtrlCidade = new CtrlCidade();
+			aCtrlCliente = new CtrlCliente();
+			aCtrlFuncionario = new CtrlFuncionario();
+			aCtrlFornecedor = new CtrlFornecedor();
 
 		}	
 
@@ -77,6 +89,21 @@ namespace projeto_pratica
 		{
 			aInter.PecaPais(oPais, aCtrlPais);
 
+		}
+
+		private void clienteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			aInter.PecaCliente(oCliente, aCtrlCliente);
+		}
+
+		private void funcionarioToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			aInter.PecaFuncioanrio(oFuncionario, aCtrlFuncionario);
+		}
+
+		private void fornecedorToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			aInter.PecaFornecedor(oFornecedor, aCtrlFornecedor);
 		}
 	}
 }

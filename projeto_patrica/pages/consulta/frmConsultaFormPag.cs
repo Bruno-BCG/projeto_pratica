@@ -84,6 +84,8 @@ namespace projeto_pratica.pages.consulta
 		{
 			if (listV.SelectedItems.Count > 0)
 			{
+				btnExcluir.Enabled = true;
+				btnAlterar.Enabled = true;
 				ListViewItem item = listV.SelectedItems[0]; // Get selected row
 
 				// Store data in an object (already available in ListView)

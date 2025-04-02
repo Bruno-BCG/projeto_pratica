@@ -34,7 +34,6 @@ namespace projeto_pratica.pages.cadastro
 		{
 			oCondicaoPagamento = (CondicaoPagamento)obj;
 			aCtrlCondPag = (CtrlCondPag)ctrl;
-			this.CarregarTxt();
 			this.CarregaLV();
 		}
 

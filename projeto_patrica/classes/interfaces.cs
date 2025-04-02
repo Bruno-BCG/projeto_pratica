@@ -17,12 +17,19 @@ namespace projeto_pratica.classes
 		frmConsultaPais aFrmConsPais;
 		frmConsultaEstados aFrmConsEstados;
 		frmConsultaCidade aFrmConsCidade;
+		frmConsultaCliente aFrmConsCliente;
+		frmConsultaFuncionario aFrmConsFuncionario;
+		frmConsultaFornecedor aFrmConsFornecedor;
 
 		frmCadastroCondpag aFrmCadCondPag;
 		frmCadastroFormPag aFrmCadFormPag;
 		frmCadastroPais aFrmCadPais;
 		frmCadastroEstado aFrmCadEstado;
 		frmCadastroCidade aFrmCadCidade;
+		frmCadastroCliente aFrmCadCliente;
+		frmCadastroFuncionario aFrmCadFuncionario;
+		frmCadastroFornecedor aFrmCadFornecedor;
+
 
 		public Interfaces()
 		{
@@ -31,19 +38,32 @@ namespace projeto_pratica.classes
 			aFrmConsPais = new frmConsultaPais();
 			aFrmConsEstados = new frmConsultaEstados();
 			aFrmConsCidade = new frmConsultaCidade();
+			aFrmConsCliente = new frmConsultaCliente();
+			aFrmConsFuncionario = new frmConsultaFuncionario();
+			aFrmConsFornecedor = new frmConsultaFornecedor();
 
 			aFrmCadCondPag = new frmCadastroCondpag();
 			aFrmCadFormPag = new frmCadastroFormPag();
 			aFrmCadPais = new frmCadastroPais();
 			aFrmCadEstado = new frmCadastroEstado();
 			aFrmCadCidade = new frmCadastroCidade();
+			aFrmCadCliente = new frmCadastroCliente();
+			aFrmCadFuncionario =new frmCadastroFuncionario();
+			aFrmCadFornecedor = new frmCadastroFornecedor();
 
 			aFrmConsCondPag.setFrmCadastro(aFrmCadCondPag);
 			aFrmConsFormPag.setFrmCadastro(aFrmCadFormPag);
 			aFrmConsCidade.setFrmCadastro(aFrmCadCidade);
 			aFrmConsEstados.setFrmCadastro(aFrmCadEstado);
 			aFrmConsPais.setFrmCadastro(aFrmCadPais);
+			aFrmConsCliente.setFrmCadastro(aFrmCadCliente);
+			aFrmConsFuncionario.setFrmCadastro(aFrmCadFuncionario);
+			aFrmConsFornecedor.setFrmCadastro(aFrmCadFornecedor);
 
+
+			aFrmCadCliente.setFrmConsultaCidade(aFrmConsCidade);
+			aFrmCadFuncionario.setFrmConsultaCidade(aFrmConsCidade);
+			aFrmCadFornecedor.setFrmConsultaCidade(aFrmConsCidade);
 			aFrmCadCidade.setFrmConsultaEstado(aFrmConsEstados);
 			aFrmCadEstado.setFrmConsultaPais(aFrmConsPais);
 		}
@@ -76,6 +96,22 @@ namespace projeto_pratica.classes
 		{
 			aFrmConsPais.ConhecaObj(oPais, aCtrlPais);
 			aFrmConsPais.ShowDialog();
+		}
+
+		public void PecaCliente(Cliente oCliente, CtrlCliente aCtrlCliente)
+		{
+			aFrmConsCliente.ConhecaObj(oCliente, aCtrlCliente);
+			aFrmConsCliente.ShowDialog();	
+		}
+		public void PecaFuncioanrio(Funcionario oFuncionario, CtrlFuncionario aCtrlFuncionario)
+		{
+			aFrmConsFuncionario.ConhecaObj(oFuncionario, aCtrlFuncionario);
+			aFrmConsFuncionario.ShowDialog();
+		}
+		public void PecaFornecedor (Fornecedor oFornecedor, CtrlFornecedor aCtrlFornecedor)
+		{
+			aFrmConsFornecedor.ConhecaObj(oFornecedor, aCtrlFornecedor);
+			aFrmConsFornecedor.ShowDialog();
 		}
 	}
 }

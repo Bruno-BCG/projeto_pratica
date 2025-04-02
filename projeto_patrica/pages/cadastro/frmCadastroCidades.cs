@@ -103,7 +103,8 @@ namespace projeto_pratica
 
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
-            frmConEstados.ConhecaObj(aCidade.OEstado, aCtrlCidade);
+            CtrlEstado aCtrlEstado = new CtrlEstado();
+            frmConEstados.ConhecaObj(aCidade.OEstado, aCtrlEstado);
             frmConEstados.ShowDialog();
             txtEstado.Text = Convert.ToString(aCidade.OEstado.Nome);
             txtIdEstado.Text = Convert.ToString(aCidade.OEstado.Id);
