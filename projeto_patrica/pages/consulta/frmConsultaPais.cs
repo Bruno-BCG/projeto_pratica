@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using projeto_pratica.classes;
 using projeto_pratica.controllers;
 using projeto_pratica.pages.cadastro;
+using projeto_pratica.daos;
 
 
 namespace projeto_pratica
@@ -38,7 +39,7 @@ namespace projeto_pratica
         {
             oPais = (Pais)obj;
             aCtrlPais = (CtrlPaises)ctrl;
-            CarregaLV();
+            this.CarregaLV();
         }
 
         public override void Incluir()
@@ -56,17 +57,23 @@ namespace projeto_pratica
             frmCadPais.ConhecaObj(oPais, aCtrlPais);
             frmCadPais.CarregarTxt();
             frmCadPais.ShowDialog();
-        }
+			this.CarregaLV();
+		}
 
         public override void Excluir()
         {
             base.Excluir();
-            frmCadPais.ConhecaObj(oPais, aCtrlPais);
-            frmCadPais.CarregarTxt();
-            frmCadPais.BloqueiaTxt();
-            frmCadPais.ShowDialog(this);
-            frmCadPais.DesbloqueiaTxt();
-        }
+
+			string aux = frmCadPais.btnSave.Text;
+			frmCadPais.btnSave.Text = "Excluir";
+			frmCadPais.ConhecaObj(oPais, aCtrlPais);
+			frmCadPais.CarregarTxt();
+			frmCadPais.BloqueiaTxt();
+			frmCadPais.ShowDialog(this);
+			frmCadPais.DesbloqueiaTxt();
+			frmCadPais.btnSave.Text = aux;
+			this.CarregaLV();
+		}
 
         public override void CarregaLV()
         {
@@ -99,10 +106,5 @@ namespace projeto_pratica
 				oPais.Ddi = selectedItem.SubItems[4].Text;     
 			}
 		}
-
-        private void btnExcluir_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -68,7 +68,7 @@ namespace projeto_pratica.daos
 		{
 			FormaPagamento pagamento = (FormaPagamento)obj; // Cast obj to condicaoPagamento
 			string resultado = "";
-			string sql = "DELETE FROM FORM_PAGAMENTO WHERE FORMPAG_ID = @Id";
+			string sql = "DELETE FROM FORMA_PAGAMENTO WHERE FORMA	PAG_ID = @Id";
 
 			using (SqlConnection conexao = Banco.Abrir())
 			{

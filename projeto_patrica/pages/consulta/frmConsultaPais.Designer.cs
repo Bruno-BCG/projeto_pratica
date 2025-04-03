@@ -36,7 +36,7 @@
 			// 
 			// btnExcluir
 			// 
-			this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
+
 			// 
 			// listV
 			// 

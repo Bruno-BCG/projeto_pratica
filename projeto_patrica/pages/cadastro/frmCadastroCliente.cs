@@ -56,14 +56,13 @@ namespace projeto_pratica.pages.cadastro
 		{
 			base.Salvar();
 
-			// Validação dos campos obrigatórios
 			if (string.IsNullOrWhiteSpace(txtNome.Text))
 			{
 				MessageBox.Show("O campo Nome é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
-			if ((string.IsNullOrWhiteSpace(txtCpf.Text)) && (oCliente.Estrangeiro != true)) 
+			if (string.IsNullOrWhiteSpace(txtCpf.Text) && !oCliente.Estrangeiro)
 			{
 				MessageBox.Show("O campo CPF/CNPJ é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
@@ -75,17 +74,16 @@ namespace projeto_pratica.pages.cadastro
 				return;
 			}
 
-			// Preenchimento do objeto oCliente com os dados do formulário
 			if (rbtnFisicaqqq.Checked)
-			{ 
+			{
 				oCliente.Tipo = "F";
 			}
-            else if (rbtnJuridico.Checked) 
-            {
+			else if (rbtnJuridico.Checked)
+			{
 				oCliente.Tipo = "J";
-            }
+			}
 
-            oCliente.Nome_razaoSocial = txtNome.Text;
+			oCliente.Nome_razaoSocial = txtNome.Text;
 			oCliente.Apelido_nomeFanta = txtApelido.Text;
 			oCliente.Cpf_cnpj = txtCpf.Text;
 			oCliente.Rg_inscricaoNum = txtRg.Text;
@@ -94,9 +92,6 @@ namespace projeto_pratica.pages.cadastro
 			oCliente.DataNascimento = dtpDataNascimento.Value;
 			oCliente.Status = ckbStatus.Checked;
 
-
-
-			// Preenchimento do endereço
 			oCliente.OEndereco.EnderecoCompleto = txtEndereco.Text;
 			oCliente.OEndereco.Bairro = txtBairro.Text;
 			oCliente.OEndereco.Cep = txtCep.Text;
@@ -106,23 +101,37 @@ namespace projeto_pratica.pages.cadastro
 				Nome = txtCidade.Text
 			};
 
-			// Verifica se é uma atualização ou inserção
 			if (int.TryParse(txtCodigo.Text, out int clienteId) && clienteId > 0)
 			{
 				oCliente.Id = clienteId;
 			}
 
-			// Chamada ao controlador para salvar o cliente
-			string resultado = aCtrlCliente.Salvar(oCliente);
+			if (btnSave.Text == "Salvar")
+			{
+				string resultado = aCtrlCliente.Salvar(oCliente);
 
-			if (int.TryParse(resultado, out int novoId))
-			{
-				txtCodigo.Text = novoId.ToString();
-				MessageBox.Show($"Cliente '{oCliente.Nome_razaoSocial}' foi salvo com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				if (int.TryParse(resultado, out int novoId))
+				{
+					txtCodigo.Text = novoId.ToString();
+					MessageBox.Show($"Cliente '{oCliente.Nome_razaoSocial}' foi salvo com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
-			else
+			else if (btnSave.Text == "Excluir")
 			{
-				MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				string resultado = aCtrlCliente.Excluir(oCliente);
+
+				if (resultado == "OK")
+				{
+					MessageBox.Show("Cliente excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao excluir: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 

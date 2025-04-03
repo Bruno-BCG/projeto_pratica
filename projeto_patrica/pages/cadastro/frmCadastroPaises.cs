@@ -39,23 +39,52 @@ namespace projeto_pratica
 
         public override void Salvar()
         {
-            base.Salvar();
-            if (txtPais.Text == "" || txtDDI.Text == "")
-            {
-                MessageBox.Show("Campo obrigatório não preenchido!");
+			base.Salvar();
 
-            }
-            else
-            {
-                oPais.Id = Convert.ToInt32(this.txtCodigo.Text);
-                oPais.Moeda = this.txtMoeda.Text;
-                oPais.Nome = this.txtPais.Text;
-                oPais.Sigla = this.txtSigla.Text;
-                oPais.Ddi = this.txtDDI.Text;
-                this.txtCodigo.Text = aCtrlPais.Salvar(oPais);//oPais.Salvar();
-                MessageBox.Show("O pais " + oPais.Nome + " foi salvo com o código " + this.txtCodigo.Text);
-            }
-        }               
+			if (string.IsNullOrWhiteSpace(txtPais.Text) || string.IsNullOrWhiteSpace(txtDDI.Text))
+			{
+				MessageBox.Show("Campo obrigatório não preenchido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			if (int.TryParse(txtCodigo.Text, out int paisId) && paisId > 0)
+			{
+				oPais.Id = paisId;
+			}
+
+			oPais.Nome = txtPais.Text;
+			oPais.Moeda = txtMoeda.Text;
+			oPais.Sigla = txtSigla.Text;
+			oPais.Ddi = txtDDI.Text;
+
+			if (btnSave.Text == "Salvar")
+			{
+				string resultado = aCtrlPais.Salvar(oPais);
+
+				if (int.TryParse(resultado, out int novoId))
+				{
+					txtCodigo.Text = novoId.ToString();
+					MessageBox.Show($"O país '{oPais.Nome}' foi salvo com o código {txtCodigo.Text}.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+			else if (btnSave.Text == "Excluir")
+			{
+				string resultado = aCtrlPais.Excluir(oPais);
+
+				if (resultado == "OK")
+				{
+					MessageBox.Show("País excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao excluir: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+		}               
 
         public override void CarregarTxt()
         {

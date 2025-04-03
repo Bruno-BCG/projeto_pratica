@@ -44,24 +44,25 @@ namespace projeto_pratica.pages.consulta
 		{
 			this.listV.Items.Clear();
 			var lista = aCtrlFornecedor.Listar();
-			foreach (var cliente in lista)
+			foreach (var fornecedor in lista)
 			{
-				ListViewItem item = new ListViewItem(Convert.ToString(cliente.Id));
-				item.SubItems.Add(cliente.Tipo);
-				item.SubItems.Add(cliente.Nome_razaoSocial);
-				item.SubItems.Add(cliente.Apelido_nomeFanta);
-				item.SubItems.Add(Convert.ToString(cliente.DataNascimento));
-				item.SubItems.Add(Convert.ToString(cliente.OEndereco.ACidade.Id));
-				item.SubItems.Add(cliente.OEndereco.ACidade.Nome);
-				item.SubItems.Add(cliente.Cpf_cnpj);
-				item.SubItems.Add(cliente.Email);
-				item.SubItems.Add(cliente.Telefone);
-				item.SubItems.Add(Convert.ToString(cliente.Status));
-				item.SubItems.Add(Convert.ToString(cliente.Estrangeiro));
-				item.SubItems.Add(cliente.OEndereco.EnderecoCompleto);
-				item.SubItems.Add(cliente.OEndereco.Bairro);
-				item.SubItems.Add(cliente.OEndereco.Cep);
-				item.SubItems.Add(cliente.Rg_inscricaoNum);
+				ListViewItem item = new ListViewItem(Convert.ToString(fornecedor.Id));
+				item.SubItems.Add(fornecedor.Tipo);
+				item.SubItems.Add(fornecedor.Nome_razaoSocial);
+				item.SubItems.Add(fornecedor.Apelido_nomeFanta);
+				item.SubItems.Add(Convert.ToString(fornecedor.DataNascimento));
+				item.SubItems.Add(Convert.ToString(fornecedor.OEndereco.ACidade.Id));
+				item.SubItems.Add(fornecedor.OEndereco.ACidade.Nome);
+				item.SubItems.Add(fornecedor.Cpf_cnpj);
+				item.SubItems.Add(fornecedor.Email);
+				item.SubItems.Add(fornecedor.Telefone);
+				item.SubItems.Add(Convert.ToString(fornecedor.Status));
+				item.SubItems.Add(Convert.ToString(fornecedor.Estrangeiro));
+				item.SubItems.Add(fornecedor.OEndereco.EnderecoCompleto);
+				item.SubItems.Add(fornecedor.OEndereco.Bairro);
+				item.SubItems.Add(fornecedor.OEndereco.Cep);
+				item.SubItems.Add(fornecedor.Rg_inscricaoNum);
+				item.SubItems.Add(fornecedor.InscrEstadual);
 				listV.Items.Add(item);
 			}
 		}
@@ -118,6 +119,7 @@ namespace projeto_pratica.pages.consulta
 					Status = Convert.ToBoolean(item.SubItems[10].Text), 
 					Estrangeiro = Convert.ToBoolean(item.SubItems[11].Text), 
 					Rg_inscricaoNum = item.SubItems[15].Text,
+					InscrEstadual = item.SubItems[16].Text,
 					OEndereco = new Endereco			
 					{
 						EnderecoCompleto = item.SubItems[12].Text,

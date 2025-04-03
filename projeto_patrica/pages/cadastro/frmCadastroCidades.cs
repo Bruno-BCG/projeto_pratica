@@ -43,27 +43,60 @@ namespace projeto_pratica
             this.txtEstado.Clear();
         }
 
-        public override void Salvar()
-        {
-            base.Salvar();
-            if (txtCidade.Text == "" || txtDDD.Text == "")
-            {
-                MessageBox.Show("Campo obrigatório não preenchido!");
+		public override void Salvar()
+		{
+			base.Salvar();
 
-            }
-            else
-            {
-                aCidade.Id = Convert.ToInt32(this.txtCodigo.Text);
-                aCidade.Nome = this.txtCidade.Text;
-                aCidade.Ddd = this.txtDDD.Text;
-                aCidade.OEstado.Nome = this.txtEstado.Text;
-                aCidade.OEstado.Id = Convert.ToInt32(this.txtIdEstado.Text);
-                this.txtCodigo.Text = aCtrlCidade.Salvar(aCidade);
-                MessageBox.Show("A cidade " + aCidade.Nome + " foi salvo com o código " + this.txtCodigo.Text);
-            }
-        }
+			if (string.IsNullOrWhiteSpace(txtCidade.Text) || string.IsNullOrWhiteSpace(txtDDD.Text))
+			{
+				MessageBox.Show("Os campos Cidade e DDD são obrigatórios!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
 
-        public override void CarregarTxt()
+			aCidade.Nome = txtCidade.Text;
+			aCidade.Ddd = txtDDD.Text;
+			aCidade.OEstado.Nome = txtEstado.Text;
+
+			if (int.TryParse(txtIdEstado.Text, out int estadoId))
+			{
+				aCidade.OEstado.Id = estadoId;
+			}
+
+			if (int.TryParse(txtCodigo.Text, out int cidadeId) && cidadeId > 0)
+			{
+				aCidade.Id = cidadeId;
+			}
+
+			if (btnSave.Text == "Salvar")
+			{
+				string resultado = aCtrlCidade.Salvar(aCidade);
+
+				if (int.TryParse(resultado, out int novoId))
+				{
+					txtCodigo.Text = novoId.ToString();
+					MessageBox.Show($"Cidade '{aCidade.Nome}' foi salva com sucesso com o código {novoId}!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+			else if (btnSave.Text == "Excluir")
+			{
+				string resultado = aCtrlCidade.Excluir(aCidade);
+
+				if (resultado == "OK")
+				{
+					MessageBox.Show("Cidade excluída com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao excluir: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+		}
+
+		public override void CarregarTxt()
         {
             base.CarregarTxt();
             this.txtCodigo.Text = Convert.ToString(aCidade.Id);

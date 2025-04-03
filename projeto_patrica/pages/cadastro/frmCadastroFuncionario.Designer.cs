@@ -42,9 +42,23 @@
 			this.txtCargaHoraria = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
+			// txtNome
+			// 
+			this.txtNome.TabIndex = 2;
+			// 
+			// txtApelido
+			// 
+			this.txtApelido.TabIndex = 3;
+			// 
+			// txtEmail
+			// 
+			this.txtEmail.TabIndex = 4;
+			this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
+			// 
 			// txtCpf
 			// 
 			this.txtCpf.Location = new System.Drawing.Point(23, 267);
+			this.txtCpf.TabIndex = 11;
 			// 
 			// lblCPF
 			// 
@@ -53,6 +67,7 @@
 			// txtRg
 			// 
 			this.txtRg.Location = new System.Drawing.Point(224, 267);
+			this.txtRg.TabIndex = 12;
 			// 
 			// lblRG
 			// 
@@ -65,6 +80,7 @@
 			// dtpDataNascimento
 			// 
 			this.dtpDataNascimento.Location = new System.Drawing.Point(436, 265);
+			this.dtpDataNascimento.TabIndex = 13;
 			// 
 			// rbtnFisicaqqq
 			// 
@@ -76,20 +92,56 @@
 			this.rbtnJuridico.Enabled = false;
 			this.rbtnJuridico.TabStop = false;
 			// 
+			// txtEndereco
+			// 
+			this.txtEndereco.TabIndex = 6;
+			// 
+			// txtCep
+			// 
+			this.txtCep.TabIndex = 5;
+			// 
+			// txtBairro
+			// 
+			this.txtBairro.TabIndex = 7;
+			// 
+			// txtCidade
+			// 
+			this.txtCidade.TabIndex = 9;
+			// 
+			// txtCodCidade
+			// 
+			this.txtCodCidade.Enabled = false;
+			this.txtCodCidade.TabIndex = 8;
+			// 
+			// btnPesquisarCidade
+			// 
+			this.btnPesquisarCidade.TabIndex = 10;
+			this.btnPesquisarCidade.Click += new System.EventHandler(this.btnPesquisarCidade_Click);
+			// 
+			// txtTel
+			// 
+			this.txtTel.TabIndex = 14;
+			// 
+			// ckbStatus
+			// 
+			this.ckbStatus.TabIndex = 15;
+			// 
 			// btnSave
 			// 
 			this.btnSave.Location = new System.Drawing.Point(627, 530);
+			this.btnSave.TabIndex = 22;
 			// 
 			// btnSair
 			// 
 			this.btnSair.Location = new System.Drawing.Point(720, 530);
+			this.btnSair.TabIndex = 23;
 			// 
 			// txtMatricula
 			// 
 			this.txtMatricula.Location = new System.Drawing.Point(23, 394);
 			this.txtMatricula.Name = "txtMatricula";
 			this.txtMatricula.Size = new System.Drawing.Size(173, 22);
-			this.txtMatricula.TabIndex = 37;
+			this.txtMatricula.TabIndex = 16;
 			// 
 			// lblMatricula
 			// 
@@ -114,7 +166,7 @@
 			this.txtCargo.Location = new System.Drawing.Point(224, 394);
 			this.txtCargo.Name = "txtCargo";
 			this.txtCargo.Size = new System.Drawing.Size(173, 22);
-			this.txtCargo.TabIndex = 39;
+			this.txtCargo.TabIndex = 17;
 			// 
 			// lblSalBruto
 			// 
@@ -130,7 +182,7 @@
 			this.txtSalBruto.Location = new System.Drawing.Point(436, 394);
 			this.txtSalBruto.Name = "txtSalBruto";
 			this.txtSalBruto.Size = new System.Drawing.Size(147, 22);
-			this.txtSalBruto.TabIndex = 41;
+			this.txtSalBruto.TabIndex = 18;
 			// 
 			// lblSalLiquido
 			// 
@@ -146,7 +198,7 @@
 			this.txtSalLiquido.Location = new System.Drawing.Point(627, 394);
 			this.txtSalLiquido.Name = "txtSalLiquido";
 			this.txtSalLiquido.Size = new System.Drawing.Size(173, 22);
-			this.txtSalLiquido.TabIndex = 43;
+			this.txtSalLiquido.TabIndex = 19;
 			// 
 			// lblDtAdmissao
 			// 
@@ -163,7 +215,7 @@
 			this.dtpDataAdmissao.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
 			this.dtpDataAdmissao.Name = "dtpDataAdmissao";
 			this.dtpDataAdmissao.Size = new System.Drawing.Size(204, 22);
-			this.dtpDataAdmissao.TabIndex = 47;
+			this.dtpDataAdmissao.TabIndex = 20;
 			// 
 			// lblCargaHoraria
 			// 
@@ -179,7 +231,7 @@
 			this.txtCargaHoraria.Location = new System.Drawing.Point(250, 465);
 			this.txtCargaHoraria.Name = "txtCargaHoraria";
 			this.txtCargaHoraria.Size = new System.Drawing.Size(173, 22);
-			this.txtCargaHoraria.TabIndex = 48;
+			this.txtCargaHoraria.TabIndex = 21;
 			// 
 			// frmCadastroFuncionario
 			// 

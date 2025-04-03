@@ -11,6 +11,7 @@ using projeto_pratica.classes;
 using projeto_pratica.controllers;
 using projeto_pratica.pages.cadastro;
 using System.Collections;
+using projeto_pratica.daos;
 
 namespace projeto_pratica
 {
@@ -38,7 +39,7 @@ namespace projeto_pratica
         {
             aCidade = (Cidade)obj;
             aCtrlCidade = (CtrlCidade)ctrl;
-            CarregaLV();
+            this.CarregaLV();
         }
 
         public override void Incluir()
@@ -56,15 +57,19 @@ namespace projeto_pratica
             frmCadCidade.ConhecaObj(aCidade, aCtrlCidade);
             frmCadCidade.CarregarTxt();
             frmCadCidade.ShowDialog();
-        }
-        public override void Excluir()
+            this.CarregaLV();
+		}
+		public override void Excluir()
         {
-            base.Excluir();
-            frmCadCidade.ConhecaObj(aCidade, aCtrlCidade);
-            frmCadCidade.CarregarTxt();
-            frmCadCidade.BloqueiaTxt();
-            frmCadCidade.ShowDialog(this);
-            frmCadCidade.DesbloqueiaTxt();
+			string aux = frmCadCidade.btnSave.Text;
+			frmCadCidade.btnSave.Text = "Excluir";
+			frmCadCidade.ConhecaObj(aCidade, aCtrlCidade);
+			frmCadCidade.CarregarTxt();
+			frmCadCidade.BloqueiaTxt();
+			frmCadCidade.ShowDialog(this);
+			frmCadCidade.DesbloqueiaTxt();
+			frmCadCidade.btnSave.Text = aux;
+			this.CarregaLV();
         }
 
         public override void CarregaLV()

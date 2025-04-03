@@ -93,16 +93,32 @@ namespace projeto_pratica.pages.cadastro
 			if (int.TryParse(txtCodigo.Text, out int id) && id > 0)
 				oFornecedor.Id = id;
 
-			string resultado = aCtrlFornecedor.Salvar(oFornecedor);
+			if (btnSave.Text == "Salvar")
+			{
+				string resultado = aCtrlFornecedor.Salvar(oFornecedor);
 
-			if (int.TryParse(resultado, out int novoId))
-			{
-				txtCodigo.Text = novoId.ToString();
-				MessageBox.Show("Fornecedor salvo com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				if (int.TryParse(resultado, out int novoId))
+				{
+					txtCodigo.Text = novoId.ToString();
+					MessageBox.Show("Fornecedor salvo com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show("Erro ao salvar: " + resultado, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
-			else
+			else if (btnSave.Text == "Excluir")
 			{
-				MessageBox.Show("Erro ao salvar: " + resultado, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				string resultado = aCtrlFornecedor.Excluir(oFornecedor);
+
+				if (resultado == "OK")
+				{
+					MessageBox.Show("Fornecedor excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show("Erro ao excluir: " + resultado, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 

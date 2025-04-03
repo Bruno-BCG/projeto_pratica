@@ -66,6 +66,7 @@ namespace projeto_pratica.pages.consulta
 			oFrmCadastroFormPag.ConhecaObj(aFormPag, aCtrlFormPag);
 			oFrmCadastroFormPag.CarregarTxt();
 			oFrmCadastroFormPag.ShowDialog();
+			this.CarregaLV();
 		}
 
 		public override void Excluir()
@@ -78,6 +79,7 @@ namespace projeto_pratica.pages.consulta
 			oFrmCadastroFormPag.ShowDialog(this);
 			oFrmCadastroFormPag.DesbloqueiaTxt();
 			oFrmCadastroFormPag.btnSave.Text = aux;
+			this.CarregaLV();
 		}
 
 		private void listV_SelectedIndexChanged(object sender, EventArgs e)

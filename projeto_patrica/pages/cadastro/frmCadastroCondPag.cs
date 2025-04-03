@@ -18,6 +18,7 @@ namespace projeto_pratica.pages.cadastro
 		private ParcelaCondPag oParcelaCondPag;
 		private CtrlParcCondPag aCtrlParcCondPag;
 		private CtrlFormPag aCtrlFormaPag;
+		private List<ParcelaCondPag> parcelasRemovidas = new List<ParcelaCondPag>();
 
 		public frmCadastroCondpag()
 		{
@@ -26,14 +27,13 @@ namespace projeto_pratica.pages.cadastro
 			aCtrlCondPag = new CtrlCondPag();
 			aCtrlParcCondPag = new CtrlParcCondPag();
 			aCtrlFormaPag = new CtrlFormPag();
-
-			CarregarComboBoxFormaPag();
 		}
 
 		public override void ConhecaObj(object obj, object ctrl)
 		{
 			oCondicaoPagamento = (CondicaoPagamento)obj;
 			aCtrlCondPag = (CtrlCondPag)ctrl;
+			CarregarComboBoxFormaPag();
 			this.CarregaLV();
 		}
 
@@ -76,25 +76,53 @@ namespace projeto_pratica.pages.cadastro
 			oCondicaoPagamento.Descricao = txtDescricao.Text;
 			oCondicaoPagamento.NumParcelas = Convert.ToInt32(txtParcelas.Text);
 
-			string resultado = aCtrlCondPag.Salvar(oCondicaoPagamento);
-
-			if (int.TryParse(resultado, out int novoId))
+			if (int.TryParse(txtCodigo.Text, out int condPagId) && condPagId > 0)
 			{
-				oCondicaoPagamento.Id = novoId;
-
-				foreach (var parcela in oCondicaoPagamento.ParcelasCondPag)
-				{
-					parcela.CondPagId = novoId;
-					aCtrlParcCondPag.Salvar(parcela); 
-				}
-
-				txtCodigo.Text = novoId.ToString();
-				MessageBox.Show($"A condição de pagamento '{oCondicaoPagamento.Descricao}' foi salva com o código {txtCodigo.Text}, e todas as parcelas foram cadastradas.",
-					"Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				oCondicaoPagamento.Id = condPagId;
 			}
-			else
+
+			if (btnSave.Text == "Salvar")
 			{
-				MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				string resultado = aCtrlCondPag.Salvar(oCondicaoPagamento);
+
+				if (int.TryParse(resultado, out int novoId))
+				{
+					oCondicaoPagamento.Id = novoId;
+
+					foreach (var parcela in oCondicaoPagamento.ParcelasCondPag)
+					{
+						parcela.CondPagId = novoId;
+						aCtrlParcCondPag.Salvar(parcela);
+					}
+
+					foreach (var parcelaRemovida in parcelasRemovidas)
+					{
+						aCtrlParcCondPag.Excluir(parcelaRemovida);
+					}
+
+					parcelasRemovidas.Clear();
+
+					txtCodigo.Text = novoId.ToString();
+					MessageBox.Show($"A condição de pagamento '{oCondicaoPagamento.Descricao}' foi salva com o código {txtCodigo.Text}, e todas as parcelas foram cadastradas.",
+						"Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+			else if (btnSave.Text == "Excluir")
+			{
+				string resultado = aCtrlCondPag.Excluir(oCondicaoPagamento);
+
+				if (resultado == "OK")
+				{
+					MessageBox.Show("Condição de pagamento excluída com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao excluir: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 
@@ -141,6 +169,39 @@ namespace projeto_pratica.pages.cadastro
 		{
 			this.btnCriarParc.Text = "Salvar";
 			this.btnCancel.Enabled = true;
+			this.btnAlterarParc.Enabled = false;
+			this.btnExcluirParc.Enabled = false;
+
+			if (listV.SelectedItems.Count == 0)
+			{
+				MessageBox.Show("Selecione uma parcela para alterar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			if (oParcelaCondPag != null)
+			{
+				txtNumParc.Text = oParcelaCondPag.NumeroParcela.ToString();
+				txtPrazo.Text = oParcelaCondPag.Prazo.ToString();
+				txtPercent.Text = oParcelaCondPag.Percentual.ToString();
+				txtCodFormPag.Text = oParcelaCondPag.FormPagId.ToString();
+
+				for (int i = 0; i < cbFormaPagamentos.Items.Count; i++)
+				{
+					FormaPagamento forma = (FormaPagamento)cbFormaPagamentos.Items[i];
+					if (forma.Id == oParcelaCondPag.FormPagId)
+					{
+						cbFormaPagamentos.SelectedIndex = i;
+						break;
+					}
+				}
+			}
+		}
+		public void iniciarExclusao ()
+		{
+			this.btnCriarParc.Text = "Excluir";
+			this.btnCancel.Enabled = true;
+			this.btnAlterarParc.Enabled = false;
+			this.btnExcluirParc.Enabled = false;
 
 			if (listV.SelectedItems.Count == 0)
 			{
@@ -205,12 +266,38 @@ namespace projeto_pratica.pages.cadastro
 
 			btnCriarParc.Text = "Criar Parcela";
 			btnCancel.Enabled = false;
+			this.btnAlterarParc.Enabled = true;
+			this.btnExcluirParc.Enabled = true;
 			LimparTxtParcela();
 		}
 
 		public void ExcluirParcela()
 		{
+			if (listV.SelectedItems.Count == 0)
+			{
+				MessageBox.Show("Selecione uma parcela para excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
 
+			ListViewItem selectedItem = listV.SelectedItems[0];
+			ParcelaCondPag parcelaSelecionada = (ParcelaCondPag)selectedItem.Tag;
+
+			if (MessageBox.Show("Deseja realmente excluir a parcela selecionada?", "Confirmar Exclusão", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+			{
+				oCondicaoPagamento.ParcelasCondPag.Remove(parcelaSelecionada);
+
+				if (parcelaSelecionada.Id > 0)
+				{
+					parcelasRemovidas.Add(parcelaSelecionada);
+				}
+
+				CarregaLV();
+				LimparTxtParcela();
+				btnCriarParc.Text = "Criar Parcela";
+				btnCancel.Enabled = false;
+				this.btnAlterarParc.Enabled = true;
+				this.btnExcluirParc.Enabled = true;
+			}
 		}
 
 		public override void CarregarTxt()
@@ -229,8 +316,8 @@ namespace projeto_pratica.pages.cadastro
 			this.txtCodigo.Enabled = false;
 			this.txtDescricao.Enabled = false;
 			this.txtParcelas.Enabled = false;
-			this.btnAlterarFormPag.Enabled = false;
-			this.btnExcluirFormPag.Enabled = false;
+			this.btnAlterarParc.Enabled = false;
+			this.btnExcluirParc.Enabled = false;
 			this.btnCriarParc.Enabled = false;
 
 			this.txtCodFormPag.Enabled = false;
@@ -246,8 +333,8 @@ namespace projeto_pratica.pages.cadastro
 			this.txtCodigo.Enabled = true;
 			this.txtDescricao.Enabled = true;
 			this.txtParcelas.Enabled = true;
-			this.btnAlterarFormPag.Enabled = true;
-			this.btnExcluirFormPag.Enabled = true;
+			this.btnAlterarParc.Enabled = true;
+			this.btnExcluirParc.Enabled = true;
 			this.btnCriarParc.Enabled = true;
 
 			this.txtCodFormPag.Enabled = true;
@@ -304,8 +391,8 @@ namespace projeto_pratica.pages.cadastro
 				oParcelaCondPag = (ParcelaCondPag)selectedItem.Tag;
 
 				// Enable buttons
-				btnAlterarFormPag.Enabled = true;
-				btnExcluirFormPag.Enabled = true;
+				btnAlterarParc.Enabled = true;
+				btnExcluirParc.Enabled = true;
 			}
 		}
 
@@ -332,7 +419,7 @@ namespace projeto_pratica.pages.cadastro
 
 		private void btnExcluirFormPag_Click(object sender, EventArgs e)
 		{
-
+			iniciarExclusao();
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e)

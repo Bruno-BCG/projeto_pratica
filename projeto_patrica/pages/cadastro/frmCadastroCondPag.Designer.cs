@@ -45,8 +45,8 @@
 			this.lblNumParc = new System.Windows.Forms.Label();
 			this.txtNumParc = new System.Windows.Forms.TextBox();
 			this.btnCriarParc = new System.Windows.Forms.Button();
-			this.btnExcluirFormPag = new System.Windows.Forms.Button();
-			this.btnAlterarFormPag = new System.Windows.Forms.Button();
+			this.btnExcluirParc = new System.Windows.Forms.Button();
+			this.btnAlterarParc = new System.Windows.Forms.Button();
 			this.cbFormaPagamentos = new System.Windows.Forms.ComboBox();
 			this.lblPrazo = new System.Windows.Forms.Label();
 			this.txtPrazo = new System.Windows.Forms.TextBox();
@@ -201,27 +201,27 @@
 			this.btnCriarParc.UseVisualStyleBackColor = true;
 			this.btnCriarParc.Click += new System.EventHandler(this.btnCriarParc_Click);
 			// 
-			// btnExcluirFormPag
+			// btnExcluirParc
 			// 
-			this.btnExcluirFormPag.Enabled = false;
-			this.btnExcluirFormPag.Location = new System.Drawing.Point(741, 180);
-			this.btnExcluirFormPag.Name = "btnExcluirFormPag";
-			this.btnExcluirFormPag.Size = new System.Drawing.Size(122, 31);
-			this.btnExcluirFormPag.TabIndex = 11;
-			this.btnExcluirFormPag.Text = "Excluir";
-			this.btnExcluirFormPag.UseVisualStyleBackColor = true;
-			this.btnExcluirFormPag.Click += new System.EventHandler(this.btnExcluirFormPag_Click);
+			this.btnExcluirParc.Enabled = false;
+			this.btnExcluirParc.Location = new System.Drawing.Point(741, 180);
+			this.btnExcluirParc.Name = "btnExcluirParc";
+			this.btnExcluirParc.Size = new System.Drawing.Size(122, 31);
+			this.btnExcluirParc.TabIndex = 11;
+			this.btnExcluirParc.Text = "Excluir";
+			this.btnExcluirParc.UseVisualStyleBackColor = true;
+			this.btnExcluirParc.Click += new System.EventHandler(this.btnExcluirFormPag_Click);
 			// 
-			// btnAlterarFormPag
+			// btnAlterarParc
 			// 
-			this.btnAlterarFormPag.Enabled = false;
-			this.btnAlterarFormPag.Location = new System.Drawing.Point(604, 180);
-			this.btnAlterarFormPag.Name = "btnAlterarFormPag";
-			this.btnAlterarFormPag.Size = new System.Drawing.Size(119, 31);
-			this.btnAlterarFormPag.TabIndex = 10;
-			this.btnAlterarFormPag.Text = "Alterar";
-			this.btnAlterarFormPag.UseVisualStyleBackColor = true;
-			this.btnAlterarFormPag.Click += new System.EventHandler(this.btnAlterarFormPag_Click);
+			this.btnAlterarParc.Enabled = false;
+			this.btnAlterarParc.Location = new System.Drawing.Point(604, 180);
+			this.btnAlterarParc.Name = "btnAlterarParc";
+			this.btnAlterarParc.Size = new System.Drawing.Size(119, 31);
+			this.btnAlterarParc.TabIndex = 10;
+			this.btnAlterarParc.Text = "Alterar";
+			this.btnAlterarParc.UseVisualStyleBackColor = true;
+			this.btnAlterarParc.Click += new System.EventHandler(this.btnAlterarFormPag_Click);
 			// 
 			// cbFormaPagamentos
 			// 
@@ -268,8 +268,8 @@
 			this.Controls.Add(this.lblPrazo);
 			this.Controls.Add(this.txtPrazo);
 			this.Controls.Add(this.cbFormaPagamentos);
-			this.Controls.Add(this.btnAlterarFormPag);
-			this.Controls.Add(this.btnExcluirFormPag);
+			this.Controls.Add(this.btnAlterarParc);
+			this.Controls.Add(this.btnExcluirParc);
 			this.Controls.Add(this.btnCriarParc);
 			this.Controls.Add(this.lblNumParc);
 			this.Controls.Add(this.txtNumParc);
@@ -300,8 +300,8 @@
 			this.Controls.SetChildIndex(this.txtNumParc, 0);
 			this.Controls.SetChildIndex(this.lblNumParc, 0);
 			this.Controls.SetChildIndex(this.btnCriarParc, 0);
-			this.Controls.SetChildIndex(this.btnExcluirFormPag, 0);
-			this.Controls.SetChildIndex(this.btnAlterarFormPag, 0);
+			this.Controls.SetChildIndex(this.btnExcluirParc, 0);
+			this.Controls.SetChildIndex(this.btnAlterarParc, 0);
 			this.Controls.SetChildIndex(this.cbFormaPagamentos, 0);
 			this.Controls.SetChildIndex(this.txtPrazo, 0);
 			this.Controls.SetChildIndex(this.lblPrazo, 0);
@@ -330,8 +330,8 @@
 		private System.Windows.Forms.Label lblNumParc;
 		private System.Windows.Forms.TextBox txtNumParc;
 		private System.Windows.Forms.Button btnCriarParc;
-		private System.Windows.Forms.Button btnExcluirFormPag;
-		private System.Windows.Forms.Button btnAlterarFormPag;
+		private System.Windows.Forms.Button btnExcluirParc;
+		private System.Windows.Forms.Button btnAlterarParc;
 		private System.Windows.Forms.ComboBox cbFormaPagamentos;
 		private System.Windows.Forms.Label lblPrazo;
 		private System.Windows.Forms.TextBox txtPrazo;

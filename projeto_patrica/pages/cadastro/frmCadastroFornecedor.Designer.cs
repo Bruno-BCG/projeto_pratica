@@ -68,6 +68,10 @@
 			this.rbtnJuridico.TabStop = false;
 			this.rbtnJuridico.CheckedChanged += new System.EventHandler(this.rbtnJuridico_CheckedChanged);
 			// 
+			// btnPesquisarCidade
+			// 
+			this.btnPesquisarCidade.Click += new System.EventHandler(this.btnPesquisarCidade_Click);
+			// 
 			// lblTel
 			// 
 			this.lblTel.Location = new System.Drawing.Point(20, 307);

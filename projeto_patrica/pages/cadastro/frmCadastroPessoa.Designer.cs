@@ -62,6 +62,14 @@
 			// 
 			this.lblCod.Location = new System.Drawing.Point(20, 55);
 			// 
+			// btnSave
+			// 
+			this.btnSave.TabIndex = 15;
+			// 
+			// btnSair
+			// 
+			this.btnSair.TabIndex = 16;
+			// 
 			// txtCodigo
 			// 
 			this.txtCodigo.Location = new System.Drawing.Point(23, 74);
@@ -80,7 +88,7 @@
 			this.txtNome.Location = new System.Drawing.Point(186, 74);
 			this.txtNome.Name = "txtNome";
 			this.txtNome.Size = new System.Drawing.Size(211, 22);
-			this.txtNome.TabIndex = 4;
+			this.txtNome.TabIndex = 2;
 			// 
 			// rbtnFisicaqqq
 			// 
@@ -109,7 +117,7 @@
 			this.txtApelido.Location = new System.Drawing.Point(436, 74);
 			this.txtApelido.Name = "txtApelido";
 			this.txtApelido.Size = new System.Drawing.Size(147, 22);
-			this.txtApelido.TabIndex = 8;
+			this.txtApelido.TabIndex = 3;
 			// 
 			// lblApelido
 			// 
@@ -125,7 +133,7 @@
 			this.txtEmail.Location = new System.Drawing.Point(627, 74);
 			this.txtEmail.Name = "txtEmail";
 			this.txtEmail.Size = new System.Drawing.Size(173, 22);
-			this.txtEmail.TabIndex = 10;
+			this.txtEmail.TabIndex = 4;
 			// 
 			// lblEmail
 			// 
@@ -141,7 +149,7 @@
 			this.txtCpf.Location = new System.Drawing.Point(23, 271);
 			this.txtCpf.Name = "txtCpf";
 			this.txtCpf.Size = new System.Drawing.Size(173, 22);
-			this.txtCpf.TabIndex = 12;
+			this.txtCpf.TabIndex = 10;
 			// 
 			// lblCPF
 			// 
@@ -157,7 +165,7 @@
 			this.txtRg.Location = new System.Drawing.Point(224, 271);
 			this.txtRg.Name = "txtRg";
 			this.txtRg.Size = new System.Drawing.Size(173, 22);
-			this.txtRg.TabIndex = 14;
+			this.txtRg.TabIndex = 11;
 			// 
 			// lblRG
 			// 
@@ -185,14 +193,14 @@
 			this.dtpDataNascimento.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
 			this.dtpDataNascimento.Name = "dtpDataNascimento";
 			this.dtpDataNascimento.Size = new System.Drawing.Size(205, 22);
-			this.dtpDataNascimento.TabIndex = 18;
+			this.dtpDataNascimento.TabIndex = 12;
 			// 
 			// txtEndereco
 			// 
 			this.txtEndereco.Location = new System.Drawing.Point(186, 139);
 			this.txtEndereco.Name = "txtEndereco";
 			this.txtEndereco.Size = new System.Drawing.Size(225, 22);
-			this.txtEndereco.TabIndex = 20;
+			this.txtEndereco.TabIndex = 6;
 			// 
 			// lblEndereco
 			// 
@@ -208,7 +216,7 @@
 			this.txtCep.Location = new System.Drawing.Point(23, 139);
 			this.txtCep.Name = "txtCep";
 			this.txtCep.Size = new System.Drawing.Size(148, 22);
-			this.txtCep.TabIndex = 22;
+			this.txtCep.TabIndex = 5;
 			// 
 			// lblCEP
 			// 
@@ -224,7 +232,7 @@
 			this.txtBairro.Location = new System.Drawing.Point(436, 139);
 			this.txtBairro.Name = "txtBairro";
 			this.txtBairro.Size = new System.Drawing.Size(147, 22);
-			this.txtBairro.TabIndex = 24;
+			this.txtBairro.TabIndex = 7;
 			// 
 			// lblBairro
 			// 
@@ -240,7 +248,7 @@
 			this.btnPesquisarCidade.Location = new System.Drawing.Point(334, 196);
 			this.btnPesquisarCidade.Name = "btnPesquisarCidade";
 			this.btnPesquisarCidade.Size = new System.Drawing.Size(89, 29);
-			this.btnPesquisarCidade.TabIndex = 32;
+			this.btnPesquisarCidade.TabIndex = 9;
 			this.btnPesquisarCidade.Text = "Pesquisar";
 			this.btnPesquisarCidade.UseVisualStyleBackColor = true;
 			// 
@@ -249,7 +257,7 @@
 			this.txtCidade.Location = new System.Drawing.Point(169, 203);
 			this.txtCidade.Name = "txtCidade";
 			this.txtCidade.Size = new System.Drawing.Size(147, 22);
-			this.txtCidade.TabIndex = 31;
+			this.txtCidade.TabIndex = 8;
 			// 
 			// lblNomCidade
 			// 
@@ -262,6 +270,7 @@
 			// 
 			// txtCodCidade
 			// 
+			this.txtCodCidade.Enabled = false;
 			this.txtCodCidade.Location = new System.Drawing.Point(23, 203);
 			this.txtCodCidade.Name = "txtCodCidade";
 			this.txtCodCidade.Size = new System.Drawing.Size(119, 22);
@@ -281,7 +290,7 @@
 			this.txtTel.Location = new System.Drawing.Point(23, 328);
 			this.txtTel.Name = "txtTel";
 			this.txtTel.Size = new System.Drawing.Size(173, 22);
-			this.txtTel.TabIndex = 34;
+			this.txtTel.TabIndex = 13;
 			// 
 			// lblTel
 			// 
@@ -298,7 +307,7 @@
 			this.ckbStatus.Location = new System.Drawing.Point(237, 328);
 			this.ckbStatus.Name = "ckbStatus";
 			this.ckbStatus.Size = new System.Drawing.Size(59, 20);
-			this.ckbStatus.TabIndex = 36;
+			this.ckbStatus.TabIndex = 14;
 			this.ckbStatus.Text = "Ativo";
 			this.ckbStatus.UseVisualStyleBackColor = true;
 			// 

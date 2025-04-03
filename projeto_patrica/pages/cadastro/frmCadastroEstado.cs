@@ -46,22 +46,56 @@ namespace projeto_pratica
 
         public override void Salvar()
         {
-            base.Salvar();
-            if (txtEstado.Text == "" || txtUf.Text == "")
-            {
-                MessageBox.Show("Campo obrigatório não preenchido!");
-            }
-            else
-            {
-                oEstado.Id = Convert.ToInt32(this.txtCodigo.Text);
-                oEstado.Nome = this.txtEstado.Text;
-                oEstado.Uf = this.txtUf.Text;
-                oEstado.OPais.Nome = this.txtPais.Text;
-                oEstado.OPais.Id = Convert.ToInt32(this.txtIdPais.Text);
-                this.txtCodigo.Text = aCtrlEstado.Salvar(oEstado);
-                MessageBox.Show("O estado " + oEstado.Nome + " foi salvo com o código " + this.txtCodigo.Text);
-            }
-        }
+			base.Salvar();
+
+			if (string.IsNullOrWhiteSpace(txtEstado.Text) || string.IsNullOrWhiteSpace(txtUf.Text))
+			{
+				MessageBox.Show("Campo obrigatório não preenchido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			oEstado.Nome = txtEstado.Text;
+			oEstado.Uf = txtUf.Text;
+			oEstado.OPais.Nome = txtPais.Text;
+
+			if (int.TryParse(txtIdPais.Text, out int paisId))
+			{
+				oEstado.OPais.Id = paisId;
+			}
+
+			if (int.TryParse(txtCodigo.Text, out int estadoId) && estadoId > 0)
+			{
+				oEstado.Id = estadoId;
+			}
+
+			if (btnSave.Text == "Salvar")
+			{
+				string resultado = aCtrlEstado.Salvar(oEstado);
+
+				if (int.TryParse(resultado, out int novoId))
+				{
+					txtCodigo.Text = novoId.ToString();
+					MessageBox.Show($"Estado '{oEstado.Nome}' foi salvo com o código {txtCodigo.Text}.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+			else if (btnSave.Text == "Excluir")
+			{
+				string resultado = aCtrlEstado.Excluir(oEstado);
+
+				if (resultado == "OK")
+				{
+					MessageBox.Show("Estado excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Erro ao excluir: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+		}
 
         public override void CarregarTxt()
         {

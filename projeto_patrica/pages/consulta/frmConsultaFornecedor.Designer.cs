@@ -43,6 +43,7 @@
 			this.clBairro = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.clCep = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.clRG = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.clInscEst = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
 			// 
 			// listV
@@ -62,7 +63,8 @@
             this.clEndereco,
             this.clBairro,
             this.clCep,
-            this.clRG});
+            this.clRG,
+            this.clInscEst});
 			this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
 			// 
 			// clTipo
@@ -126,6 +128,10 @@
 			this.clRG.Text = "RG";
 			this.clRG.Width = 167;
 			// 
+			// clInscEst
+			// 
+			this.clInscEst.Text = "Inscricao Estadual";
+			// 
 			// frmConsultaFornecedor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -154,5 +160,6 @@
 		private System.Windows.Forms.ColumnHeader clBairro;
 		private System.Windows.Forms.ColumnHeader clCep;
 		private System.Windows.Forms.ColumnHeader clRG;
+		private System.Windows.Forms.ColumnHeader clInscEst;
 	}
 }
