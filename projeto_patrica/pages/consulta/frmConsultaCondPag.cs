@@ -112,5 +112,10 @@ namespace projeto_pratica.pages.consulta
 				};
 			}
 		}
+
+		private void frmConsultaCondPag_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

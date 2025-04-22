@@ -62,7 +62,7 @@ namespace projeto_pratica.pages.cadastro
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(txtCpf.Text) && !oCliente.Estrangeiro)
+			if (string.IsNullOrWhiteSpace(txtCpf.Text) || (oCliente.OEndereco.ACidade.OEstado.OPais.Nome == "Brasil"))
 			{
 				MessageBox.Show("O campo CPF/CNPJ é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
@@ -76,23 +76,23 @@ namespace projeto_pratica.pages.cadastro
 
 			if (rbtnFisicaqqq.Checked)
 			{
-				oCliente.Tipo = "F";
+				oCliente.Tipo = 'F';
 			}
 			else if (rbtnJuridico.Checked)
 			{
-				oCliente.Tipo = "J";
+				oCliente.Tipo = 'J';
 			}
 
-			oCliente.Nome_razaoSocial = txtNome.Text;
-			oCliente.Apelido_nomeFanta = txtApelido.Text;
-			oCliente.Cpf_cnpj = txtCpf.Text;
-			oCliente.Rg_inscricaoNum = txtRg.Text;
+			oCliente.NomeRazaoSocial = txtNome.Text;
+			oCliente.ApelidoFantasia = txtApelido.Text;
+			oCliente.CpfCnpj = txtCpf.Text;
+			oCliente.RgInscricaoEst = txtRg.Text;
 			oCliente.Email = txtEmail.Text;
 			oCliente.Telefone = txtTel.Text;
 			oCliente.DataNascimento = dtpDataNascimento.Value;
-			oCliente.Status = ckbStatus.Checked;
+			oCliente.Ativo = ckbStatus.Checked;
 
-			oCliente.OEndereco.EnderecoCompleto = txtEndereco.Text;
+			oCliente.OEndereco.Endereco = txtEndereco.Text;
 			oCliente.OEndereco.Bairro = txtBairro.Text;
 			oCliente.OEndereco.Cep = txtCep.Text;
 			oCliente.OEndereco.ACidade = new Cidade
@@ -113,7 +113,8 @@ namespace projeto_pratica.pages.cadastro
 				if (int.TryParse(resultado, out int novoId))
 				{
 					txtCodigo.Text = novoId.ToString();
-					MessageBox.Show($"Cliente '{oCliente.Nome_razaoSocial}' foi salvo com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show($"Cliente '{oCliente.NomeRazaoSocial}' foi salvo com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
@@ -127,6 +128,7 @@ namespace projeto_pratica.pages.cadastro
 				if (resultado == "OK")
 				{
 					MessageBox.Show("Cliente excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
@@ -139,19 +141,21 @@ namespace projeto_pratica.pages.cadastro
 		{
 			base.CarregarTxt();
 			txtCodigo.Text = oCliente.Id.ToString();
-			txtNome.Text = oCliente.Nome_razaoSocial;
-			txtApelido.Text = oCliente.Apelido_nomeFanta;
+			txtNome.Text = oCliente.NomeRazaoSocial;
+			txtApelido.Text = oCliente.ApelidoFantasia;
 			txtEmail.Text = oCliente.Email;
-			txtEndereco.Text = oCliente.OEndereco.EnderecoCompleto;
+			txtEndereco.Text = oCliente.OEndereco.Endereco;
 			txtCep.Text = oCliente.OEndereco.Cep;
 			txtBairro.Text = oCliente.OEndereco.Bairro;
 			txtCodCidade.Text = oCliente.OEndereco.ACidade.Id.ToString();
 			txtCidade.Text = oCliente.OEndereco.ACidade.Nome;
-			txtCpf.Text = oCliente.Cpf_cnpj;
-			txtRg.Text = oCliente.Rg_inscricaoNum;
+			txtCpf.Text = oCliente.CpfCnpj;
+			txtRg.Text = oCliente.RgInscricaoEst;
 			dtpDataNascimento.Value = oCliente.DataNascimento;
 			txtTel.Text = oCliente.Telefone;
-			
+			txtDtAlt.Text = Convert.ToString(oCliente.DtAlt);
+			txtDtCriacao.Text = Convert.ToString(oCliente.DtCriacao);
+
 		}
 
 		public override void BloqueiaTxt()
@@ -196,14 +200,6 @@ namespace projeto_pratica.pages.cadastro
 			aFrmConCidade.ShowDialog();
 			txtCodCidade.Text = Convert.ToString(oCliente.OEndereco.ACidade.Id);
 			txtCidade.Text = oCliente.OEndereco.ACidade.Nome;
-			if (oCliente.OEndereco.ACidade.OEstado.OPais.Nome != "Brasil")
-			{
-				oCliente.Estrangeiro = true;
-			}
-			else
-			{
-				oCliente.Estrangeiro = false;
-			}
 		}
 
 		private void rbtnFisicaqqq_CheckedChanged(object sender, EventArgs e)
@@ -226,7 +222,7 @@ namespace projeto_pratica.pages.cadastro
 			lblNome.Text = "Razao Social";
 			lblApelido.Text = "Nome Fantasia";
 			lblCPF.Text = "CNPJ";
-			lblRG.Text = "Inscrição Municipal";
+			lblRG.Text = "Inscrição Estadual";
 			lblDtNascimento.Text = "Data Criação";
 
 			this.txtNome.Clear();

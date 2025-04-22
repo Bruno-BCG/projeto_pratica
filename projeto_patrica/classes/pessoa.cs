@@ -9,57 +9,101 @@ namespace projeto_pratica.classes
 	internal class Pessoa : Pai
 	{
 		protected char tipo;
-		protected string nome_razaoSocial;
-		protected string apelido_nomeFanta;
+		protected string nomeRazaoSocial;
+		protected string apelidoFantasia;
 		protected DateTime dataNascimento;
-		protected string cpf_cnpj;
-		protected string rg_inscricaoNum;
+		protected string cpfCnpj;
+		protected string rgInscricaoEst;
 		protected string email;
 		protected string telefone;
-		protected bool status;
-		protected bool estrangeiro;
-		protected Endereco oEndereco;
+		protected Enderecos oEndereco;
 
 		public Pessoa()
 		{
-			this.tipo = ' ';
-			this.nome_razaoSocial = " ";
-			this.apelido_nomeFanta = " ";
-			this.dataNascimento = DateTime.MinValue;
-			this.cpf_cnpj = " ";
-			this.rg_inscricaoNum = " ";
-			this.email = " ";
-			this.telefone = " ";
-			this.status = false;
-			this.estrangeiro = false;
-			this.oEndereco = new Endereco();
+			tipo = ' ';
+			nomeRazaoSocial = "";
+			apelidoFantasia = "";
+			dataNascimento = DateTime.MinValue;
+			cpfCnpj = "";
+			rgInscricaoEst = "";
+			email = "";
+			telefone = "";
+			oEndereco = new Enderecos();
 		}
-		public Pessoa(char tipo, string nome_razaoSocial, string apelido_nomeFanta, DateTime dataNascimento, string cpf_cnpj, string rg_inscricaoNum, string email, string telefone, bool status, bool estrangeiro, Endereco endereco)
-		{ 
+
+		public Pessoa(
+			int id, DateTime dtCriacao, DateTime dtAlt,
+			char tipo, string nome, string apelido, DateTime nascimento,
+			string cpf, string rg, string email, string telefone,
+			bool ativo, Enderecos endereco
+		) : base(id, dtCriacao, dtAlt, ativo)
+		{
 			this.tipo = tipo;
-			this.nome_razaoSocial = nome_razaoSocial;
-			this.apelido_nomeFanta = apelido_nomeFanta;
-			this.dataNascimento = dataNascimento;
-			this.rg_inscricaoNum = rg_inscricaoNum;
-			this.cpf_cnpj = cpf_cnpj;
+			this.nomeRazaoSocial = nome;
+			this.apelidoFantasia = apelido;
+			this.dataNascimento = nascimento;
+			this.cpfCnpj = cpf;
+			this.rgInscricaoEst = rg;
 			this.email = email;
 			this.telefone = telefone;
-			this.status = status;
-			this.estrangeiro = estrangeiro;
 			this.oEndereco = endereco;
+
 		}
-		public string Tipo { get; set; }
-		public string Nome_razaoSocial { get; set; }
-		public string Apelido_nomeFanta {  get; set; }
-		public DateTime DataNascimento { get; set; }
-		public string Cpf_cnpj { get; set; }
-		public string Rg_inscricaoNum{ get; set; }
-		public string Email { get; set; }
-		public string Telefone { get; set; }
-		public bool Status { get; set; }
-		public bool Estrangeiro { get; set; }
-		public Endereco OEndereco { get => oEndereco; set => oEndereco = value; }
 
+		public char Tipo
+		{
+			get => tipo;
+			set => tipo = value;
+		}
 
+		public string NomeRazaoSocial
+		{
+			get => nomeRazaoSocial;
+			set => nomeRazaoSocial = value;
+		}
+
+		public string ApelidoFantasia
+		{
+			get => apelidoFantasia;
+			set => apelidoFantasia = value;
+		}
+
+		public DateTime DataNascimento
+		{
+			get => dataNascimento;
+			set => dataNascimento = value;
+		}
+
+		public string CpfCnpj
+		{
+			get => cpfCnpj;
+			set => cpfCnpj = value;
+		}
+
+		public string RgInscricaoEst
+		{
+			get => rgInscricaoEst;
+			set => rgInscricaoEst = value;
+		}
+
+		public string Email
+		{
+			get => email;
+			set => email = value;
+		}
+
+		public string Telefone
+		{
+			get => telefone;
+			set => telefone = value;
+		}
+
+		public Enderecos OEndereco
+		{
+			get => oEndereco;
+			set => oEndereco = value;
+		}
 	}
+
 }
+

@@ -26,5 +26,10 @@ namespace projeto_pratica
 		{
 			Sair();
 		}
+
+		private void frmBase_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

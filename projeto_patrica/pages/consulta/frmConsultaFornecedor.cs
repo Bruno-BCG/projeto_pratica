@@ -1,5 +1,6 @@
 ﻿using projeto_pratica.classes;
 using projeto_pratica.controllers;
+using projeto_pratica.daos;
 using projeto_pratica.pages.cadastro;
 using System;
 using System.Collections.Generic;
@@ -44,25 +45,25 @@ namespace projeto_pratica.pages.consulta
 		{
 			this.listV.Items.Clear();
 			var lista = aCtrlFornecedor.Listar();
+
 			foreach (var fornecedor in lista)
 			{
-				ListViewItem item = new ListViewItem(Convert.ToString(fornecedor.Id));
-				item.SubItems.Add(fornecedor.Tipo);
-				item.SubItems.Add(fornecedor.Nome_razaoSocial);
-				item.SubItems.Add(fornecedor.Apelido_nomeFanta);
-				item.SubItems.Add(Convert.ToString(fornecedor.DataNascimento));
-				item.SubItems.Add(Convert.ToString(fornecedor.OEndereco.ACidade.Id));
-				item.SubItems.Add(fornecedor.OEndereco.ACidade.Nome);
-				item.SubItems.Add(fornecedor.Cpf_cnpj);
+				ListViewItem item = new ListViewItem(fornecedor.Id.ToString());
+				item.SubItems.Add(fornecedor.Tipo.ToString());
+				item.SubItems.Add(fornecedor.NomeRazaoSocial);
+				item.SubItems.Add(fornecedor.ApelidoFantasia);
+				item.SubItems.Add(fornecedor.DataNascimento.ToShortDateString());
+				item.SubItems.Add(fornecedor.CpfCnpj);
+				item.SubItems.Add(fornecedor.RgInscricaoEst);
 				item.SubItems.Add(fornecedor.Email);
 				item.SubItems.Add(fornecedor.Telefone);
-				item.SubItems.Add(Convert.ToString(fornecedor.Status));
-				item.SubItems.Add(Convert.ToString(fornecedor.Estrangeiro));
-				item.SubItems.Add(fornecedor.OEndereco.EnderecoCompleto);
+				item.SubItems.Add(fornecedor.OEndereco.ACidade.Nome);
+				item.SubItems.Add(fornecedor.OEndereco.Endereco);
 				item.SubItems.Add(fornecedor.OEndereco.Bairro);
-				item.SubItems.Add(fornecedor.OEndereco.Cep);
-				item.SubItems.Add(fornecedor.Rg_inscricaoNum);
-				item.SubItems.Add(fornecedor.InscrEstadual);
+
+				// Store the full object for later use
+				item.Tag = fornecedor;
+
 				listV.Items.Add(item);
 			}
 		}
@@ -104,35 +105,8 @@ namespace projeto_pratica.pages.consulta
 			{
 				btnExcluir.Enabled = true;
 				btnAlterar.Enabled = true;
-				ListViewItem item = listV.SelectedItems[0];
 
-				oFornecedor = new Fornecedor
-				{
-					Id = Convert.ToInt32(item.SubItems[0].Text), 
-					Tipo = Convert.ToString(item.SubItems[1].Text[0]), 
-					Nome_razaoSocial = item.SubItems[2].Text,
-					Apelido_nomeFanta = item.SubItems[3].Text, 
-					DataNascimento = DateTime.Parse(item.SubItems[4].Text), 
-					Cpf_cnpj = item.SubItems[7].Text, 
-					Email = item.SubItems[8].Text,
-					Telefone = item.SubItems[9].Text, 
-					Status = Convert.ToBoolean(item.SubItems[10].Text), 
-					Estrangeiro = Convert.ToBoolean(item.SubItems[11].Text), 
-					Rg_inscricaoNum = item.SubItems[15].Text,
-					InscrEstadual = item.SubItems[16].Text,
-					OEndereco = new Endereco			
-					{
-						EnderecoCompleto = item.SubItems[12].Text,
-						Bairro = item.SubItems[13].Text,
-						Cep = item.SubItems[14].Text,
-						ACidade = new Cidade
-						{
-							Id = Convert.ToInt32(item.SubItems[5].Text), // Cidade ID
-							Nome = item.SubItems[6].Text // Cidade Nome
-						}
-						
-					}
-				};
+				oFornecedor = (Fornecedor)listV.SelectedItems[0].Tag;
 			}
 		}
 	}

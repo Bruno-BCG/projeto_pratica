@@ -52,10 +52,12 @@
 			// frmConsultaCondPag
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(844, 476);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Name = "frmConsultaCondPag";
 			this.ShowIcon = true;
 			this.Text = "Consulta de Condicao de Pagamentos";
+			this.Load += new System.EventHandler(this.frmConsultaCondPag_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

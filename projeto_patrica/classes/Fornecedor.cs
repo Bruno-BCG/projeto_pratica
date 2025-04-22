@@ -8,18 +8,28 @@ namespace projeto_pratica.classes
 {
 	internal class Fornecedor : Pessoa
 	{
-		private string inscrEstadual;
+		private CondicaoPagamento aCondPag;
 
-		public Fornecedor()
+		public Fornecedor() : base()
 		{
-			inscrEstadual = "";
+			aCondPag = new CondicaoPagamento();
 		}
 
-		public Fornecedor(string inscrEstadual)
+		public Fornecedor(
+			int id, DateTime dtCriacao, DateTime dtAlt, bool ativo,
+			char tipo, string nome, string apelido, DateTime nascimento,
+			string cpf, string rg, string email, string telefone,
+			Enderecos endereco, 
+			CondicaoPagamento condicaoPagamento
+		) : base(id, dtCriacao, dtAlt, tipo, nome, apelido, nascimento, cpf, rg, email, telefone, ativo, endereco)
 		{
-			this.inscrEstadual =  inscrEstadual;
+			this.aCondPag = condicaoPagamento;
 		}
 
-		public string InscrEstadual { get; set; }
+		public CondicaoPagamento ACondPag
+		{
+			get => aCondPag;
+			set => aCondPag = value;	
+		}
 	}
 }

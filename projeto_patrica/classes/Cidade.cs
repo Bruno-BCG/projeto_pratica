@@ -17,9 +17,11 @@ namespace projeto_pratica.classes
 			nome = " ";
 			ddd = " ";
 			oEstado = new Estado();
+
 		}
 
-		public Cidade(int id, string nome, string ddd, Estado oEstado) : base(id)
+		public Cidade(int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, Funcionario funcAlt, string nome, string ddd, Estado oEstado)
+			: base(id, dtCriacao, dtAlt, ativo)
 		{
 			this.nome = nome;
 			this.ddd = ddd;

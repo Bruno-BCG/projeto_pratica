@@ -67,7 +67,7 @@ namespace projeto_pratica.pages.cadastro
 			aFormaPagamento.Descricao = txtDescricao.Text;
 
 			// If it's an update, assign the ID
-			if (int.TryParse(txtCodigo.Text, out int existingId) && existingId > 0)
+			if (int.TryParse(txtCodigo.Text, out int existingId))
 			{
 				aFormaPagamento.Id = existingId;
 			}
@@ -81,6 +81,7 @@ namespace projeto_pratica.pages.cadastro
 				{
 					txtCodigo.Text = novoId.ToString();
 					MessageBox.Show($"Forma de pagamento '{aFormaPagamento.Descricao}' foi salva com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
@@ -94,6 +95,7 @@ namespace projeto_pratica.pages.cadastro
 				if (resultado == "OK")
 				{
 					MessageBox.Show("Registro excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				} 
 				else
 				{

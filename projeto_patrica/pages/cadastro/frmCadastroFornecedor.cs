@@ -53,7 +53,6 @@ namespace projeto_pratica.pages.cadastro
 			this.txtRg.Clear();
 			this.dtpDataNascimento.Value = DateTime.Now;
 			this.txtTel.Clear();
-			this.txtInscEst.Clear();
 		}
 		public override void Salvar()
 		{
@@ -66,22 +65,19 @@ namespace projeto_pratica.pages.cadastro
 			}
 
 			if (rbtnFisicaqqq.Checked)
-				oFornecedor.Tipo = "F";
+				oFornecedor.Tipo = 'F';
 			else if (rbtnJuridico.Checked)
-				oFornecedor.Tipo = "J";
+				oFornecedor.Tipo = 'J';
 
-			oFornecedor.Nome_razaoSocial = txtNome.Text;
-			oFornecedor.Apelido_nomeFanta = txtApelido.Text;
-			oFornecedor.Cpf_cnpj = txtCpf.Text;
-			oFornecedor.Rg_inscricaoNum = txtRg.Text;
+			oFornecedor.NomeRazaoSocial = txtNome.Text;
+			oFornecedor.ApelidoFantasia = txtApelido.Text;
+			oFornecedor.CpfCnpj = txtCpf.Text;
+			oFornecedor.RgInscricaoEst = txtRg.Text;
 			oFornecedor.Email = txtEmail.Text;
 			oFornecedor.Telefone = txtTel.Text;
 			oFornecedor.DataNascimento = dtpDataNascimento.Value;
-			oFornecedor.Status = ckbStatus.Checked;
-			oFornecedor.Estrangeiro = false;
-			oFornecedor.InscrEstadual = txtInscEst.Text;
-
-			oFornecedor.OEndereco.EnderecoCompleto = txtEndereco.Text;
+			oFornecedor.Ativo = ckbStatus.Checked;
+			oFornecedor.OEndereco.Endereco = txtEndereco.Text;
 			oFornecedor.OEndereco.Bairro = txtBairro.Text;
 			oFornecedor.OEndereco.Cep = txtCep.Text;
 			oFornecedor.OEndereco.ACidade = new Cidade
@@ -101,6 +97,7 @@ namespace projeto_pratica.pages.cadastro
 				{
 					txtCodigo.Text = novoId.ToString();
 					MessageBox.Show("Fornecedor salvo com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
@@ -114,6 +111,7 @@ namespace projeto_pratica.pages.cadastro
 				if (resultado == "OK")
 				{
 					MessageBox.Show("Fornecedor excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
@@ -126,20 +124,19 @@ namespace projeto_pratica.pages.cadastro
 		{
 			base.CarregarTxt();
 			txtCodigo.Text = oFornecedor.Id.ToString();
-			txtNome.Text = oFornecedor.Nome_razaoSocial;
-			txtApelido.Text = oFornecedor.Apelido_nomeFanta;
+			txtNome.Text = oFornecedor.NomeRazaoSocial;
+			txtApelido.Text = oFornecedor.ApelidoFantasia;
 			txtEmail.Text = oFornecedor.Email;
-			txtEndereco.Text = oFornecedor.OEndereco.EnderecoCompleto;
+			txtEndereco.Text = oFornecedor.OEndereco.Endereco;
 			txtCep.Text = oFornecedor.OEndereco.Cep;
 			txtBairro.Text = oFornecedor.OEndereco.Bairro;
 			txtCodCidade.Text = oFornecedor.OEndereco.ACidade.Id.ToString();
 			txtCidade.Text = oFornecedor.OEndereco.ACidade.Nome;
-			txtCpf.Text = oFornecedor.Cpf_cnpj;
-			txtRg.Text = oFornecedor.Rg_inscricaoNum;
+			txtCpf.Text = oFornecedor.CpfCnpj;
+			txtRg.Text = oFornecedor.RgInscricaoEst;
 			dtpDataNascimento.Value = oFornecedor.DataNascimento;
 			txtTel.Text = oFornecedor.Telefone;
-			txtInscEst.Text = oFornecedor.InscrEstadual;
-			ckbStatus.Checked = oFornecedor.Status;
+			ckbStatus.Checked = oFornecedor.Ativo;
 		}
 
 		public override void BloqueiaTxt()
@@ -158,7 +155,6 @@ namespace projeto_pratica.pages.cadastro
 			txtRg.Enabled = false;
 			dtpDataNascimento.Enabled = false;
 			txtTel.Enabled = false;
-			txtInscEst.Enabled = false;
 		}
 
 		public override void DesbloqueiaTxt()
@@ -177,7 +173,6 @@ namespace projeto_pratica.pages.cadastro
 			txtRg.Enabled = true;
 			dtpDataNascimento.Enabled = true;
 			txtTel.Enabled = true;
-			txtInscEst.Enabled = true;
 		}
 
 		private void btnPesquisarCidade_Click(object sender, EventArgs e)
@@ -186,8 +181,6 @@ namespace projeto_pratica.pages.cadastro
 			aFrmConCidade.ShowDialog();
 			txtCodCidade.Text = oFornecedor.OEndereco.ACidade.Id.ToString();
 			txtCidade.Text = oFornecedor.OEndereco.ACidade.Nome;
-
-			oFornecedor.Estrangeiro = oFornecedor.OEndereco.ACidade.OEstado.OPais.Nome != "Brasil";
 		}
 
 		private void rbtnFisicaqqq_CheckedChanged(object sender, EventArgs e)
@@ -197,7 +190,6 @@ namespace projeto_pratica.pages.cadastro
 			lblCPF.Text = "CPF";
 			lblRG.Text = "RG";
 			lblDtNascimento.Text = "Data de Nacimento";
-			txtInscEst.Enabled = false;
 
 			this.txtNome.Clear();
 			this.txtApelido.Clear();
@@ -211,9 +203,8 @@ namespace projeto_pratica.pages.cadastro
 			lblNome.Text = "Razao Social";
 			lblApelido.Text = "Nome Fantasia";
 			lblCPF.Text = "CNPJ";
-			lblRG.Text = "Inscrição Municipal";
+			lblRG.Text = "Inscrição Estadual";
 			lblDtNascimento.Text = "Data Criação";
-			txtInscEst.Enabled = true;
 
 			this.txtNome.Clear();
 			this.txtApelido.Clear();

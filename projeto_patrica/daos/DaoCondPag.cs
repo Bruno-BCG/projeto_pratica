@@ -21,41 +21,51 @@ namespace projeto_pratica.daos
 			using (SqlConnection conexao = Banco.Abrir())
 			{
 				if (conexao == null)
-				{
 					return "Erro ao conectar ao Banco de dados.";
-				}
 
 				if (pagamento.Id == 0)
 				{
-					sql = "INSERT INTO COND_PAGAMENTO (CONDPAG_DESC, CONDPAG_PARCELAS) OUTPUT INSERTED.CONDPAG_ID VALUES (@Descricao, @NumParcelas)";
+					sql = @"INSERT INTO COND_PAGAMENTO 
+						(CONDPAG_DESC, CONDPAG_PARCELAS, CONDPAG_JURO, CONDPAG_MULTA, CONDPAG_DESCONTO, CONDPAG_DT_CRIACAO)
+						OUTPUT INSERTED.CONDPAG_ID
+						VALUES (@Descricao, @NumParcelas, @Juro, @Multa, @Desconto, @DtCriacao)";
 				}
-				else // Update (Registro já existente)
+				else
 				{
-					sql = "UPDATE COND_PAGAMENTO SET CONDPAG_DESC = @Descricao, CONDPAG_PARCELAS = @NumParcelas WHERE CONDPAG_ID = @Id";
+					sql = @"UPDATE COND_PAGAMENTO SET 
+						CONDPAG_DESC = @Descricao,
+						CONDPAG_PARCELAS = @NumParcelas,
+						CONDPAG_JURO = @Juro,
+						CONDPAG_MULTA = @Multa,
+						CONDPAG_DESCONTO = @Desconto,
+						CONDPAG_DT_ALT = @DtAlt
+						WHERE CONDPAG_ID = @Id";
 				}
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					cmd.Parameters.AddWithValue("@Descricao", pagamento.Descricao);
 					cmd.Parameters.AddWithValue("@NumParcelas", pagamento.NumParcelas);
+					cmd.Parameters.AddWithValue("@Juro", pagamento.Juro);
+					cmd.Parameters.AddWithValue("@Multa", pagamento.Multa);
+					cmd.Parameters.AddWithValue("@Desconto", pagamento.Desconto);
 
-					if (pagamento.Id != 0)
+					if (pagamento.Id == 0)
+						cmd.Parameters.AddWithValue("@DtCriacao", pagamento.DtCriacao);
+					else
 					{
+						cmd.Parameters.AddWithValue("@DtAlt", pagamento.DtAlt);
 						cmd.Parameters.AddWithValue("@Id", pagamento.Id);
 					}
 
 					try
 					{
-						if (pagamento.Id == 0) // Insert case
-						{
+						if (pagamento.Id == 0)
 							pagamento.Id = Convert.ToInt32(cmd.ExecuteScalar());
-							resultado = pagamento.Id.ToString();
-						}
-						else // Update case
-						{
+						else
 							cmd.ExecuteNonQuery();
-							resultado = pagamento.Id.ToString();
-						}
+
+						resultado = pagamento.Id.ToString();
 					}
 					catch (SqlException ex)
 					{
@@ -68,33 +78,23 @@ namespace projeto_pratica.daos
 
 		public override string Excluir(object obj)
 		{
-			CondicaoPagamento pagamento = (CondicaoPagamento)obj; // Cast obj to condicaoPagamento
+			CondicaoPagamento pagamento = (CondicaoPagamento)obj;
 			string resultado = "";
-			string sql = "DELETE FROM COND_PAGAMENTO WHERE CONDPAG_ID = @Id";
 
 			using (SqlConnection conexao = Banco.Abrir())
 			{
 				if (conexao == null)
-				{
 					return "Erro ao conectar ao Banco de dados.";
-				}
 
+				string sql = "DELETE FROM COND_PAGAMENTO WHERE CONDPAG_ID = @Id";
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					cmd.Parameters.AddWithValue("@Id", pagamento.Id);
 
 					try
 					{
-						int rowsAffected = cmd.ExecuteNonQuery();
-
-						if (rowsAffected > 0)
-						{
-							resultado = "OK"; // Successfully deleted
-						}
-						else
-						{
-							resultado = "Nenhum registro foi encontrado para exclusão.";
-						}
+						int rows = cmd.ExecuteNonQuery();
+						resultado = rows > 0 ? "OK" : "Nenhum registro foi encontrado para exclusão.";
 					}
 					catch (SqlException ex)
 					{
@@ -112,11 +112,11 @@ namespace projeto_pratica.daos
 			using (SqlConnection conexao = Banco.Abrir())
 			{
 				if (conexao == null)
-				{
 					throw new Exception("Erro ao conectar ao Banco de dados.");
-				}
 
-				using (SqlCommand cmd = new SqlCommand("SELECT * FROM COND_PAGAMENTO", conexao))
+				string sql = "SELECT * FROM COND_PAGAMENTO";
+
+				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					using (SqlDataReader dr = cmd.ExecuteReader())
 					{
@@ -126,7 +126,13 @@ namespace projeto_pratica.daos
 							{
 								Id = Convert.ToInt32(dr["CONDPAG_ID"]),
 								Descricao = dr["CONDPAG_DESC"].ToString(),
-								NumParcelas = Convert.ToInt32(dr["CONDPAG_PARCELAS"])});
+								NumParcelas = Convert.ToInt32(dr["CONDPAG_PARCELAS"]),
+								Juro = Convert.ToDouble(dr["CONDPAG_JURO"]),
+								Multa = Convert.ToDouble(dr["CONDPAG_MULTA"]),
+								Desconto = Convert.ToDouble(dr["CONDPAG_DESCONTO"]),
+								DtCriacao = Convert.ToDateTime(dr["CONDPAG_DT_CRIACAO"]),
+								DtAlt = dr["CONDPAG_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["CONDPAG_DT_ALT"]),
+							});
 						}
 					}
 				}

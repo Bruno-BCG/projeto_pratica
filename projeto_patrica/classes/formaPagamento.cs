@@ -13,14 +13,21 @@ namespace projeto_pratica.classes
 	{
 		protected string descricao;
 
-		public FormaPagamento()
+		public FormaPagamento() : base()
 		{
 			descricao = string.Empty;
 		}
-		public FormaPagamento (string descricao)
+
+		public FormaPagamento(int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, string descricao)
+			: base(id, dtCriacao, dtAlt, ativo)
 		{
 			this.descricao = descricao;
 		}
-		public string Descricao { get; set; }
+
+		public string Descricao
+		{
+			get => descricao;
+			set => descricao = value;
+		}
 	}
 }

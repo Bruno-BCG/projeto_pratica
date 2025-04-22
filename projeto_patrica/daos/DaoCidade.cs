@@ -17,31 +17,32 @@ namespace projeto_pratica
         public override string Salvar(object obj)
         {
 			Cidade aCidade = (Cidade)obj;
-			string ok = "";
+			string resultado = "";
 			string sql;
 			char operacao = 'I';
 
 			using (SqlConnection cnn = Banco.Abrir())
 			{
 				if (cnn == null)
-				{
 					return "Erro ao conectar ao banco de dados.";
-				}
 
 				SqlCommand cmd = new SqlCommand();
 				cmd.Connection = cnn;
 
-				if (aCidade.Id == 0) // INSERT
+				if (aCidade.Id == 0)
 				{
-					sql = "INSERT INTO CIDADE (CIDADE_NOME, CIDADE_DDD, ESTADO_ID) " +
-						  "OUTPUT INSERTED.CIDADE_ID " +
-						  "VALUES (@nome, @ddd, @estadoId)";
+					sql = @"INSERT INTO CIDADE 
+					(CIDADE_NOME, CIDADE_DDD, ESTADO_ID, CIDADE_DT_CRIACAO)
+					OUTPUT INSERTED.CIDADE_ID
+					VALUES (@nome, @ddd, @estadoId, @dtCriacao)";
 				}
-				else // UPDATE
+				else
 				{
 					operacao = 'U';
-					sql = "UPDATE CIDADE SET CIDADE_NOME = @nome, CIDADE_DDD = @ddd, ESTADO_ID = @estadoId " +
-						  "WHERE CIDADE_ID = @id";
+					sql = @"UPDATE CIDADE SET 
+					CIDADE_NOME = @nome, CIDADE_DDD = @ddd, ESTADO_ID = @estadoId, 
+					CIDADE_DT_ALT = @dtAlt
+					WHERE CIDADE_ID = @id";
 				}
 
 				cmd.CommandText = sql;
@@ -49,42 +50,44 @@ namespace projeto_pratica
 				cmd.Parameters.AddWithValue("@ddd", aCidade.Ddd);
 				cmd.Parameters.AddWithValue("@estadoId", aCidade.OEstado.Id);
 
-				if (aCidade.Id != 0)
+				if (operacao == 'I')
+					cmd.Parameters.AddWithValue("@dtCriacao", aCidade.DtCriacao);
+				else
+				{
+					cmd.Parameters.AddWithValue("@dtAlt", aCidade.DtAlt);
 					cmd.Parameters.AddWithValue("@id", aCidade.Id);
+				}
 
 				try
 				{
 					if (operacao == 'I')
 					{
 						aCidade.Id = Convert.ToInt32(cmd.ExecuteScalar());
-						ok = aCidade.Id.ToString();
+						resultado = aCidade.Id.ToString();
 					}
 					else
 					{
 						cmd.ExecuteNonQuery();
-						ok = aCidade.Id.ToString();
+						resultado = aCidade.Id.ToString();
 					}
 				}
 				catch (SqlException ex)
 				{
-					ok = "Erro ao salvar: " + ex.Message;
+					resultado = "Erro ao salvar: " + ex.Message;
 				}
 			}
-
-			return ok;
+			return resultado;
 		}
 
-        public override string Excluir(object obj)
-        {
+		public override string Excluir(object obj)
+		{
 			Cidade aCidade = (Cidade)obj;
 			string resultado = "";
 
 			using (SqlConnection cnn = Banco.Abrir())
 			{
 				if (cnn == null)
-				{
 					return "Erro ao conectar ao banco de dados.";
-				}
 
 				string sql = "DELETE FROM CIDADE WHERE CIDADE_ID = @id";
 				SqlCommand cmd = new SqlCommand(sql, cnn);
@@ -111,18 +114,17 @@ namespace projeto_pratica
 			using (SqlConnection conexao = Banco.Abrir())
 			{
 				if (conexao == null)
-				{
 					throw new Exception("Erro ao conectar ao Banco de dados.");
-				}
 
 				string sql = @"
-			SELECT 
-				C.CIDADE_ID, C.CIDADE_NOME, C.CIDADE_DDD,
-				E.ESTADO_ID, E.ESTADO_NOME, E.ESTADO_UF,
-				P.PAIS_ID, P.PAIS_NOME, P.PAIS_SIGLA, P.PAIS_MOEDA, P.PAIS_DDI
-			FROM CIDADE C
-			INNER JOIN ESTADO E ON C.ESTADO_ID = E.ESTADO_ID
-			INNER JOIN PAIS P ON E.PAIS_ID = P.PAIS_ID";
+				SELECT 
+					C.CIDADE_ID, C.CIDADE_NOME, C.CIDADE_DDD,
+					C.CIDADE_DT_CRIACAO, C.CIDADE_DT_ALT,
+					E.ESTADO_ID, E.ESTADO_NOME, E.ESTADO_UF,
+					P.PAIS_ID, P.PAIS_NOME, P.PAIS_SIGLA, P.PAIS_MOEDA, P.PAIS_DDI
+				FROM CIDADE C
+				INNER JOIN ESTADO E ON C.ESTADO_ID = E.ESTADO_ID
+				INNER JOIN PAIS P ON E.PAIS_ID = P.PAIS_ID";
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
@@ -135,6 +137,8 @@ namespace projeto_pratica
 								Id = Convert.ToInt32(dr["CIDADE_ID"]),
 								Nome = dr["CIDADE_NOME"].ToString(),
 								Ddd = dr["CIDADE_DDD"].ToString(),
+								DtCriacao = Convert.ToDateTime(dr["CIDADE_DT_CRIACAO"]),
+								DtAlt = dr["CIDADE_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["CIDADE_DT_ALT"]),
 								OEstado = new Estado
 								{
 									Id = Convert.ToInt32(dr["ESTADO_ID"]),
@@ -154,7 +158,6 @@ namespace projeto_pratica
 					}
 				}
 			}
-
 			return lista;
 		}
 

@@ -36,16 +36,22 @@
 			this.clmCod = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
 			// 
+			// btnSair
+			// 
+			this.btnSair.Location = new System.Drawing.Point(862, 657);
+			this.btnSair.Size = new System.Drawing.Size(117, 35);
+			// 
 			// txtCodigo
 			// 
-			this.txtCodigo.Size = new System.Drawing.Size(212, 22);
+			this.txtCodigo.Location = new System.Drawing.Point(24, 40);
+			this.txtCodigo.Size = new System.Drawing.Size(259, 22);
 			// 
 			// btnExcluir
 			// 
 			this.btnExcluir.Enabled = false;
-			this.btnExcluir.Location = new System.Drawing.Point(634, 408);
+			this.btnExcluir.Location = new System.Drawing.Point(739, 657);
 			this.btnExcluir.Name = "btnExcluir";
-			this.btnExcluir.Size = new System.Drawing.Size(80, 35);
+			this.btnExcluir.Size = new System.Drawing.Size(117, 35);
 			this.btnExcluir.TabIndex = 2;
 			this.btnExcluir.Text = "Excluir";
 			this.btnExcluir.UseVisualStyleBackColor = true;
@@ -54,9 +60,9 @@
 			// btnAlterar
 			// 
 			this.btnAlterar.Enabled = false;
-			this.btnAlterar.Location = new System.Drawing.Point(548, 408);
+			this.btnAlterar.Location = new System.Drawing.Point(616, 657);
 			this.btnAlterar.Name = "btnAlterar";
-			this.btnAlterar.Size = new System.Drawing.Size(80, 35);
+			this.btnAlterar.Size = new System.Drawing.Size(117, 35);
 			this.btnAlterar.TabIndex = 3;
 			this.btnAlterar.Text = "Alterar";
 			this.btnAlterar.UseVisualStyleBackColor = true;
@@ -64,9 +70,10 @@
 			// 
 			// btnIncluir
 			// 
-			this.btnIncluir.Location = new System.Drawing.Point(462, 408);
+			this.btnIncluir.AutoSize = true;
+			this.btnIncluir.Location = new System.Drawing.Point(493, 657);
 			this.btnIncluir.Name = "btnIncluir";
-			this.btnIncluir.Size = new System.Drawing.Size(80, 35);
+			this.btnIncluir.Size = new System.Drawing.Size(117, 35);
 			this.btnIncluir.TabIndex = 4;
 			this.btnIncluir.Text = "Incluir";
 			this.btnIncluir.UseVisualStyleBackColor = true;
@@ -74,9 +81,9 @@
 			// 
 			// btnPesquisar
 			// 
-			this.btnPesquisar.Location = new System.Drawing.Point(259, 43);
+			this.btnPesquisar.Location = new System.Drawing.Point(289, 34);
 			this.btnPesquisar.Name = "btnPesquisar";
-			this.btnPesquisar.Size = new System.Drawing.Size(80, 28);
+			this.btnPesquisar.Size = new System.Drawing.Size(117, 35);
 			this.btnPesquisar.TabIndex = 6;
 			this.btnPesquisar.Text = "Pesquisar";
 			this.btnPesquisar.UseVisualStyleBackColor = true;
@@ -91,7 +98,7 @@
 			this.listV.HideSelection = false;
 			this.listV.Location = new System.Drawing.Point(24, 77);
 			this.listV.Name = "listV";
-			this.listV.Size = new System.Drawing.Size(776, 305);
+			this.listV.Size = new System.Drawing.Size(955, 574);
 			this.listV.TabIndex = 7;
 			this.listV.UseCompatibleStateImageBehavior = false;
 			this.listV.View = System.Windows.Forms.View.Details;
@@ -104,7 +111,7 @@
 			// frmConsulta
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(844, 476);
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Controls.Add(this.listV);
 			this.Controls.Add(this.btnPesquisar);
 			this.Controls.Add(this.btnIncluir);
@@ -112,6 +119,7 @@
 			this.Controls.Add(this.btnExcluir);
 			this.Name = "frmConsulta";
 			this.Text = "Consulta";
+			this.Load += new System.EventHandler(this.frmConsulta_Load);
 			this.Controls.SetChildIndex(this.btnExcluir, 0);
 			this.Controls.SetChildIndex(this.btnAlterar, 0);
 			this.Controls.SetChildIndex(this.btnIncluir, 0);

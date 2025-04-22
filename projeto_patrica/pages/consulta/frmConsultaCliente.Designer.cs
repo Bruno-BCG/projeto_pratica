@@ -36,7 +36,6 @@
 			this.clEmail = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.clTelefone = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.clStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clEstrangeiro = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.clCodCidade = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.clCidade = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.clEndereco = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -58,7 +57,6 @@
             this.clEmail,
             this.clTelefone,
             this.clStatus,
-            this.clEstrangeiro,
             this.clEndereco,
             this.clBairro,
             this.clCep,
@@ -97,10 +95,6 @@
 			// 
 			this.clStatus.Text = "Status";
 			// 
-			// clEstrangeiro
-			// 
-			this.clEstrangeiro.Text = "Estrangeiro";
-			// 
 			// clCodCidade
 			// 
 			this.clCodCidade.Text = "Cod. Cidade";
@@ -129,7 +123,8 @@
 			// frmConsultaCliente
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(844, 476);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Name = "frmConsultaCliente";
 			this.Text = "Consulta de Clientes";
 			this.ResumeLayout(false);
@@ -149,7 +144,6 @@
 		private System.Windows.Forms.ColumnHeader clEmail;
 		private System.Windows.Forms.ColumnHeader clTelefone;
 		private System.Windows.Forms.ColumnHeader clStatus;
-		private System.Windows.Forms.ColumnHeader clEstrangeiro;
 		private System.Windows.Forms.ColumnHeader clEndereco;
 		private System.Windows.Forms.ColumnHeader clBairro;
 		private System.Windows.Forms.ColumnHeader clCep;

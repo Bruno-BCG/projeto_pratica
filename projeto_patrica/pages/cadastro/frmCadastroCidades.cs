@@ -75,6 +75,7 @@ namespace projeto_pratica
 				{
 					txtCodigo.Text = novoId.ToString();
 					MessageBox.Show($"Cidade '{aCidade.Nome}' foi salva com sucesso com o código {novoId}!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
@@ -88,6 +89,7 @@ namespace projeto_pratica
 				if (resultado == "OK")
 				{
 					MessageBox.Show("Cidade excluída com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{

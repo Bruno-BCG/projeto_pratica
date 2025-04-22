@@ -45,7 +45,8 @@
 			// frmConsultaFormPag
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(844, 476);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Name = "frmConsultaFormPag";
 			this.Text = "Consulta de Forma de Pagamento";
 			this.ResumeLayout(false);

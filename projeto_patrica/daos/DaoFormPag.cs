@@ -13,47 +13,49 @@ namespace projeto_pratica.daos
 		public override string Salvar(object obj)
 		{
 			FormaPagamento pagamento = (FormaPagamento)obj;
-
 			string resultado = "";
 			string sql;
 
 			using (SqlConnection conexao = Banco.Abrir())
 			{
 				if (conexao == null)
-				{
 					return "Erro ao conectar ao Banco de dados.";
-				}
 
-				if (pagamento.Id == 0) // Insert
+				if (pagamento.Id == 0)
 				{
-					sql = "INSERT INTO FORMA_PAGAMENTO (FORMAPAG_DESC) OUTPUT INSERTED.FORMAPAG_ID VALUES (@Descricao)";
+					sql = @"INSERT INTO FORMA_PAGAMENTO 
+							(FORMAPAG_DESC, FORMAPAG_DT_CRIACAO)
+							OUTPUT INSERTED.FORMAPAG_ID 
+							VALUES (@Descricao, @DtCriacao)";
 				}
-				else // Update
+				else
 				{
-					sql = "UPDATE FORMA_PAGAMENTO SET FORMAPAG_DESC = @Descricao WHERE FORMAPAG_ID = @Id";
+					sql = @"UPDATE FORMA_PAGAMENTO SET 
+							FORMAPAG_DESC = @Descricao, 
+							FORMAPAG_DT_ALT = @DtAlt
+							WHERE FORMAPAG_ID = @Id";
 				}
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					cmd.Parameters.AddWithValue("@Descricao", pagamento.Descricao);
 
-					if (pagamento.Id != 0)
+					if (pagamento.Id == 0)
+						cmd.Parameters.AddWithValue("@DtCriacao", pagamento.DtCriacao);
+					else
 					{
+						cmd.Parameters.AddWithValue("@DtAlt", pagamento.DtAlt);
 						cmd.Parameters.AddWithValue("@Id", pagamento.Id);
 					}
 
 					try
 					{
 						if (pagamento.Id == 0)
-						{
 							pagamento.Id = Convert.ToInt32(cmd.ExecuteScalar());
-							resultado = pagamento.Id.ToString();
-						}
 						else
-						{
 							cmd.ExecuteNonQuery();
-							resultado = pagamento.Id.ToString();
-						}
+
+						resultado = pagamento.Id.ToString();
 					}
 					catch (SqlException ex)
 					{
@@ -61,21 +63,20 @@ namespace projeto_pratica.daos
 					}
 				}
 			}
+
 			return resultado;
 		}
 
 		public override string Excluir(object obj)
 		{
-			FormaPagamento pagamento = (FormaPagamento)obj; // Cast obj to condicaoPagamento
+			FormaPagamento pagamento = (FormaPagamento)obj;
 			string resultado = "";
-			string sql = "DELETE FROM FORMA_PAGAMENTO WHERE FORMA	PAG_ID = @Id";
+			string sql = "DELETE FROM FORMA_PAGAMENTO WHERE FORMAPAG_ID = @Id";
 
 			using (SqlConnection conexao = Banco.Abrir())
 			{
 				if (conexao == null)
-				{
 					return "Erro ao conectar ao Banco de dados.";
-				}
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
@@ -84,15 +85,7 @@ namespace projeto_pratica.daos
 					try
 					{
 						int rowsAffected = cmd.ExecuteNonQuery();
-
-						if (rowsAffected > 0)
-						{
-							resultado = "OK"; // Successfully deleted
-						}
-						else
-						{
-							resultado = "Nenhum registro foi encontrado para exclusão.";
-						}
+						resultado = (rowsAffected > 0) ? "OK" : "Nenhum registro foi encontrado para exclusão.";
 					}
 					catch (SqlException ex)
 					{
@@ -110,11 +103,11 @@ namespace projeto_pratica.daos
 			using (SqlConnection conexao = Banco.Abrir())
 			{
 				if (conexao == null)
-				{
 					throw new Exception("Erro ao conectar ao Banco de dados.");
-				}
 
-				using (SqlCommand cmd = new SqlCommand("SELECT * FROM FORMA_PAGAMENTO", conexao))
+				string sql = @"SELECT * FROM FORMA_PAGAMENTO";
+
+				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					using (SqlDataReader dr = cmd.ExecuteReader())
 					{
@@ -123,7 +116,10 @@ namespace projeto_pratica.daos
 							lista.Add(new FormaPagamento
 							{
 								Id = Convert.ToInt32(dr["FORMAPAG_ID"]),
-								Descricao = dr["FORMAPAG_DESC"].ToString()
+								Descricao = dr["FORMAPAG_DESC"].ToString(),
+								DtCriacao = Convert.ToDateTime(dr["FORMAPAG_DT_CRIACAO"]),
+								DtAlt = dr["FORMAPAG_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["FORMAPAG_DT_ALT"]),
+
 							});
 						}
 					}

@@ -9,16 +9,47 @@ namespace projeto_pratica.classes
 	internal class Pai
 	{
 		protected int id;
+		protected DateTime dtCriacao;
+		protected DateTime dtAlt;
+		protected bool ativo;
 
 		public Pai()
 		{
 			id = 0;
-		}
-		public Pai(int id)
-		{
-			this.id = id;
+			dtCriacao = DateTime.Now;
+			dtAlt = DateTime.Now;
+			ativo = false;
 		}
 
-		public int Id { get; set; }
+		public Pai(int id, DateTime dtCriacao, DateTime dtAlt, bool ativo)
+		{
+			this.id = id;
+			this.dtCriacao = dtCriacao;
+			this.dtAlt = dtAlt;
+			this.ativo = ativo;
+		}
+
+		public int Id
+		{
+			get => id;
+			set => id = value;
+		}
+
+		public DateTime DtCriacao
+		{
+			get => dtCriacao;
+			set => dtCriacao = value;
+		}
+
+		public DateTime DtAlt
+		{
+			get => dtAlt;
+			set => dtAlt = value;
+		}
+		public bool Ativo
+		{
+			get => ativo;
+			set => ativo = value;
+		}
 	}
 }

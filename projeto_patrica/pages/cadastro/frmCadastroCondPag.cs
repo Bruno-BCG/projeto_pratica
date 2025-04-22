@@ -76,7 +76,7 @@ namespace projeto_pratica.pages.cadastro
 			oCondicaoPagamento.Descricao = txtDescricao.Text;
 			oCondicaoPagamento.NumParcelas = Convert.ToInt32(txtParcelas.Text);
 
-			if (int.TryParse(txtCodigo.Text, out int condPagId) && condPagId > 0)
+			if (int.TryParse(txtCodigo.Text, out int condPagId))
 			{
 				oCondicaoPagamento.Id = condPagId;
 			}
@@ -105,6 +105,7 @@ namespace projeto_pratica.pages.cadastro
 					txtCodigo.Text = novoId.ToString();
 					MessageBox.Show($"A condição de pagamento '{oCondicaoPagamento.Descricao}' foi salva com o código {txtCodigo.Text}, e todas as parcelas foram cadastradas.",
 						"Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
@@ -118,6 +119,7 @@ namespace projeto_pratica.pages.cadastro
 				if (resultado == "OK")
 				{
 					MessageBox.Show("Condição de pagamento excluída com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
@@ -196,6 +198,7 @@ namespace projeto_pratica.pages.cadastro
 				}
 			}
 		}
+
 		public void iniciarExclusao ()
 		{
 			this.btnCriarParc.Text = "Excluir";
@@ -227,7 +230,6 @@ namespace projeto_pratica.pages.cadastro
 				}
 			}
 		}
-
 
 		public void AlterarParcela()
 		{
@@ -261,6 +263,12 @@ namespace projeto_pratica.pages.cadastro
 			oParcelaCondPag.Percentual = percentual;
 			oParcelaCondPag.FormPagId = formaSelecionada.Id;
 			oParcelaCondPag.FormPagDesc = formaSelecionada.Descricao;
+
+			int index = oCondicaoPagamento.ParcelasCondPag.IndexOf(oParcelaCondPag);
+			if (index >= 0)
+			{
+				oCondicaoPagamento.ParcelasCondPag[index] = oParcelaCondPag;
+			}
 
 			CarregaLV();
 
@@ -346,8 +354,6 @@ namespace projeto_pratica.pages.cadastro
 
 		public void CarregaLV()
 		{
-			if (oCondicaoPagamento.Id == 0) return;
-
 			this.listV.Items.Clear();
 			var lista = oCondicaoPagamento.ParcelasCondPag;
 
@@ -362,7 +368,6 @@ namespace projeto_pratica.pages.cadastro
 				listV.Items.Add(item);
 			}
 		}
-
 		private void CarregarComboBoxFormaPag()
 		{
 			cbFormaPagamentos.Items.Clear();
@@ -428,6 +433,11 @@ namespace projeto_pratica.pages.cadastro
 			this.btnCancel.Enabled = false;
 
 			LimparTxtParcela();
+		}
+
+		private void frmCadastroCondpag_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

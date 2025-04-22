@@ -34,10 +34,11 @@
 			// 
 			// btnSair
 			// 
+			this.btnSair.AutoSize = true;
 			this.btnSair.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnSair.Location = new System.Drawing.Point(720, 408);
+			this.btnSair.Location = new System.Drawing.Point(862, 657);
 			this.btnSair.Name = "btnSair";
-			this.btnSair.Size = new System.Drawing.Size(80, 35);
+			this.btnSair.Size = new System.Drawing.Size(117, 35);
 			this.btnSair.TabIndex = 0;
 			this.btnSair.Text = "Sair";
 			this.btnSair.UseVisualStyleBackColor = true;
@@ -56,12 +57,14 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
-			this.ClientSize = new System.Drawing.Size(844, 476);
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Controls.Add(this.txtCodigo);
 			this.Controls.Add(this.btnSair);
 			this.Name = "frmBase";
 			this.ShowIcon = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "frmBase";
+			this.Load += new System.EventHandler(this.frmBase_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -40,19 +40,12 @@
 			this.dtpDataAdmissao = new System.Windows.Forms.DateTimePicker();
 			this.lblCargaHoraria = new System.Windows.Forms.Label();
 			this.txtCargaHoraria = new System.Windows.Forms.TextBox();
+			this.lblTurno = new System.Windows.Forms.Label();
+			this.txtTurno = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
-			// 
-			// txtNome
-			// 
-			this.txtNome.TabIndex = 2;
-			// 
-			// txtApelido
-			// 
-			this.txtApelido.TabIndex = 3;
 			// 
 			// txtEmail
 			// 
-			this.txtEmail.TabIndex = 4;
 			this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
 			// 
 			// txtCpf
@@ -79,8 +72,10 @@
 			// 
 			// dtpDataNascimento
 			// 
+			this.dtpDataNascimento.CustomFormat = " dd MMM yyyy";
 			this.dtpDataNascimento.Location = new System.Drawing.Point(436, 265);
 			this.dtpDataNascimento.TabIndex = 13;
+			this.dtpDataNascimento.Value = new System.DateTime(2025, 4, 9, 21, 24, 33, 0);
 			// 
 			// rbtnFisicaqqq
 			// 
@@ -92,25 +87,12 @@
 			this.rbtnJuridico.Enabled = false;
 			this.rbtnJuridico.TabStop = false;
 			// 
-			// txtEndereco
-			// 
-			this.txtEndereco.TabIndex = 6;
-			// 
-			// txtCep
-			// 
-			this.txtCep.TabIndex = 5;
-			// 
-			// txtBairro
-			// 
-			this.txtBairro.TabIndex = 7;
-			// 
 			// txtCidade
 			// 
 			this.txtCidade.TabIndex = 9;
 			// 
 			// txtCodCidade
 			// 
-			this.txtCodCidade.Enabled = false;
 			this.txtCodCidade.TabIndex = 8;
 			// 
 			// btnPesquisarCidade
@@ -128,12 +110,36 @@
 			// 
 			// btnSave
 			// 
-			this.btnSave.Location = new System.Drawing.Point(627, 530);
+			this.btnSave.Location = new System.Drawing.Point(719, 659);
 			this.btnSave.TabIndex = 22;
+			// 
+			// lblDataAlteracao
+			// 
+			this.lblDataAlteracao.Location = new System.Drawing.Point(247, 646);
+			// 
+			// lblDataCriacao
+			// 
+			this.lblDataCriacao.Location = new System.Drawing.Point(29, 646);
+			// 
+			// lblUserAlt
+			// 
+			this.lblUserAlt.Location = new System.Drawing.Point(477, 646);
+			// 
+			// txtDtCriacao
+			// 
+			this.txtDtCriacao.Location = new System.Drawing.Point(32, 665);
+			// 
+			// txtDtAlt
+			// 
+			this.txtDtAlt.Location = new System.Drawing.Point(250, 665);
+			// 
+			// txtUserAlt
+			// 
+			this.txtUserAlt.Location = new System.Drawing.Point(480, 665);
 			// 
 			// btnSair
 			// 
-			this.btnSair.Location = new System.Drawing.Point(720, 530);
+			this.btnSair.Location = new System.Drawing.Point(866, 659);
 			this.btnSair.TabIndex = 23;
 			// 
 			// txtMatricula
@@ -171,7 +177,7 @@
 			// lblSalBruto
 			// 
 			this.lblSalBruto.AutoSize = true;
-			this.lblSalBruto.Location = new System.Drawing.Point(432, 375);
+			this.lblSalBruto.Location = new System.Drawing.Point(20, 427);
 			this.lblSalBruto.Name = "lblSalBruto";
 			this.lblSalBruto.Size = new System.Drawing.Size(84, 16);
 			this.lblSalBruto.TabIndex = 42;
@@ -179,15 +185,15 @@
 			// 
 			// txtSalBruto
 			// 
-			this.txtSalBruto.Location = new System.Drawing.Point(436, 394);
+			this.txtSalBruto.Location = new System.Drawing.Point(24, 446);
 			this.txtSalBruto.Name = "txtSalBruto";
-			this.txtSalBruto.Size = new System.Drawing.Size(147, 22);
+			this.txtSalBruto.Size = new System.Drawing.Size(172, 22);
 			this.txtSalBruto.TabIndex = 18;
 			// 
 			// lblSalLiquido
 			// 
 			this.lblSalLiquido.AutoSize = true;
-			this.lblSalLiquido.Location = new System.Drawing.Point(624, 375);
+			this.lblSalLiquido.Location = new System.Drawing.Point(221, 427);
 			this.lblSalLiquido.Name = "lblSalLiquido";
 			this.lblSalLiquido.Size = new System.Drawing.Size(97, 16);
 			this.lblSalLiquido.TabIndex = 44;
@@ -195,7 +201,7 @@
 			// 
 			// txtSalLiquido
 			// 
-			this.txtSalLiquido.Location = new System.Drawing.Point(627, 394);
+			this.txtSalLiquido.Location = new System.Drawing.Point(224, 446);
 			this.txtSalLiquido.Name = "txtSalLiquido";
 			this.txtSalLiquido.Size = new System.Drawing.Size(173, 22);
 			this.txtSalLiquido.TabIndex = 19;
@@ -203,7 +209,7 @@
 			// lblDtAdmissao
 			// 
 			this.lblDtAdmissao.AutoSize = true;
-			this.lblDtAdmissao.Location = new System.Drawing.Point(20, 446);
+			this.lblDtAdmissao.Location = new System.Drawing.Point(433, 427);
 			this.lblDtAdmissao.Name = "lblDtAdmissao";
 			this.lblDtAdmissao.Size = new System.Drawing.Size(100, 16);
 			this.lblDtAdmissao.TabIndex = 46;
@@ -211,7 +217,7 @@
 			// 
 			// dtpDataAdmissao
 			// 
-			this.dtpDataAdmissao.Location = new System.Drawing.Point(23, 465);
+			this.dtpDataAdmissao.Location = new System.Drawing.Point(436, 446);
 			this.dtpDataAdmissao.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
 			this.dtpDataAdmissao.Name = "dtpDataAdmissao";
 			this.dtpDataAdmissao.Size = new System.Drawing.Size(204, 22);
@@ -220,7 +226,7 @@
 			// lblCargaHoraria
 			// 
 			this.lblCargaHoraria.AutoSize = true;
-			this.lblCargaHoraria.Location = new System.Drawing.Point(247, 446);
+			this.lblCargaHoraria.Location = new System.Drawing.Point(624, 373);
 			this.lblCargaHoraria.Name = "lblCargaHoraria";
 			this.lblCargaHoraria.Size = new System.Drawing.Size(92, 16);
 			this.lblCargaHoraria.TabIndex = 49;
@@ -228,15 +234,34 @@
 			// 
 			// txtCargaHoraria
 			// 
-			this.txtCargaHoraria.Location = new System.Drawing.Point(250, 465);
+			this.txtCargaHoraria.Location = new System.Drawing.Point(627, 392);
 			this.txtCargaHoraria.Name = "txtCargaHoraria";
-			this.txtCargaHoraria.Size = new System.Drawing.Size(173, 22);
+			this.txtCargaHoraria.Size = new System.Drawing.Size(137, 22);
 			this.txtCargaHoraria.TabIndex = 21;
+			// 
+			// lblTurno
+			// 
+			this.lblTurno.AutoSize = true;
+			this.lblTurno.Location = new System.Drawing.Point(433, 373);
+			this.lblTurno.Name = "lblTurno";
+			this.lblTurno.Size = new System.Drawing.Size(42, 16);
+			this.lblTurno.TabIndex = 51;
+			this.lblTurno.Text = "Turno";
+			// 
+			// txtTurno
+			// 
+			this.txtTurno.Location = new System.Drawing.Point(436, 392);
+			this.txtTurno.Name = "txtTurno";
+			this.txtTurno.Size = new System.Drawing.Size(137, 22);
+			this.txtTurno.TabIndex = 50;
 			// 
 			// frmCadastroFuncionario
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(844, 598);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(1006, 721);
+			this.Controls.Add(this.lblTurno);
+			this.Controls.Add(this.txtTurno);
 			this.Controls.Add(this.lblCargaHoraria);
 			this.Controls.Add(this.txtCargaHoraria);
 			this.Controls.Add(this.dtpDataAdmissao);
@@ -251,6 +276,7 @@
 			this.Controls.Add(this.txtMatricula);
 			this.Name = "frmCadastroFuncionario";
 			this.Text = "Cadastro Funcionario";
+			this.Load += new System.EventHandler(this.frmCadastroFuncionario_Load);
 			this.Controls.SetChildIndex(this.txtMatricula, 0);
 			this.Controls.SetChildIndex(this.lblMatricula, 0);
 			this.Controls.SetChildIndex(this.txtCargo, 0);
@@ -260,6 +286,19 @@
 			this.Controls.SetChildIndex(this.txtSalLiquido, 0);
 			this.Controls.SetChildIndex(this.lblSalLiquido, 0);
 			this.Controls.SetChildIndex(this.lblDtAdmissao, 0);
+			this.Controls.SetChildIndex(this.dtpDataAdmissao, 0);
+			this.Controls.SetChildIndex(this.txtCargaHoraria, 0);
+			this.Controls.SetChildIndex(this.lblCargaHoraria, 0);
+			this.Controls.SetChildIndex(this.txtTurno, 0);
+			this.Controls.SetChildIndex(this.lblTurno, 0);
+			this.Controls.SetChildIndex(this.lblNum, 0);
+			this.Controls.SetChildIndex(this.txtNum, 0);
+			this.Controls.SetChildIndex(this.lblDataCriacao, 0);
+			this.Controls.SetChildIndex(this.lblDataAlteracao, 0);
+			this.Controls.SetChildIndex(this.lblUserAlt, 0);
+			this.Controls.SetChildIndex(this.txtDtCriacao, 0);
+			this.Controls.SetChildIndex(this.txtDtAlt, 0);
+			this.Controls.SetChildIndex(this.txtUserAlt, 0);
 			this.Controls.SetChildIndex(this.lblNome, 0);
 			this.Controls.SetChildIndex(this.txtNome, 0);
 			this.Controls.SetChildIndex(this.rbtnFisicaqqq, 0);
@@ -292,9 +331,6 @@
 			this.Controls.SetChildIndex(this.lblTel, 0);
 			this.Controls.SetChildIndex(this.txtTel, 0);
 			this.Controls.SetChildIndex(this.ckbStatus, 0);
-			this.Controls.SetChildIndex(this.dtpDataAdmissao, 0);
-			this.Controls.SetChildIndex(this.txtCargaHoraria, 0);
-			this.Controls.SetChildIndex(this.lblCargaHoraria, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -314,5 +350,7 @@
 		private System.Windows.Forms.DateTimePicker dtpDataAdmissao;
 		private System.Windows.Forms.Label lblCargaHoraria;
 		private System.Windows.Forms.TextBox txtCargaHoraria;
+		private System.Windows.Forms.Label lblTurno;
+		private System.Windows.Forms.TextBox txtTurno;
 	}
 }

@@ -46,21 +46,20 @@ namespace projeto_pratica.pages.consulta
 			foreach (var cliente in lista)
 			{
 				ListViewItem item = new ListViewItem(Convert.ToString(cliente.Id));
-				item.SubItems.Add(cliente.Tipo);
-				item.SubItems.Add(cliente.Nome_razaoSocial);
-				item.SubItems.Add(cliente.Apelido_nomeFanta);
+				item.SubItems.Add(Convert.ToString(cliente.Tipo));
+				item.SubItems.Add(cliente.NomeRazaoSocial);
+				item.SubItems.Add(cliente.ApelidoFantasia);
 				item.SubItems.Add(Convert.ToString(cliente.DataNascimento));
 				item.SubItems.Add(Convert.ToString(cliente.OEndereco.ACidade.Id));
 				item.SubItems.Add(cliente.OEndereco.ACidade.Nome);
-				item.SubItems.Add(cliente.Cpf_cnpj);
+				item.SubItems.Add(cliente.CpfCnpj);
 				item.SubItems.Add(cliente.Email);
 				item.SubItems.Add(cliente.Telefone);
-				item.SubItems.Add(Convert.ToString(cliente.Status));
-				item.SubItems.Add(Convert.ToString(cliente.Estrangeiro));
-				item.SubItems.Add(cliente.OEndereco.EnderecoCompleto);
+				item.SubItems.Add(Convert.ToString(cliente.Ativo));
+				item.SubItems.Add(cliente.OEndereco.Endereco);
 				item.SubItems.Add(cliente.OEndereco.Bairro);
 				item.SubItems.Add(cliente.OEndereco.Cep);
-				item.SubItems.Add(cliente.Rg_inscricaoNum);
+				item.SubItems.Add(cliente.RgInscricaoEst);
 				listV.Items.Add(item);
 			}
 		}
@@ -107,19 +106,18 @@ namespace projeto_pratica.pages.consulta
 				oCliente = new Cliente
 				{
 					Id = Convert.ToInt32(item.SubItems[0].Text), 
-					Tipo = Convert.ToString(item.SubItems[1].Text[0]), 
-					Nome_razaoSocial = item.SubItems[2].Text,
-					Apelido_nomeFanta = item.SubItems[3].Text, 
+					Tipo = Convert.ToChar(item.SubItems[1].Text[0]), 
+					NomeRazaoSocial = item.SubItems[2].Text,
+					ApelidoFantasia = item.SubItems[3].Text, 
 					DataNascimento = DateTime.Parse(item.SubItems[4].Text), 
-					Cpf_cnpj = item.SubItems[7].Text, 
+					CpfCnpj = item.SubItems[7].Text, 
 					Email = item.SubItems[8].Text,
 					Telefone = item.SubItems[9].Text, 
-					Status = Convert.ToBoolean(item.SubItems[10].Text), 
-					Estrangeiro = Convert.ToBoolean(item.SubItems[11].Text), 
-					Rg_inscricaoNum = item.SubItems[15].Text,
-					OEndereco = new Endereco			
+					Ativo = Convert.ToBoolean(item.SubItems[10].Text), 
+					RgInscricaoEst = item.SubItems[15].Text,
+					OEndereco = new Enderecos		
 					{
-						EnderecoCompleto = item.SubItems[12].Text,
+						Endereco = item.SubItems[12].Text,
 						Bairro = item.SubItems[13].Text,
 						Cep = item.SubItems[14].Text,
 						ACidade = new Cidade

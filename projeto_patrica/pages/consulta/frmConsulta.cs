@@ -69,5 +69,10 @@ namespace projeto_pratica.pages.consulta
 		{
 			Pesquisar();
 		}
+
+		private void frmConsulta_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

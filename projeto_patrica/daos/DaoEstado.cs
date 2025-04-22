@@ -12,67 +12,66 @@ namespace projeto_pratica
 {
 	internal class DaoEstado : Dao
 	{
-		public DaoEstado()
-		{
-		}
 		public override string Salvar(object obj)
 		{
 			Estado oEstado = (Estado)obj;
-			string ok = "";
+			string resultado = "";
 			string sql;
 			char operacao = 'I';
 
 			using (SqlConnection cnn = Banco.Abrir())
 			{
 				if (cnn == null)
-				{
 					return "Erro ao conectar ao banco de dados.";
-				}
 
 				SqlCommand cmd = new SqlCommand();
 				cmd.Connection = cnn;
 
-				if (oEstado.Id == 0) // INSERT
+				if (oEstado.Id == 0)
 				{
-					sql = "INSERT INTO ESTADO (ESTADO_NOME, ESTADO_UF, PAIS_ID) " +
-						  "OUTPUT INSERTED.ESTADO_ID " +
-						  "VALUES (@nome, @uf, @paisId)";
+					sql = @"INSERT INTO ESTADO 
+							(ESTADO_NOME, ESTADO_UF, PAIS_ID, ESTADO_DT_CRIACAO)
+							OUTPUT INSERTED.ESTADO_ID
+							VALUES (@nome, @uf, @paisId, @dtCriacao)";
 				}
-				else // UPDATE
+				else
 				{
 					operacao = 'U';
-					sql = "UPDATE ESTADO SET ESTADO_NOME = @nome, ESTADO_UF = @uf, PAIS_ID = @paisId " +
-						  "WHERE ESTADO_ID = @id";
+					sql = @"UPDATE ESTADO SET 
+							ESTADO_NOME = @nome, 
+							ESTADO_UF = @uf, 
+							PAIS_ID = @paisId, 
+							ESTADO_DT_ALT = @dtAlt,
+							WHERE ESTADO_ID = @id";
 				}
 
 				cmd.CommandText = sql;
 				cmd.Parameters.AddWithValue("@nome", oEstado.Nome);
 				cmd.Parameters.AddWithValue("@uf", oEstado.Uf);
 				cmd.Parameters.AddWithValue("@paisId", oEstado.OPais.Id);
-
-				if (oEstado.Id != 0)
+				if (oEstado.Id == 0)
+					cmd.Parameters.AddWithValue("@dtCriacao", oEstado.DtCriacao);
+				else
+				{
+					cmd.Parameters.AddWithValue("@dtAlt", oEstado.DtAlt);
 					cmd.Parameters.AddWithValue("@id", oEstado.Id);
+				}
 
 				try
 				{
 					if (operacao == 'I')
-					{
 						oEstado.Id = Convert.ToInt32(cmd.ExecuteScalar());
-						ok = oEstado.Id.ToString();
-					}
 					else
-					{
 						cmd.ExecuteNonQuery();
-						ok = oEstado.Id.ToString();
-					}
+
+					resultado = oEstado.Id.ToString();
 				}
 				catch (SqlException ex)
 				{
-					ok = "Erro ao salvar: " + ex.Message;
+					resultado = "Erro ao salvar: " + ex.Message;
 				}
 			}
-
-			return ok;
+			return resultado;
 		}
 
 		public override string Excluir(object obj)
@@ -83,9 +82,7 @@ namespace projeto_pratica
 			using (SqlConnection cnn = Banco.Abrir())
 			{
 				if (cnn == null)
-				{
 					return "Erro ao conectar ao banco de dados.";
-				}
 
 				string sql = "DELETE FROM ESTADO WHERE ESTADO_ID = @id";
 				SqlCommand cmd = new SqlCommand(sql, cnn);
@@ -101,7 +98,6 @@ namespace projeto_pratica
 					resultado = "Erro ao excluir: " + ex.Message;
 				}
 			}
-
 			return resultado;
 		}
 
@@ -112,18 +108,17 @@ namespace projeto_pratica
 			using (SqlConnection conexao = Banco.Abrir())
 			{
 				if (conexao == null)
-				{
 					throw new Exception("Erro ao conectar ao Banco de dados.");
-				}
 
-				using (SqlCommand cmd = new SqlCommand(@"
+				string sql = @"
 				SELECT 
 					E.ESTADO_ID, E.ESTADO_NOME, E.ESTADO_UF, E.PAIS_ID,
+					E.ESTADO_DT_CRIACAO, E.ESTADO_DT_ALT,
 					P.PAIS_NOME, P.PAIS_SIGLA, P.PAIS_MOEDA, P.PAIS_DDI
-				FROM 
-					ESTADO E
-				INNER JOIN 
-					PAIS P ON E.PAIS_ID = P.PAIS_ID", conexao))
+				FROM ESTADO E
+				INNER JOIN PAIS P ON E.PAIS_ID = P.PAIS_ID";
+
+				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					using (SqlDataReader dr = cmd.ExecuteReader())
 					{
@@ -134,6 +129,8 @@ namespace projeto_pratica
 								Id = Convert.ToInt32(dr["ESTADO_ID"]),
 								Nome = dr["ESTADO_NOME"].ToString(),
 								Uf = dr["ESTADO_UF"].ToString(),
+								DtCriacao = Convert.ToDateTime(dr["ESTADO_DT_CRIACAO"]),
+								DtAlt = dr["ESTADO_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["ESTADO_DT_ALT"]),
 								OPais = new Pais
 								{
 									Id = Convert.ToInt32(dr["PAIS_ID"]),
@@ -147,10 +144,7 @@ namespace projeto_pratica
 					}
 				}
 			}
-
 			return lista;
 		}
-
-
 	}
 }

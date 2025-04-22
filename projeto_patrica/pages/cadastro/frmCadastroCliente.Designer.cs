@@ -33,10 +33,12 @@
 			// rbtnFisicaqqq
 			// 
 			this.rbtnFisicaqqq.Checked = true;
+			this.rbtnFisicaqqq.TabIndex = 29;
 			this.rbtnFisicaqqq.CheckedChanged += new System.EventHandler(this.rbtnFisicaqqq_CheckedChanged);
 			// 
 			// rbtnJuridico
 			// 
+			this.rbtnJuridico.TabIndex = 28;
 			this.rbtnJuridico.TabStop = false;
 			this.rbtnJuridico.CheckedChanged += new System.EventHandler(this.rbtnJuridico_CheckedChanged);
 			// 
@@ -44,14 +46,21 @@
 			// 
 			this.btnPesquisarCidade.Click += new System.EventHandler(this.btnPesquisarCidade_Click);
 			// 
-			// btnSave
+			// lblDataAlteracao
 			// 
+			this.lblDataAlteracao.Location = new System.Drawing.Point(281, 651);
+			// 
+			// txtDtAlt
+			// 
+			this.txtDtAlt.Location = new System.Drawing.Point(284, 670);
 			// 
 			// frmCadastroCliente
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(844, 476);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Name = "frmCadastroCliente";
+			this.Text = "Cadastro Cliente";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

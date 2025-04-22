@@ -41,7 +41,7 @@
             this.clUF,
             this.clPais,
             this.clIdPais});
-			this.listV.Location = new System.Drawing.Point(41, 74);
+			this.listV.Location = new System.Drawing.Point(24, 75);
 			this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
 			// 
 			// clNome
@@ -67,7 +67,8 @@
 			// frmConsultaEstados
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(829, 478);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Name = "frmConsultaEstados";
 			this.Text = "Consulta Estados";
 			this.ResumeLayout(false);

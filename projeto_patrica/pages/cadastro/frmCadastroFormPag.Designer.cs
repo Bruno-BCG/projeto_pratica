@@ -56,10 +56,16 @@
 			// frmCadastroFormPag
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(844, 476);
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Controls.Add(this.txtDescricao);
 			this.Controls.Add(this.lblDescricao);
 			this.Name = "frmCadastroFormPag";
+			this.Controls.SetChildIndex(this.lblDataCriacao, 0);
+			this.Controls.SetChildIndex(this.lblDataAlteracao, 0);
+			this.Controls.SetChildIndex(this.lblUserAlt, 0);
+			this.Controls.SetChildIndex(this.txtDtCriacao, 0);
+			this.Controls.SetChildIndex(this.txtDtAlt, 0);
+			this.Controls.SetChildIndex(this.txtUserAlt, 0);
 			this.Controls.SetChildIndex(this.btnSair, 0);
 			this.Controls.SetChildIndex(this.txtCodigo, 0);
 			this.Controls.SetChildIndex(this.btnSave, 0);

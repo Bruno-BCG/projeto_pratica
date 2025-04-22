@@ -65,7 +65,8 @@
 			// frmConsultaCidade
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(818, 461);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Name = "frmConsultaCidade";
 			this.Text = "Consulta Cidades";
 			this.ResumeLayout(false);

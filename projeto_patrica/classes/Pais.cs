@@ -21,7 +21,8 @@ namespace projeto_pratica.classes
 			ddi = " ";
 		}
 
-		public Pais(int id, string nome, string sigla, string moeda, string ddi) : base(id)
+		public Pais(int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, string nome, string sigla, string moeda, string ddi)
+			: base(id, dtCriacao, dtAlt, ativo)
 		{
 			this.nome = nome;
 			this.sigla = sigla;
@@ -40,6 +41,7 @@ namespace projeto_pratica.classes
 			get => sigla;
 			set => sigla = value;
 		}
+
 		public string Moeda
 		{
 			get => moeda;
@@ -51,6 +53,5 @@ namespace projeto_pratica.classes
 			get => ddi;
 			set => ddi = value;
 		}
-
 	}
 }

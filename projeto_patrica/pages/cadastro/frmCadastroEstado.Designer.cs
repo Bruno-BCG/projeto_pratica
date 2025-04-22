@@ -128,7 +128,8 @@
 			// frmCadastroEstado
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(818, 463);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Controls.Add(this.txtIdPais);
 			this.Controls.Add(this.lblIdPais);
 			this.Controls.Add(this.btnPesquisar);
@@ -140,6 +141,12 @@
 			this.Controls.Add(this.lblCidade);
 			this.Name = "frmCadastroEstado";
 			this.Text = "Cadastro Estado";
+			this.Controls.SetChildIndex(this.lblDataCriacao, 0);
+			this.Controls.SetChildIndex(this.lblDataAlteracao, 0);
+			this.Controls.SetChildIndex(this.lblUserAlt, 0);
+			this.Controls.SetChildIndex(this.txtDtCriacao, 0);
+			this.Controls.SetChildIndex(this.txtDtAlt, 0);
+			this.Controls.SetChildIndex(this.txtUserAlt, 0);
 			this.Controls.SetChildIndex(this.btnSave, 0);
 			this.Controls.SetChildIndex(this.lblCod, 0);
 			this.Controls.SetChildIndex(this.btnSair, 0);

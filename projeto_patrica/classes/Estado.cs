@@ -19,7 +19,8 @@ namespace projeto_pratica.classes
 			oPais = new Pais();
 		}
 
-		public Estado(int id, string nome, string uf, Pais oPais) : base()
+		public Estado(int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, string nome, string uf, Pais oPais)
+			: base(id, dtCriacao, dtAlt, ativo)
 		{
 			this.nome = nome;
 			this.uf = uf;

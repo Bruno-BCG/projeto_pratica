@@ -78,12 +78,14 @@ namespace projeto_pratica
 				if (resultado == "OK")
 				{
 					MessageBox.Show("País excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
 					MessageBox.Show($"Erro ao excluir: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
+            
 		}               
 
         public override void CarregarTxt()

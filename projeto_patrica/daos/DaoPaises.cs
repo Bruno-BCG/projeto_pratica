@@ -9,13 +9,10 @@ using projeto_pratica.daos;
 
 namespace projeto_pratica
 {
-    internal class DaoPaises : Dao
-    {
-        public DaoPaises()
-        {
-        }
-        public override string Salvar(object obj)
-        {
+	internal class DaoPaises : Dao
+	{
+		public override string Salvar(object obj)
+		{
 			Pais oPais = (Pais)obj;
 			string resultado = "";
 			string sql;
@@ -24,24 +21,28 @@ namespace projeto_pratica
 			using (SqlConnection cnn = Banco.Abrir())
 			{
 				if (cnn == null)
-				{
 					return "Erro ao conectar ao banco de dados.";
-				}
 
 				SqlCommand cmd = new SqlCommand();
 				cmd.Connection = cnn;
 
 				if (oPais.Id == 0)
 				{
-					sql = "INSERT INTO PAIS (PAIS_NOME, PAIS_SIGLA, PAIS_MOEDA, PAIS_DDI) " +
-						  "OUTPUT INSERTED.PAIS_ID " +
-						  "VALUES (@nome, @sigla, @moeda, @ddi)";
+					sql = @"INSERT INTO PAIS 
+							(PAIS_NOME, PAIS_SIGLA, PAIS_MOEDA, PAIS_DDI, PAIS_DT_CRIACAO)
+							OUTPUT INSERTED.PAIS_ID 
+							VALUES (@nome, @sigla, @moeda, @ddi, @dtCriacao)";
 				}
 				else
 				{
 					operacao = 'U';
-					sql = "UPDATE PAIS SET PAIS_NOME = @nome, PAIS_SIGLA = @sigla, PAIS_MOEDA = @moeda, PAIS_DDI = @ddi " +
-						  "WHERE PAIS_ID = @id";
+					sql = @"UPDATE PAIS SET 
+							PAIS_NOME = @nome, 
+							PAIS_SIGLA = @sigla, 
+							PAIS_MOEDA = @moeda, 
+							PAIS_DDI = @ddi,
+							PAIS_DT_ALT = @dtAlt
+							WHERE PAIS_ID = @id";
 				}
 
 				cmd.CommandText = sql;
@@ -50,21 +51,22 @@ namespace projeto_pratica
 				cmd.Parameters.AddWithValue("@moeda", oPais.Moeda);
 				cmd.Parameters.AddWithValue("@ddi", oPais.Ddi);
 
-				if (oPais.Id != 0)
+				if (oPais.Id == 0)
+					cmd.Parameters.AddWithValue("@dtCriacao", oPais.DtCriacao);
+				else
+				{
+					cmd.Parameters.AddWithValue("@dtAlt", oPais.DtAlt);
 					cmd.Parameters.AddWithValue("@id", oPais.Id);
+				}
 
 				try
 				{
 					if (operacao == 'I')
-					{
 						oPais.Id = Convert.ToInt32(cmd.ExecuteScalar());
-						resultado = oPais.Id.ToString();
-					}
 					else
-					{
 						cmd.ExecuteNonQuery();
-						resultado = oPais.Id.ToString();
-					}
+
+					resultado = oPais.Id.ToString();
 				}
 				catch (SqlException ex)
 				{
@@ -75,18 +77,18 @@ namespace projeto_pratica
 			return resultado;
 		}
 
-        public List<Pais> ListarPaises()
-        {
+		public List<Pais> ListarPaises()
+		{
 			List<Pais> lista = new List<Pais>();
 
 			using (SqlConnection conexao = Banco.Abrir())
 			{
 				if (conexao == null)
-				{
 					throw new Exception("Erro ao conectar ao Banco de dados.");
-				}
 
-				using (SqlCommand cmd = new SqlCommand("SELECT * FROM PAIS", conexao))
+				string sql = "SELECT * FROM PAIS";
+
+				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					using (SqlDataReader dr = cmd.ExecuteReader())
 					{
@@ -98,7 +100,9 @@ namespace projeto_pratica
 								Nome = dr["PAIS_NOME"].ToString(),
 								Sigla = dr["PAIS_SIGLA"].ToString(),
 								Moeda = dr["PAIS_MOEDA"].ToString(),
-								Ddi = dr["PAIS_DDI"].ToString()
+								Ddi = dr["PAIS_DDI"].ToString(),
+								DtCriacao = Convert.ToDateTime(dr["PAIS_DT_CRIACAO"]),
+								DtAlt = dr["PAIS_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["PAIS_DT_ALT"])
 							});
 						}
 					}
@@ -108,17 +112,15 @@ namespace projeto_pratica
 			return lista;
 		}
 
-        public override string Excluir(object obj)
-        {
+		public override string Excluir(object obj)
+		{
 			Pais oPais = (Pais)obj;
 			string resultado = "";
 
 			using (SqlConnection cnn = Banco.Abrir())
 			{
 				if (cnn == null)
-				{
 					return "Erro ao conectar ao banco de dados.";
-				}
 
 				string sql = "DELETE FROM PAIS WHERE PAIS_ID = @id";
 				SqlCommand cmd = new SqlCommand(sql, cnn);
@@ -134,9 +136,7 @@ namespace projeto_pratica
 					resultado = "Erro ao excluir: " + ex.Message;
 				}
 			}
-
 			return resultado;
 		}
-
-    }
+	}
 }

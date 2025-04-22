@@ -1,5 +1,6 @@
 ﻿using projeto_pratica.classes;
 using projeto_pratica.controllers;
+using projeto_pratica.daos;
 using projeto_pratica.pages.consulta;
 using System;
 using System.Collections.Generic;
@@ -81,11 +82,11 @@ namespace projeto_pratica.pages.cadastro
 				MessageBox.Show("O campo Email é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
-			oFuncionario.Tipo = "F";
-			oFuncionario.Nome_razaoSocial = txtNome.Text;
-			oFuncionario.Apelido_nomeFanta = txtApelido.Text;
-			oFuncionario.Cpf_cnpj = txtCpf.Text;
-			oFuncionario.Rg_inscricaoNum = txtRg.Text;
+			oFuncionario.Tipo = 'F';
+			oFuncionario.NomeRazaoSocial = txtNome.Text;
+			oFuncionario.ApelidoFantasia = txtApelido.Text;
+			oFuncionario.CpfCnpj = txtCpf.Text;
+			oFuncionario.RgInscricaoEst = txtRg.Text;
 			oFuncionario.Email = txtEmail.Text;
 			oFuncionario.Telefone = txtTel.Text;
 			oFuncionario.DataNascimento = dtpDataNascimento.Value;
@@ -96,7 +97,7 @@ namespace projeto_pratica.pages.cadastro
 			oFuncionario.CargaHoraria = Convert.ToInt32(txtCargaHoraria.Text);
 			oFuncionario.DataAdmissao = dtpDataAdmissao.Value;
 
-			oFuncionario.OEndereco.EnderecoCompleto = txtEndereco.Text;
+			oFuncionario.OEndereco.Endereco = txtEndereco.Text;
 			oFuncionario.OEndereco.Bairro = txtBairro.Text;
 			oFuncionario.OEndereco.Cep = txtCep.Text;
 			oFuncionario.OEndereco.ACidade = new Cidade
@@ -105,7 +106,7 @@ namespace projeto_pratica.pages.cadastro
 				Nome = txtCidade.Text
 			};
 
-			if (int.TryParse(txtCodigo.Text, out int funcionarioId) && funcionarioId > 0)
+			if (int.TryParse(txtCodigo.Text, out int funcionarioId))
 			{
 				oFuncionario.Id = funcionarioId;
 			}
@@ -117,7 +118,8 @@ namespace projeto_pratica.pages.cadastro
 				if (int.TryParse(resultado, out int novoId))
 				{
 					txtCodigo.Text = novoId.ToString();
-					MessageBox.Show($"Funcionário '{oFuncionario.Nome_razaoSocial}' foi salvo com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show($"Funcionário '{oFuncionario.NomeRazaoSocial}' foi salvo com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
@@ -131,28 +133,30 @@ namespace projeto_pratica.pages.cadastro
 				if (resultado == "OK")
 				{
 					MessageBox.Show("Funcionário excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
 					MessageBox.Show($"Erro ao excluir: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
+			
 		}
 
 		public override void CarregarTxt()
 		{
 			base.CarregarTxt();
 			txtCodigo.Text = oFuncionario.Id.ToString();
-			txtNome.Text = oFuncionario.Nome_razaoSocial;
-			txtApelido.Text = oFuncionario.Apelido_nomeFanta;
+			txtNome.Text = oFuncionario.NomeRazaoSocial;
+			txtApelido.Text = oFuncionario.ApelidoFantasia;
 			txtEmail.Text = oFuncionario.Email;
-			txtEndereco.Text = oFuncionario.OEndereco.EnderecoCompleto;
+			txtEndereco.Text = oFuncionario.OEndereco.Endereco;
 			txtCep.Text = oFuncionario.OEndereco.Cep;
 			txtBairro.Text = oFuncionario.OEndereco.Bairro;
 			txtCodCidade.Text = oFuncionario.OEndereco.ACidade.Id.ToString();
 			txtCidade.Text = oFuncionario.OEndereco.ACidade.Nome;
-			txtCpf.Text = oFuncionario.Cpf_cnpj;
-			txtRg.Text = oFuncionario.Rg_inscricaoNum;
+			txtCpf.Text = oFuncionario.CpfCnpj;
+			txtRg.Text = oFuncionario.RgInscricaoEst;
 			dtpDataNascimento.Value = oFuncionario.DataNascimento;
 			txtTel.Text = oFuncionario.Telefone;
 			txtMatricula.Text = oFuncionario.Matricula;
@@ -160,6 +164,8 @@ namespace projeto_pratica.pages.cadastro
 			txtSalBruto.Text = oFuncionario.SalarioBruto.ToString();
 			txtSalLiquido.Text = oFuncionario.SalarioLiquido.ToString();
 			txtCargaHoraria.Text = oFuncionario.CargaHoraria.ToString();
+			txtDtAlt.Text = Convert.ToString(oFuncionario.DtAlt);
+			txtDtCriacao.Text = Convert.ToString(oFuncionario.DtCriacao);
 		}
 
 		public override void BloqueiaTxt()
@@ -218,6 +224,11 @@ namespace projeto_pratica.pages.cadastro
 		}
 
 		private void txtEmail_TextChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void frmCadastroFuncionario_Load(object sender, EventArgs e)
 		{
 
 		}

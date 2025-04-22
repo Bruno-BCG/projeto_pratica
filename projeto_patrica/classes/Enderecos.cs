@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 
 namespace projeto_pratica.classes
 {
-	internal class Endereco
+	internal class Enderecos
 	{
-		protected string enderecoCompleto;
+		protected string endereco;
 		protected string bairro;
 		protected Cidade aCidade;
 		protected string cep;
-		public Endereco() 
+		public Enderecos() 
 		{ 
-			this.enderecoCompleto = " ";
+			this.endereco = " ";
 			this.bairro = " ";
 			this.cep = " ";
 			aCidade = new Cidade();
 		}
-		public Endereco(string enderecoCompleto, string bairro, Cidade aCidade, string cep)
+		public Enderecos(string endereco, string bairro, Cidade aCidade, string cep)
 		{
-			this.enderecoCompleto = enderecoCompleto;
+			this.endereco = endereco;
 			this.bairro = bairro;
 			this.aCidade = aCidade;
 			this.cep = cep;
 		}
 
-		public string EnderecoCompleto { get;  set; }
+		public string Endereco { get => endereco;  set => value = endereco; }
 		public string Bairro { get; set; }
 		public Cidade ACidade { get => aCidade; set => aCidade = value; }
 		public string Cep { get; set; }

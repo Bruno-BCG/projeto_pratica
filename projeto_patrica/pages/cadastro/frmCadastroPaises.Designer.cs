@@ -117,7 +117,8 @@
 			// frmCadastroPais
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(839, 485);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Controls.Add(this.txtDDI);
 			this.Controls.Add(this.lblDDI);
 			this.Controls.Add(this.txtMoeda);
@@ -128,6 +129,12 @@
 			this.Controls.Add(this.lblPais);
 			this.Name = "frmCadastroPais";
 			this.Text = "Cadastro Países";
+			this.Controls.SetChildIndex(this.lblDataCriacao, 0);
+			this.Controls.SetChildIndex(this.lblDataAlteracao, 0);
+			this.Controls.SetChildIndex(this.lblUserAlt, 0);
+			this.Controls.SetChildIndex(this.txtDtCriacao, 0);
+			this.Controls.SetChildIndex(this.txtDtAlt, 0);
+			this.Controls.SetChildIndex(this.txtUserAlt, 0);
 			this.Controls.SetChildIndex(this.btnSave, 0);
 			this.Controls.SetChildIndex(this.lblCod, 0);
 			this.Controls.SetChildIndex(this.lblPais, 0);

@@ -35,11 +35,40 @@ namespace projeto_pratica.classes
 			this.prazo = prazo;
 		}
 
-		public int CondPagId { get; set; }
-		public int FormPagId { get; set; }
-		public string FormPagDesc { get; set; }
-		public decimal Percentual { get; set; }
-		public int NumeroParcela { get; set; }
-		public int Prazo { get; set; }
+		public int CondPagId
+		{
+			get => condPagId;
+			set => condPagId = value;
+		}
+
+		public int FormPagId
+		{
+			get => formPagId;
+			set => formPagId = value;
+		}
+
+		public string FormPagDesc
+		{
+			get => formPagDesc;
+			set => formPagDesc = value;
+		}
+
+		public decimal Percentual
+		{
+			get => percentual;
+			set => percentual = value;
+		}
+
+		public int NumeroParcela
+		{
+			get => numeroParcela;
+			set => numeroParcela = value;
+		}
+
+		public int Prazo
+		{
+			get => prazo;
+			set => prazo = value;
+		}
 	}
 }

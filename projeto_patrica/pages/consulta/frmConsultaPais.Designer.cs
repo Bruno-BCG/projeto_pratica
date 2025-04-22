@@ -34,10 +34,6 @@
 			this.clDDI = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
 			// 
-			// btnExcluir
-			// 
-
-			// 
 			// listV
 			// 
 			this.listV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -73,7 +69,8 @@
 			// frmConsultaPais
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.ClientSize = new System.Drawing.Size(813, 450);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(1006, 721);
 			this.Name = "frmConsultaPais";
 			this.Text = "Consulta Países";
 			this.ResumeLayout(false);

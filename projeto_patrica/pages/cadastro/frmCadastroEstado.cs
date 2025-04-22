@@ -63,7 +63,7 @@ namespace projeto_pratica
 				oEstado.OPais.Id = paisId;
 			}
 
-			if (int.TryParse(txtCodigo.Text, out int estadoId) && estadoId > 0)
+			if (int.TryParse(txtCodigo.Text, out int estadoId))
 			{
 				oEstado.Id = estadoId;
 			}
@@ -76,6 +76,7 @@ namespace projeto_pratica
 				{
 					txtCodigo.Text = novoId.ToString();
 					MessageBox.Show($"Estado '{oEstado.Nome}' foi salvo com o código {txtCodigo.Text}.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
@@ -89,6 +90,7 @@ namespace projeto_pratica
 				if (resultado == "OK")
 				{
 					MessageBox.Show("Estado excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					Close();
 				}
 				else
 				{
