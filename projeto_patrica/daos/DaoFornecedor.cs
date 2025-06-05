@@ -16,32 +16,30 @@ namespace projeto_pratica.daos
 			Fornecedor oFornecedor = (Fornecedor)obj;
 			string resultado = "";
 			string sql;
-			char operacao = 'I';
 
 			using (SqlConnection cnn = Banco.Abrir())
 			{
-				if (cnn == null) return "Erro ao conectar ao banco de dados.";
-
-				SqlCommand cmd = new SqlCommand();
-				cmd.Connection = cnn;
+				if (cnn == null)
+					return "Erro ao conectar ao banco de dados.";
 
 				if (oFornecedor.Id == 0)
 				{
 					sql = @"INSERT INTO FORNECEDOR 
-						(FORNECEDOR_TIPO, FORNECEDOR_NOME_RS, FORNECEDOR_APELIDO_FANTASIA, FORNECEDOR_NASCIMENTO, 
-						 FORNECEDOR_CPF_CNPJ, FORNECEDOR_RG_INSCR, FORNECEDOR_EMAIL, 
-						 FORNECEDOR_TELEFONE, FORNECEDOR_STATUS, FORNECEDOR_ENDERECO, FORNECEDOR_BAIRRO, 
-						 FORNECEDOR_CEP, CIDADE_ID, CONDPAG_ID, FORNECEDOR_DT_CRIACAO)
-						OUTPUT INSERTED.FORNECEDOR_ID
-						VALUES 
-						(@tipo, @nomeRS, @apelidoFantasia, @nascimento, 
-						 @cpfCnpj, @rgInscr, @email, 
-						 @telefone, @status, @endereco, @bairro, @cep,
-						 @cidadeId, @condPagId, @dtCriacao)";
+					(FORNECEDOR_TIPO, FORNECEDOR_NOME_RS, FORNECEDOR_APELIDO_FANTASIA, FORNECEDOR_NASCIMENTO, 
+					 FORNECEDOR_CPF_CNPJ, FORNECEDOR_RG_INSCR, FORNECEDOR_EMAIL, FORNECEDOR_TELEFONE, 
+					 ATIVO, FORNECEDOR_ENDERECO, FORNECEDOR_NUM, FORNECEDOR_COMPLEMENTO, 
+					 FORNECEDOR_BAIRRO, FORNECEDOR_CEP, CIDADE_ID, CONDPAG_ID, LIMITE_CREDITO, 
+					 FORNECEDOR_DT_CRIACAO)
+					OUTPUT INSERTED.FORNECEDOR_ID
+					VALUES 
+					(@tipo, @nomeRS, @apelidoFantasia, @nascimento, 
+					 @cpfCnpj, @rgInscr, @email, @telefone, 
+					 @ativo, @endereco, @num, @complemento, 
+					 @bairro, @cep, @cidadeId, @condPagId, @limiteCredito, 
+					 @dtCriacao)";
 				}
 				else
 				{
-					operacao = 'U';
 					sql = @"UPDATE FORNECEDOR SET 
 						FORNECEDOR_TIPO = @tipo, 
 						FORNECEDOR_NOME_RS = @nomeRS, 
@@ -51,55 +49,64 @@ namespace projeto_pratica.daos
 						FORNECEDOR_RG_INSCR = @rgInscr, 
 						FORNECEDOR_EMAIL = @email, 
 						FORNECEDOR_TELEFONE = @telefone, 
-						FORNECEDOR_STATUS = @status, 
-						FORNECEDOR_ENDERECO = @endereco, 
+						ATIVO = @ativo, 
+						FORNECEDOR_ENDERECO = @endereco,
+						FORNECEDOR_NUM = @num,
+						FORNECEDOR_COMPLEMENTO = @complemento,
 						FORNECEDOR_BAIRRO = @bairro, 
 						FORNECEDOR_CEP = @cep,
 						CIDADE_ID = @cidadeId,
 						CONDPAG_ID = @condPagId,
+						LIMITE_CREDITO = @limiteCredito,
 						FORNECEDOR_DT_ALT = @dtAlt
 						WHERE FORNECEDOR_ID = @id";
 				}
 
-				cmd.CommandText = sql;
-				cmd.Parameters.AddWithValue("@tipo", oFornecedor.Tipo);
-				cmd.Parameters.AddWithValue("@nomeRS", oFornecedor.NomeRazaoSocial);
-				cmd.Parameters.AddWithValue("@apelidoFantasia", oFornecedor.ApelidoFantasia);
-				cmd.Parameters.AddWithValue("@nascimento", oFornecedor.DataNascimento);
-				cmd.Parameters.AddWithValue("@cpfCnpj", oFornecedor.CpfCnpj);
-				cmd.Parameters.AddWithValue("@rgInscr", oFornecedor.RgInscricaoEst);
-				cmd.Parameters.AddWithValue("@email", oFornecedor.Email);
-				cmd.Parameters.AddWithValue("@telefone", oFornecedor.Telefone);
-				cmd.Parameters.AddWithValue("@status", oFornecedor.Ativo);
-				cmd.Parameters.AddWithValue("@endereco", oFornecedor.OEndereco.Endereco);
-				cmd.Parameters.AddWithValue("@bairro", oFornecedor.OEndereco.Bairro);
-				cmd.Parameters.AddWithValue("@cep", oFornecedor.OEndereco.Cep);
-				cmd.Parameters.AddWithValue("@cidadeId", oFornecedor.OEndereco.ACidade.Id);
-				cmd.Parameters.AddWithValue("@condPagId", oFornecedor.ACondPag.Id);
-
-				if (oFornecedor.Id == 0)
-					cmd.Parameters.AddWithValue("@dtCriacao", oFornecedor.DtCriacao);
-				else
+				using (SqlCommand cmd = new SqlCommand(sql, cnn))
 				{
-					cmd.Parameters.AddWithValue("@dtAlt", DateTime.Now);
-					cmd.Parameters.AddWithValue("@id", oFornecedor.Id);
-				}
+					cmd.Parameters.AddWithValue("@tipo", oFornecedor.Tipo);
+					cmd.Parameters.AddWithValue("@nomeRS", oFornecedor.NomeRazaoSocial);
+					cmd.Parameters.AddWithValue("@apelidoFantasia", oFornecedor.ApelidoFantasia);
+					cmd.Parameters.AddWithValue("@nascimento", oFornecedor.DataNascimento);
+					cmd.Parameters.AddWithValue("@cpfCnpj", oFornecedor.CpfCnpj);
+					cmd.Parameters.AddWithValue("@rgInscr", oFornecedor.RgInscricaoEst);
+					cmd.Parameters.AddWithValue("@email", oFornecedor.Email);
+					cmd.Parameters.AddWithValue("@telefone", oFornecedor.Telefone);
+					cmd.Parameters.AddWithValue("@ativo", oFornecedor.Ativo);
+					cmd.Parameters.AddWithValue("@cidadeId", oFornecedor.OEndereco.ACidade.Id);
+					cmd.Parameters.AddWithValue("@endereco", oFornecedor.OEndereco.Endereco);
+					cmd.Parameters.AddWithValue("@num", oFornecedor.OEndereco.Num);
+					cmd.Parameters.AddWithValue("@complemento", oFornecedor.OEndereco.Complemento);
+					cmd.Parameters.AddWithValue("@bairro", oFornecedor.OEndereco.Bairro);
+					cmd.Parameters.AddWithValue("@cep", oFornecedor.OEndereco.Cep);
+					cmd.Parameters.AddWithValue("@limiteCredito", oFornecedor.LimiteCredito);
+					cmd.Parameters.AddWithValue("@condPagId", oFornecedor.ACondPag.Id);
 
-				try
-				{
-					if (operacao == 'I')
-						oFornecedor.Id = Convert.ToInt32(cmd.ExecuteScalar());
+					if (oFornecedor.Id == 0)
+					{
+						cmd.Parameters.AddWithValue("@dtCriacao", oFornecedor.DtCriacao);
+					}
 					else
-						cmd.ExecuteNonQuery();
+					{
+						cmd.Parameters.AddWithValue("@dtAlt", oFornecedor.DtAlt);
+						cmd.Parameters.AddWithValue("@id", oFornecedor.Id);
+					}
 
-					resultado = oFornecedor.Id.ToString();
-				}
-				catch (SqlException ex)
-				{
-					resultado = "Erro ao salvar: " + ex.Message;
+					try
+					{
+						if (oFornecedor.Id == 0)
+							oFornecedor.Id = Convert.ToInt32(cmd.ExecuteScalar());
+						else
+							cmd.ExecuteNonQuery();
+
+						resultado = oFornecedor.Id.ToString();
+					}
+					catch (SqlException ex)
+					{
+						resultado = "Erro ao salvar: " + ex.Message;
+					}
 				}
 			}
-
 			return resultado;
 		}
 
@@ -113,7 +120,7 @@ namespace projeto_pratica.daos
 				if (cnn == null)
 					return "Erro ao conectar ao banco de dados.";
 
-				string sql = "DELETE FROM FORNECEDOR WHERE FORNECEDOR_ID = @id";
+				string sql = "UPDATE FORNECEDOR SET ATIVO = 0 WHERE FORNECEDOR_ID = @id";
 				SqlCommand cmd = new SqlCommand(sql, cnn);
 				cmd.Parameters.AddWithValue("@id", oFornecedor.Id);
 
@@ -124,10 +131,11 @@ namespace projeto_pratica.daos
 				}
 				catch (SqlException ex)
 				{
-					resultado = "Erro ao excluir: " + ex.Message;
+					resultado = "Erro ao desativar: " + ex.Message;
 				}
-				return resultado;
 			}
+
+			return resultado;
 		}
 
 		public List<Fornecedor> Listar()
@@ -140,19 +148,21 @@ namespace projeto_pratica.daos
 					throw new Exception("Erro ao conectar ao banco de dados.");
 
 				string sql = @"
-					SELECT 
-						F.FORNECEDOR_ID, F.FORNECEDOR_TIPO, F.FORNECEDOR_NOME_RS, F.FORNECEDOR_APELIDO_FANTASIA,
-						F.FORNECEDOR_NASCIMENTO, F.FORNECEDOR_CPF_CNPJ, F.FORNECEDOR_RG_INSCR, F.FORNECEDOR_EMAIL,
-						F.FORNECEDOR_TELEFONE, F.FORNECEDOR_STATUS,
-						F.FORNECEDOR_ENDERECO, F.FORNECEDOR_BAIRRO, F.FORNECEDOR_CEP,
-						F.CONDPAG_ID, F.FORNECEDOR_DT_CRIACAO, F.FORNECEDOR_DT_ALT,
-						C.CIDADE_ID, C.CIDADE_NOME, C.CIDADE_DDD,
-						E.ESTADO_ID, E.ESTADO_NOME, E.ESTADO_UF,
-						P.PAIS_ID, P.PAIS_NOME, P.PAIS_SIGLA, P.PAIS_MOEDA, P.PAIS_DDI
-					FROM FORNECEDOR F
-					INNER JOIN CIDADE C ON F.CIDADE_ID = C.CIDADE_ID
-					INNER JOIN ESTADO E ON C.ESTADO_ID = E.ESTADO_ID
-					INNER JOIN PAIS P ON E.PAIS_ID = P.PAIS_ID";
+				SELECT 
+					F.FORNECEDOR_ID, F.FORNECEDOR_TIPO, F.FORNECEDOR_NOME_RS, F.FORNECEDOR_APELIDO_FANTASIA,
+					F.FORNECEDOR_NASCIMENTO, F.FORNECEDOR_CPF_CNPJ, F.FORNECEDOR_RG_INSCR, F.FORNECEDOR_EMAIL,
+					F.FORNECEDOR_TELEFONE, F.ATIVO,
+					F.FORNECEDOR_ENDERECO, F.FORNECEDOR_NUM, F.FORNECEDOR_COMPLEMENTO, F.FORNECEDOR_BAIRRO, F.FORNECEDOR_CEP,
+					F.CONDPAG_ID, CP.CONDPAG_DESC, F.LIMITE_CREDITO, F.FORNECEDOR_DT_CRIACAO, F.FORNECEDOR_DT_ALT,
+					C.CIDADE_ID, C.CIDADE_NOME, C.CIDADE_DDD,
+					E.ESTADO_ID, E.ESTADO_NOME, E.ESTADO_UF,
+					P.PAIS_ID, P.PAIS_NOME, P.PAIS_SIGLA, P.PAIS_MOEDA, P.PAIS_DDI
+				FROM FORNECEDOR F
+				INNER JOIN CIDADE C ON F.CIDADE_ID = C.CIDADE_ID
+				INNER JOIN ESTADO E ON C.ESTADO_ID = E.ESTADO_ID
+				INNER JOIN PAIS P ON E.PAIS_ID = P.PAIS_ID
+				INNER JOIN COND_PAGAMENTO CP ON CP.CONDPAG_ID = F.CONDPAG_ID
+				WHERE F.ATIVO = 1";
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
@@ -171,16 +181,20 @@ namespace projeto_pratica.daos
 								RgInscricaoEst = dr["FORNECEDOR_RG_INSCR"].ToString(),
 								Email = dr["FORNECEDOR_EMAIL"].ToString(),
 								Telefone = dr["FORNECEDOR_TELEFONE"].ToString(),
-								Ativo = Convert.ToBoolean(dr["FORNECEDOR_STATUS"]),
+								Ativo = Convert.ToBoolean(dr["ATIVO"]),
 								DtCriacao = Convert.ToDateTime(dr["FORNECEDOR_DT_CRIACAO"]),
 								DtAlt = dr["FORNECEDOR_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["FORNECEDOR_DT_ALT"]),
+								LimiteCredito = Convert.ToDouble(dr["LIMITE_CREDITO"]),
 								ACondPag = new CondicaoPagamento
 								{
-									Id = Convert.ToInt32(dr["CONDPAG_ID"])
+									Id = Convert.ToInt32(dr["CONDPAG_ID"]),
+									Descricao = dr["CONDPAG_DESC"].ToString(),
 								},
 								OEndereco = new Enderecos
 								{
 									Endereco = dr["FORNECEDOR_ENDERECO"].ToString(),
+									Num = dr["FORNECEDOR_NUM"].ToString(),
+									Complemento = dr["FORNECEDOR_COMPLEMENTO"].ToString(),
 									Bairro = dr["FORNECEDOR_BAIRRO"].ToString(),
 									Cep = dr["FORNECEDOR_CEP"].ToString(),
 									ACidade = new Cidade

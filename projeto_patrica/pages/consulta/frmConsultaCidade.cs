@@ -86,6 +86,7 @@ namespace projeto_pratica
                 item.SubItems.Add(aCidade.Ddd);
                 item.SubItems.Add(Convert.ToString(aCidade.OEstado.Id));
                 item.SubItems.Add(aCidade.OEstado.Nome);
+                item.Tag = aCidade;
                 listV.Items.Add(item);
             }
 
@@ -97,14 +98,14 @@ namespace projeto_pratica
 			{
                 btnExcluir.Enabled = true;
                 btnAlterar.Enabled = true;
-				ListViewItem selectedItem = listV.SelectedItems[0];
+				var selectedItem = (Cidade)listV.SelectedItems[0].Tag;
 
-				aCidade.Id = Convert.ToInt32(selectedItem.Text); 
-				aCidade.Nome = selectedItem.SubItems[1].Text;    
-				aCidade.Ddd = selectedItem.SubItems[2].Text;    
+				aCidade.Id = selectedItem.Id; 
+				aCidade.Nome = selectedItem.Nome;    
+				aCidade.Ddd = selectedItem.Ddd;    
 
-				aCidade.OEstado.Id = Convert.ToInt32(selectedItem.SubItems[3].Text); 
-				aCidade.OEstado.Nome = selectedItem.SubItems[4].Text;
+				aCidade.OEstado = selectedItem.OEstado; 
+
 			}
 		}
 	}

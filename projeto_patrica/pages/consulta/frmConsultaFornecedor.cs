@@ -52,18 +52,20 @@ namespace projeto_pratica.pages.consulta
 				item.SubItems.Add(fornecedor.Tipo.ToString());
 				item.SubItems.Add(fornecedor.NomeRazaoSocial);
 				item.SubItems.Add(fornecedor.ApelidoFantasia);
-				item.SubItems.Add(fornecedor.DataNascimento.ToShortDateString());
 				item.SubItems.Add(fornecedor.CpfCnpj);
 				item.SubItems.Add(fornecedor.RgInscricaoEst);
-				item.SubItems.Add(fornecedor.Email);
+                item.SubItems.Add(fornecedor.DataNascimento.ToShortDateString());
+                item.SubItems.Add(fornecedor.Email);
 				item.SubItems.Add(fornecedor.Telefone);
-				item.SubItems.Add(fornecedor.OEndereco.ACidade.Nome);
-				item.SubItems.Add(fornecedor.OEndereco.Endereco);
+                item.SubItems.Add(fornecedor.OEndereco.Cep);
+                item.SubItems.Add(fornecedor.OEndereco.Endereco);
 				item.SubItems.Add(fornecedor.OEndereco.Bairro);
+                item.SubItems.Add(fornecedor.OEndereco.ACidade.Nome);
+                item.SubItems.Add(fornecedor.ACondPag.Descricao);
+                item.SubItems.Add(Convert.ToString(fornecedor.LimiteCredito));
+                item.SubItems.Add(Convert.ToString(fornecedor.Ativo));
 
-				// Store the full object for later use
-				item.Tag = fornecedor;
-
+                item.Tag = fornecedor;
 				listV.Items.Add(item);
 			}
 		}
@@ -71,6 +73,8 @@ namespace projeto_pratica.pages.consulta
 		public override void Incluir()
 		{
 			base.Incluir();
+			oFornecedor = new Fornecedor();
+			oFrmCadFornecedor.DesbloqueiaTxt();
 			oFrmCadFornecedor.ConhecaObj(oFornecedor, aCtrlFornecedor);
 			oFrmCadFornecedor.LimparTxt();
 			oFrmCadFornecedor.ShowDialog();

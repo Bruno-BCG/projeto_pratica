@@ -86,9 +86,8 @@ namespace projeto_pratica
 
                 item.SubItems.Add(oEstado.Nome);                   
                 item.SubItems.Add(oEstado.Uf);                  
-                item.SubItems.Add(Convert.ToString(oEstado.OPais.Id)); 
                 item.SubItems.Add(oEstado.OPais.Nome);           
-
+                item.Tag = oEstado;
                 // Add the item to the ListView
                 listV.Items.Add(item);
             }
@@ -100,15 +99,15 @@ namespace projeto_pratica
             {
 				btnExcluir.Enabled = true;
 				btnAlterar.Enabled = true;
-				ListViewItem selectedItem = listV.SelectedItems[0];
+				var selectedItem = (Estado) listV.SelectedItems[0].Tag;
 
-				oEstado.Id = Convert.ToInt32(selectedItem.Text);
-				oEstado.Nome = selectedItem.SubItems[1].Text;  
-				oEstado.Uf = selectedItem.SubItems[2].Text;     
+				oEstado.Id = selectedItem.Id;
+				oEstado.Nome = selectedItem.Nome;  
+				oEstado.Uf = selectedItem.Uf;     
 
 				// Update the associated Pais
-				oEstado.OPais.Id = Convert.ToInt32(selectedItem.SubItems[3].Text); 
-				oEstado.OPais.Nome = selectedItem.SubItems[4].Text;
+				oEstado.OPais.Id = selectedItem.OPais.Id; 
+				oEstado.OPais.Nome = selectedItem.OPais.Nome;
 			}
         }
 	}

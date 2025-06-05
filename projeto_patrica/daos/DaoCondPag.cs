@@ -86,10 +86,14 @@ namespace projeto_pratica.daos
 				if (conexao == null)
 					return "Erro ao conectar ao Banco de dados.";
 
-				string sql = "DELETE FROM COND_PAGAMENTO WHERE CONDPAG_ID = @Id";
+				string sql = @"UPDATE COND_PAGAMENTO 
+                       SET ATIVO = 0, CONDPAG_DT_ALT = @DtAlt 
+                       WHERE CONDPAG_ID = @Id";
+
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					cmd.Parameters.AddWithValue("@Id", pagamento.Id);
+					cmd.Parameters.AddWithValue("@DtAlt", DateTime.Now);
 
 					try
 					{
@@ -102,6 +106,7 @@ namespace projeto_pratica.daos
 					}
 				}
 			}
+
 			return resultado;
 		}
 
@@ -114,7 +119,7 @@ namespace projeto_pratica.daos
 				if (conexao == null)
 					throw new Exception("Erro ao conectar ao Banco de dados.");
 
-				string sql = "SELECT * FROM COND_PAGAMENTO";
+				string sql = "SELECT * FROM COND_PAGAMENTO WHERE ATIVO = 1";
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
@@ -132,6 +137,7 @@ namespace projeto_pratica.daos
 								Desconto = Convert.ToDouble(dr["CONDPAG_DESCONTO"]),
 								DtCriacao = Convert.ToDateTime(dr["CONDPAG_DT_CRIACAO"]),
 								DtAlt = dr["CONDPAG_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["CONDPAG_DT_ALT"]),
+								Ativo = Convert.ToBoolean(dr["ATIVO"])
 							});
 						}
 					}

@@ -24,34 +24,38 @@ namespace projeto_pratica.daos
 				if (parcela.Id == 0)
 				{
 					sql = @"INSERT INTO PARCELA_CONDPAG 
-							(CONDPAG_ID, FORMAPAG_ID, PARCELA_PERCT, PARCELA_NUM, PARCELA_PRAZO, PARCELA_CONDPAG_DT_CRIACAO)
-							OUTPUT INSERTED.PARCELA_ID 
-							VALUES (@CondPagId, @FormPagId, @Percentual, @NumeroParcela, @Prazo, @DtCriacao)";
+					(CONDPAG_ID, FORMAPAG_ID, PARCELA_PERCT, PARCELA_NUM, PARCELA_PRAZO, PARCELA_CONDPAG_DT_CRIACAO, ATIVO)
+					OUTPUT INSERTED.PARCELA_ID 
+					VALUES (@CondPagId, @FormPagId, @Percentual, @NumeroParcela, @Prazo, 
+						    @DtCriacao, @Ativo)";
 				}
 				else
 				{
 					sql = @"UPDATE PARCELA_CONDPAG SET 
-							CONDPAG_ID = @CondPagId, 
-							FORMAPAG_ID = @FormPagId, 
-							PARCELA_PERCT = @Percentual, 
-							PARCELA_NUM = @NumeroParcela, 
-							PARCELA_PRAZO = @Prazo,
-							PARCELA_CONDPAG_DT_ALT = @DtAlt
-							WHERE PARCELA_ID = @Id";
+					CONDPAG_ID = @CondPagId, 
+					FORMAPAG_ID = @FormPagId, 
+					PARCELA_PERCT = @Percentual, 
+					PARCELA_NUM = @NumeroParcela, 
+					PARCELA_PRAZO = @Prazo,
+					PARCELA_CONDPAG_DT_ALT = @DtAlt
+					ATIVO = @Ativo
+					WHERE PARCELA_ID = @Id";
 				}
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					cmd.Parameters.AddWithValue("@CondPagId", parcela.CondPagId);
-					cmd.Parameters.AddWithValue("@FormPagId", parcela.FormPagId);
+					cmd.Parameters.AddWithValue("@FormPagId", parcela.AFormPag.Id);
 					cmd.Parameters.AddWithValue("@Percentual", parcela.Percentual);
 					cmd.Parameters.AddWithValue("@NumeroParcela", parcela.NumeroParcela);
 					cmd.Parameters.AddWithValue("@Prazo", parcela.Prazo);
+					cmd.Parameters.AddWithValue("@Ativo", parcela.Ativo);
 
 					if (parcela.Id == 0)
 						cmd.Parameters.AddWithValue("@DtCriacao", parcela.DtCriacao);
 					else
 					{
+						parcela.DtAlt = DateTime.Now;
 						cmd.Parameters.AddWithValue("@DtAlt", parcela.DtAlt);
 						cmd.Parameters.AddWithValue("@Id", parcela.Id);
 					}
@@ -84,11 +88,14 @@ namespace projeto_pratica.daos
 				if (conexao == null)
 					return "Erro ao conectar ao Banco de dados.";
 
-				string sql = "DELETE FROM PARCELA_CONDPAG WHERE PARCELA_ID = @Id";
+				string sql = @"UPDATE PARCELA_CONDPAG 
+					   SET ATIVO = 0, PARCELA_CONDPAG_DT_ALT = @DtAlt 
+					   WHERE PARCELA_ID = @Id";
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					cmd.Parameters.AddWithValue("@Id", parcela.Id);
+					cmd.Parameters.AddWithValue("@DtAlt", DateTime.Now);
 
 					try
 					{
@@ -121,7 +128,7 @@ namespace projeto_pratica.daos
 						f.FORMAPAG_DESC
 					FROM PARCELA_CONDPAG p
 					INNER JOIN FORMA_PAGAMENTO f ON p.FORMAPAG_ID = f.FORMAPAG_ID
-					WHERE p.CONDPAG_ID = @CondPagId";
+					WHERE p.CONDPAG_ID = @CondPagId AND p.ATIVO = 1";
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
@@ -135,13 +142,17 @@ namespace projeto_pratica.daos
 							{
 								Id = Convert.ToInt32(dr["PARCELA_ID"]),
 								CondPagId = Convert.ToInt32(dr["CONDPAG_ID"]),
-								FormPagId = Convert.ToInt32(dr["FORMAPAG_ID"]),
+								AFormPag = new FormaPagamento
+								{
+									Id = Convert.ToInt32(dr["FORMAPAG_ID"]),
+									Descricao = dr["FORMAPAG_DESC"].ToString()
+								},
 								Percentual = Convert.ToDecimal(dr["PARCELA_PERCT"]),
 								NumeroParcela = Convert.ToInt32(dr["PARCELA_NUM"]),
 								Prazo = Convert.ToInt32(dr["PARCELA_PRAZO"]),
 								DtCriacao = Convert.ToDateTime(dr["PARCELA_CONDPAG_DT_CRIACAO"]),
 								DtAlt = dr["PARCELA_CONDPAG_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["PARCELA_CONDPAG_DT_ALT"]),
-								FormPagDesc = dr["FORMAPAG_DESC"].ToString()
+								
 							});
 						}
 					}

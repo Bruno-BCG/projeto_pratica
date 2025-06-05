@@ -1,10 +1,13 @@
 ﻿using projeto_pratica.classes;
 using projeto_pratica.controllers;
+using projeto_pratica.daos;
+using projeto_pratica.pages.consulta;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -15,13 +18,16 @@ namespace projeto_pratica.pages.cadastro
 		private Cliente oCliente;
 		private CtrlCliente aCtrlCliente;
 		private CtrlCidade aCtrlCidade;
+		private CtrlCondPag aCtrlCondPag;
 		private frmConsultaCidade aFrmConCidade;
+		private frmConsultaCondPag aFrmConCondPag;
 		public frmCadastroCliente()
 		{
 			InitializeComponent();
 			oCliente = new Cliente();
 			aCtrlCliente = new CtrlCliente();
 			aCtrlCidade = new CtrlCidade();
+			aCtrlCondPag = new CtrlCondPag();
 		}
 
 		public override void ConhecaObj(object obj, object ctrl)
@@ -32,6 +38,10 @@ namespace projeto_pratica.pages.cadastro
 		public void setFrmConsultaCidade(object obj)
 		{
 			aFrmConCidade = (frmConsultaCidade)obj;
+		}
+		public void setFrmConsultaCondPag(object obj)
+		{
+			aFrmConCondPag = (frmConsultaCondPag)obj;
 		}
 
 		public override void LimparTxt()
@@ -50,6 +60,11 @@ namespace projeto_pratica.pages.cadastro
 			this.txtRg.Clear();
 			this.dtpDataNascimento.Value = DateTime.Now;
 			this.txtTel.Clear();
+			this.txtNum.Clear();
+			this.txtComple.Clear();
+			this.txtCondPag.Clear();
+			this.txtEstado.Clear();
+			this.txtLimiteCredito.Clear();
 		}
 
 		public override void Salvar()
@@ -62,7 +77,7 @@ namespace projeto_pratica.pages.cadastro
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(txtCpf.Text) || (oCliente.OEndereco.ACidade.OEstado.OPais.Nome == "Brasil"))
+			if (string.IsNullOrWhiteSpace(txtCpf.Text) && (oCliente.OEndereco.ACidade.OEstado.OPais.Nome == "Brasil"))
 			{
 				MessageBox.Show("O campo CPF/CNPJ é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
@@ -74,14 +89,7 @@ namespace projeto_pratica.pages.cadastro
 				return;
 			}
 
-			if (rbtnFisicaqqq.Checked)
-			{
-				oCliente.Tipo = 'F';
-			}
-			else if (rbtnJuridico.Checked)
-			{
-				oCliente.Tipo = 'J';
-			}
+			oCliente.Tipo = rbtnFisica.Checked ? 'F' : 'J';
 
 			oCliente.NomeRazaoSocial = txtNome.Text;
 			oCliente.ApelidoFantasia = txtApelido.Text;
@@ -94,6 +102,8 @@ namespace projeto_pratica.pages.cadastro
 
 			oCliente.OEndereco.Endereco = txtEndereco.Text;
 			oCliente.OEndereco.Bairro = txtBairro.Text;
+			oCliente.OEndereco.Num = txtNum.Text;
+			oCliente.OEndereco.Complemento = txtComple.Text;
 			oCliente.OEndereco.Cep = txtCep.Text;
 			oCliente.OEndereco.ACidade = new Cidade
 			{
@@ -101,11 +111,19 @@ namespace projeto_pratica.pages.cadastro
 				Nome = txtCidade.Text
 			};
 
-			if (int.TryParse(txtCodigo.Text, out int clienteId) && clienteId > 0)
+			// Identifica se é um cliente novo ou existente
+			if (int.TryParse(txtCodigo.Text, out int clienteId))
 			{
 				oCliente.Id = clienteId;
 			}
 
+			// Define as datas
+			if (oCliente.Id > 0)
+				oCliente.DtAlt = DateTime.Now;
+			else
+				oCliente.DtCriacao = DateTime.Now;
+
+			// Salvar ou excluir
 			if (btnSave.Text == "Salvar")
 			{
 				string resultado = aCtrlCliente.Salvar(oCliente);
@@ -155,7 +173,14 @@ namespace projeto_pratica.pages.cadastro
 			txtTel.Text = oCliente.Telefone;
 			txtDtAlt.Text = Convert.ToString(oCliente.DtAlt);
 			txtDtCriacao.Text = Convert.ToString(oCliente.DtCriacao);
+			txtComple.Text = oCliente.OEndereco.Complemento;
+			txtNum.Text = Convert.ToString(oCliente.OEndereco.Num);
+			txtEstado.Text = oCliente.OEndereco.ACidade.OEstado.Nome;
+			txtCondPag.Text = oCliente.ACondPag.Descricao;
+			txtLimiteCredito.Text = Convert.ToString(oCliente.LimiteCredito);
 
+			rbtnFisica.Enabled = false;
+			rbtnJuridico.Enabled = false;
 		}
 
 		public override void BloqueiaTxt()
@@ -166,14 +191,22 @@ namespace projeto_pratica.pages.cadastro
 			txtApelido.Enabled = false;
 			txtEmail.Enabled = false;
 			txtEndereco.Enabled = false;
+			txtNum.Enabled = false;
+			txtComple.Enabled = false;
 			txtCep.Enabled = false;
 			txtBairro.Enabled = false;
-			txtCodCidade.Enabled = false;
-			txtCidade.Enabled = false;
 			txtCpf.Enabled = false;
 			txtRg.Enabled = false;
 			dtpDataNascimento.Enabled = false;
 			txtTel.Enabled = false;
+			txtCondPag.Enabled = false;
+			txtLimiteCredito.Enabled = false;
+
+			btnPesquisarCidade.Enabled = false;
+			btnPesquisarCondPag.Enabled = false;
+
+			rbtnFisica.Enabled=false;
+			rbtnJuridico.Enabled=false;
 		}
 
 		public override void DesbloqueiaTxt()
@@ -184,14 +217,24 @@ namespace projeto_pratica.pages.cadastro
 			txtApelido.Enabled = true;
 			txtEmail.Enabled = true;
 			txtEndereco.Enabled = true;
+			txtNum.Enabled = true;
+			txtComple.Enabled = true;
 			txtCep.Enabled = true;
 			txtBairro.Enabled = true;
-			txtCodCidade.Enabled = true;
-			txtCidade.Enabled = true;
 			txtCpf.Enabled = true;
 			txtRg.Enabled = true;
 			dtpDataNascimento.Enabled = true;
 			txtTel.Enabled = true;
+			txtCondPag.Enabled = true;
+			txtLimiteCredito.Enabled = true;
+
+			btnPesquisarCidade.Enabled = true;
+			btnPesquisarCondPag.Enabled = true;
+
+			rbtnFisica.Enabled = true;
+			rbtnJuridico.Enabled = true;
+
+
 		}
 
 		private void btnPesquisarCidade_Click(object sender, EventArgs e)
@@ -200,11 +243,11 @@ namespace projeto_pratica.pages.cadastro
 			aFrmConCidade.ShowDialog();
 			txtCodCidade.Text = Convert.ToString(oCliente.OEndereco.ACidade.Id);
 			txtCidade.Text = oCliente.OEndereco.ACidade.Nome;
+			txtEstado.Text = oCliente.OEndereco.ACidade.OEstado.Nome;
 		}
 
 		private void rbtnFisicaqqq_CheckedChanged(object sender, EventArgs e)
 		{
-			lblNome.Text = "Nome";
 			lblApelido.Text = "Apelido";
 			lblCPF.Text = "CPF";
 			lblRG.Text = "RG";
@@ -219,7 +262,6 @@ namespace projeto_pratica.pages.cadastro
 
 		private void rbtnJuridico_CheckedChanged(object sender, EventArgs e)
 		{
-			lblNome.Text = "Razao Social";
 			lblApelido.Text = "Nome Fantasia";
 			lblCPF.Text = "CNPJ";
 			lblRG.Text = "Inscrição Estadual";
@@ -232,5 +274,16 @@ namespace projeto_pratica.pages.cadastro
 			this.dtpDataNascimento.Value = DateTime.Now;
 		}
 
-	}
+		private void btnPesquisarCondPag_Click(object sender, EventArgs e)
+		{
+			aFrmConCondPag.ConhecaObj(oCliente.ACondPag, aCtrlCondPag);
+			aFrmConCondPag.ShowDialog();
+			txtCondPag.Text = oCliente.ACondPag.Descricao;
+		}
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

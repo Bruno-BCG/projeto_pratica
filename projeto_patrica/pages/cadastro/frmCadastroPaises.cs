@@ -35,6 +35,9 @@ namespace projeto_pratica
             this.txtPais.Clear();
             this.txtSigla.Clear();
             this.txtDDI.Clear();            
+
+            this.txtDtCriacao.Clear();
+            this.txtDtAlt.Clear();
         }
 
         public override void Salvar()
@@ -96,6 +99,9 @@ namespace projeto_pratica
             this.txtPais.Text = oPais.Nome;
             this.txtSigla.Text = oPais.Sigla;
             this.txtDDI.Text = oPais.Ddi;
+
+            this.txtDtCriacao.Text = oPais.DtCriacao.ToString();
+            this.txtDtAlt.Text = oPais.DtAlt.ToString();
         }
 
         public override void BloqueiaTxt()

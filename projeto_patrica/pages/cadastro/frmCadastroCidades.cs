@@ -41,6 +41,9 @@ namespace projeto_pratica
             this.txtCidade.Clear();
             this.txtDDD.Clear();
             this.txtEstado.Clear();
+
+            this.txtDtCriacao.Clear();
+            this.txtDtAlt.Clear();
         }
 
 		public override void Salvar()
@@ -106,6 +109,9 @@ namespace projeto_pratica
             this.txtDDD.Text = aCidade.Ddd;
             this.txtEstado.Text = aCidade.OEstado.Nome;
             this.txtIdEstado.Text = Convert.ToString(aCidade.OEstado.Id);
+
+            this.txtDtCriacao.Text = aCidade.DtCriacao.ToString();
+            this.txtDtAlt.Text = aCidade.DtAlt.ToString();
         }
 
         public override void BloqueiaTxt()

@@ -87,6 +87,7 @@ namespace projeto_pratica
                 item.SubItems.Add(oPais.Sigla);
                 item.SubItems.Add(oPais.Moeda);
                 item.SubItems.Add(oPais.Ddi);
+                item.Tag = oPais;
                 listV.Items.Add(item);
             }
         }
@@ -97,14 +98,20 @@ namespace projeto_pratica
 			{
 				btnExcluir.Enabled = true;
 				btnAlterar.Enabled = true;
-				ListViewItem selectedItem = listV.SelectedItems[0];
+				var selecionado = (Pais)listV.SelectedItems[0].Tag;
 
-				oPais.Id = Convert.ToInt32(selectedItem.Text); 
-				oPais.Nome = selectedItem.SubItems[1].Text;    
-				oPais.Sigla = selectedItem.SubItems[2].Text;   
-				oPais.Moeda = selectedItem.SubItems[3].Text; 
-				oPais.Ddi = selectedItem.SubItems[4].Text;     
+				// Preenche o objeto já conhecido, sem substituir a referência
+				oPais.Id = selecionado.Id;
+				oPais.Nome = selecionado.Nome;
+				oPais.Sigla = selecionado.Sigla;
+				oPais.Moeda = selecionado.Moeda;
+				oPais.Ddi = selecionado.Ddi;
 			}
 		}
+
+        private void frmConsultaPais_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -28,53 +28,54 @@
         /// </summary>
         private void InitializeComponent()
         {
-			this.clNome = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clSigla = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clMoeda = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clDDI = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.SuspendLayout();
-			// 
-			// listV
-			// 
-			this.listV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clNome = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clSigla = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clMoeda = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clDDI = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SuspendLayout();
+            // 
+            // listV
+            // 
+            this.listV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clNome,
             this.clSigla,
             this.clMoeda,
             this.clDDI});
-			this.listV.SelectedIndexChanged += new System.EventHandler(this.ListV_SelectedIndexChanged);
-			// 
-			// clNome
-			// 
-			this.clNome.Text = "Nome";
-			this.clNome.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.clNome.Width = 200;
-			// 
-			// clSigla
-			// 
-			this.clSigla.Text = "Sigla";
-			this.clSigla.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// clMoeda
-			// 
-			this.clMoeda.Text = "Moeda";
-			this.clMoeda.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.clMoeda.Width = 114;
-			// 
-			// clDDI
-			// 
-			this.clDDI.Text = "DDI";
-			this.clDDI.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.clDDI.Width = 61;
-			// 
-			// frmConsultaPais
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(1006, 721);
-			this.Name = "frmConsultaPais";
-			this.Text = "Consulta Países";
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.listV.SelectedIndexChanged += new System.EventHandler(this.ListV_SelectedIndexChanged);
+            // 
+            // clNome
+            // 
+            this.clNome.Text = "Nome";
+            this.clNome.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.clNome.Width = 200;
+            // 
+            // clSigla
+            // 
+            this.clSigla.Text = "Sigla";
+            this.clSigla.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // clMoeda
+            // 
+            this.clMoeda.Text = "Moeda";
+            this.clMoeda.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.clMoeda.Width = 114;
+            // 
+            // clDDI
+            // 
+            this.clDDI.Text = "DDI";
+            this.clDDI.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.clDDI.Width = 61;
+            // 
+            // frmConsultaPais
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(754, 586);
+            this.Name = "frmConsultaPais";
+            this.Text = "Consulta Países";
+            this.Load += new System.EventHandler(this.frmConsultaPais_Load);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

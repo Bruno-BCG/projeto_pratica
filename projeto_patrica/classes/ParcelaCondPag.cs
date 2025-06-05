@@ -9,8 +9,7 @@ namespace projeto_pratica.classes
 	internal class ParcelaCondPag : Pai
 	{
 		protected int condPagId;
-		protected int formPagId;
-		protected string formPagDesc;
+		protected FormaPagamento aFormPag;
 		protected decimal percentual;
 		protected int numeroParcela;
 		protected int prazo;
@@ -18,18 +17,16 @@ namespace projeto_pratica.classes
 		public ParcelaCondPag()
 		{
 			condPagId = 0;
-			formPagId = 0;
-			formPagDesc = string.Empty;
+			aFormPag = new FormaPagamento();
 			percentual = 0;
 			numeroParcela = 0;
 			prazo = 0;
 		}
 
-		public ParcelaCondPag(int condPagId, int formPagId, string formPagDesc, decimal percentual, int numeroParcela, int prazo)
+		public ParcelaCondPag(int condPagId, FormaPagamento aFormPag, decimal percentual, int numeroParcela, int prazo)
 		{
 			this.condPagId = condPagId;
-			this.formPagId = formPagId;
-			this.formPagDesc = formPagDesc;
+			this.aFormPag = aFormPag;
 			this.percentual = percentual;
 			this.numeroParcela = numeroParcela;
 			this.prazo = prazo;
@@ -41,16 +38,10 @@ namespace projeto_pratica.classes
 			set => condPagId = value;
 		}
 
-		public int FormPagId
+		public FormaPagamento AFormPag
 		{
-			get => formPagId;
-			set => formPagId = value;
-		}
-
-		public string FormPagDesc
-		{
-			get => formPagDesc;
-			set => formPagDesc = value;
+			get => aFormPag;
+			set => aFormPag = value;
 		}
 
 		public decimal Percentual

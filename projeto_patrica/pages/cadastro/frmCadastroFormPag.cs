@@ -31,12 +31,18 @@ namespace projeto_pratica.pages.cadastro
 			base.LimparTxt(); ;
 			txtCodigo.Text = "0";
 			txtDescricao.Clear();
+
+			txtDtAlt.Clear();
+			txtDtCriacao.Clear();
 		}
 		public override void CarregarTxt()
 		{
 			base.CarregarTxt();
 			txtCodigo.Text = Convert.ToString(aFormaPagamento.Id);
 			txtDescricao.Text = aFormaPagamento.Descricao;
+
+			txtDtCriacao.Text = aFormaPagamento.DtCriacao.ToString();
+			txtDtAlt.Text = aFormaPagamento.DtAlt.ToString();	
 			
 		}
 
@@ -72,6 +78,10 @@ namespace projeto_pratica.pages.cadastro
 				aFormaPagamento.Id = existingId;
 			}
 
+			if (aFormaPagamento.Id > 0)
+				aFormaPagamento.DtAlt = DateTime.Now;
+			else
+				aFormaPagamento.DtCriacao = DateTime.Now;
 
 			if (btnSave.Text == "Salvar")
 			{

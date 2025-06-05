@@ -71,7 +71,10 @@ namespace projeto_pratica.daos
 		{
 			FormaPagamento pagamento = (FormaPagamento)obj;
 			string resultado = "";
-			string sql = "DELETE FROM FORMA_PAGAMENTO WHERE FORMAPAG_ID = @Id";
+			string sql = @"
+						UPDATE FORMA_PAGAMENTO 
+						SET ATIVO = 0, FORMAPAG_DT_ALT = @dtAlt 
+						WHERE FORMAPAG_ID = @Id";
 
 			using (SqlConnection conexao = Banco.Abrir())
 			{
@@ -81,6 +84,7 @@ namespace projeto_pratica.daos
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
 					cmd.Parameters.AddWithValue("@Id", pagamento.Id);
+					cmd.Parameters.AddWithValue("@dtAlt", DateTime.Now);
 
 					try
 					{
@@ -105,7 +109,8 @@ namespace projeto_pratica.daos
 				if (conexao == null)
 					throw new Exception("Erro ao conectar ao Banco de dados.");
 
-				string sql = @"SELECT * FROM FORMA_PAGAMENTO";
+				string sql = @"SELECT * FROM FORMA_PAGAMENTO
+							   WHERE ATIVO = 1";
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{

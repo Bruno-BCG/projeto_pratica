@@ -50,22 +50,21 @@ namespace projeto_pratica.pages.consulta
 				item.SubItems.Add(f.Tipo.ToString());
 				item.SubItems.Add(f.NomeRazaoSocial);
 				item.SubItems.Add(f.ApelidoFantasia);
-				item.SubItems.Add(f.DataNascimento.ToShortDateString());
 				item.SubItems.Add(f.CpfCnpj);
 				item.SubItems.Add(f.RgInscricaoEst);
-				item.SubItems.Add(f.Email);
+                item.SubItems.Add(f.DataNascimento.ToShortDateString());
+                item.SubItems.Add(f.Email);
 				item.SubItems.Add(f.Telefone);
-				item.SubItems.Add(f.Ativo.ToString());
 				item.SubItems.Add(f.Matricula);
 				item.SubItems.Add(f.Cargo);
 				item.SubItems.Add(f.SalarioBruto.ToString("F2"));
 				item.SubItems.Add(f.SalarioLiquido.ToString("F2"));
 				item.SubItems.Add(f.DataAdmissao.ToShortDateString());
 				item.SubItems.Add(f.CargaHoraria.ToString());
-				item.SubItems.Add(f.Turno); // Include if exists
-				item.SubItems.Add(f.OEndereco?.ACidade?.Nome ?? "");
+				item.SubItems.Add(f.Turno);
+                item.SubItems.Add(f.Ativo.ToString());
 
-				item.Tag = f; // 🌟 Store the full object
+                item.Tag = f; 
 				listV.Items.Add(item);
 			}
 		}

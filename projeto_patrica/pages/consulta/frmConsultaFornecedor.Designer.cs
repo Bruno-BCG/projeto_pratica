@@ -28,22 +28,26 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.clTipo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clNome = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clApelido = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clDtNasc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clCPF = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clEmail = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clTelefone = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clCidade = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clEndereco = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clRG = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.clBairro = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.SuspendLayout();
-			// 
-			// listV
-			// 
-			this.listV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clTipo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clNome = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clApelido = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clDtNasc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clCPF = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clEmail = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clTelefone = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clCidade = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clEndereco = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clRG = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clBairro = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clCondPag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clCep = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clLimitCredit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clAtivo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SuspendLayout();
+            // 
+            // listV
+            // 
+            this.listV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clTipo,
             this.clNome,
             this.clApelido,
@@ -52,64 +56,120 @@
             this.clDtNasc,
             this.clEmail,
             this.clTelefone,
-            this.clCidade,
+            this.clCep,
+            this.clBairro,
             this.clEndereco,
-            this.clBairro});
-			this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
-			// 
-			// clTipo
-			// 
-			this.clTipo.Text = "Tipo";
-			// 
-			// clNome
-			// 
-			this.clNome.Text = "Nome";
-			// 
-			// clApelido
-			// 
-			this.clApelido.Text = "Apelido";
-			// 
-			// clDtNasc
-			// 
-			this.clDtNasc.Text = "Data Nascimento";
-			// 
-			// clCPF
-			// 
-			this.clCPF.Text = "CPF";
-			// 
-			// clEmail
-			// 
-			this.clEmail.Text = "Email";
-			// 
-			// clTelefone
-			// 
-			this.clTelefone.Text = "Telefone";
-			// 
-			// clCidade
-			// 
-			this.clCidade.Text = "Cidade";
-			// 
-			// clEndereco
-			// 
-			this.clEndereco.Text = "Endereco";
-			// 
-			// clRG
-			// 
-			this.clRG.Text = "RG";
-			// 
-			// clBairro
-			// 
-			this.clBairro.Text = "Bairro";
-			// 
-			// frmConsultaFornecedor
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(1006, 721);
-			this.Name = "frmConsultaFornecedor";
-			this.Text = "Consulta de Clientes";
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.clCidade,
+            this.clCondPag,
+            this.clLimitCredit,
+            this.clAtivo});
+            this.listV.Location = new System.Drawing.Point(24, 74);
+            this.listV.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listV.Size = new System.Drawing.Size(1288, 709);
+            this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
+            // 
+            // txtCodigo
+            // 
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            // 
+            // clTipo
+            // 
+            this.clTipo.Text = "Tipo";
+            this.clTipo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // clNome
+            // 
+            this.clNome.Text = "Nome";
+            this.clNome.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clNome.Width = 240;
+            // 
+            // clApelido
+            // 
+            this.clApelido.Text = "Apelido";
+            this.clApelido.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clApelido.Width = 240;
+            // 
+            // clDtNasc
+            // 
+            this.clDtNasc.Text = "Data Nascimento";
+            this.clDtNasc.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clDtNasc.Width = 120;
+            // 
+            // clCPF
+            // 
+            this.clCPF.Text = "CPF";
+            this.clCPF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clCPF.Width = 240;
+            // 
+            // clEmail
+            // 
+            this.clEmail.Text = "Email";
+            this.clEmail.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clEmail.Width = 240;
+            // 
+            // clTelefone
+            // 
+            this.clTelefone.Text = "Telefone";
+            this.clTelefone.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clTelefone.Width = 120;
+            // 
+            // clCidade
+            // 
+            this.clCidade.Text = "Cidade";
+            this.clCidade.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clCidade.Width = 240;
+            // 
+            // clEndereco
+            // 
+            this.clEndereco.Text = "Endereco";
+            this.clEndereco.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clEndereco.Width = 240;
+            // 
+            // clRG
+            // 
+            this.clRG.Text = "RG";
+            this.clRG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clRG.Width = 240;
+            // 
+            // clBairro
+            // 
+            this.clBairro.Text = "Bairro";
+            this.clBairro.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clBairro.Width = 120;
+            // 
+            // clCondPag
+            // 
+            this.clCondPag.Text = "Condicao Pagamento";
+            this.clCondPag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clCondPag.Width = 120;
+            // 
+            // clCep
+            // 
+            this.clCep.Text = "Cep";
+            this.clCep.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clCep.Width = 120;
+            // 
+            // clLimitCredit
+            // 
+            this.clLimitCredit.Text = "Limite Credito";
+            this.clLimitCredit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clLimitCredit.Width = 120;
+            // 
+            // clAtivo
+            // 
+            this.clAtivo.Text = "Ativo";
+            this.clAtivo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // frmConsultaFornecedor
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1344, 897);
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Name = "frmConsultaFornecedor";
+            this.Text = "Consulta de Clientes";
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
@@ -126,5 +186,9 @@
 		private System.Windows.Forms.ColumnHeader clEndereco;
 		private System.Windows.Forms.ColumnHeader clRG;
 		private System.Windows.Forms.ColumnHeader clBairro;
-	}
+        private System.Windows.Forms.ColumnHeader clCep;
+        private System.Windows.Forms.ColumnHeader clCondPag;
+        private System.Windows.Forms.ColumnHeader clLimitCredit;
+        private System.Windows.Forms.ColumnHeader clAtivo;
+    }
 }

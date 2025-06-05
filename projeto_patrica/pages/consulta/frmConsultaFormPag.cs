@@ -47,6 +47,7 @@ namespace projeto_pratica.pages.consulta
 			{
 				ListViewItem item = new ListViewItem(Convert.ToString(cond.Id));
 				item.SubItems.Add(cond.Descricao);
+				item.Tag = cond;
 				listV.Items.Add(item);
 			}
 		}
@@ -88,14 +89,9 @@ namespace projeto_pratica.pages.consulta
 			{
 				btnExcluir.Enabled = true;
 				btnAlterar.Enabled = true;
-				ListViewItem item = listV.SelectedItems[0]; // Get selected row
-
-				// Store data in an object (already available in ListView)
-				aFormPag = new FormaPagamento
-				{
-					Id = Convert.ToInt32(item.Text), // First column (ID)
-					Descricao = item.SubItems[1].Text, // Second column (Description)
-				};
+				var selecionado = (FormaPagamento)listV.SelectedItems[0].Tag;
+				aFormPag.Id = selecionado.Id;
+				aFormPag.Descricao = selecionado.Descricao;
 			}
 		}
 	}

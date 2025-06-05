@@ -42,6 +42,10 @@
 			// 
 			this.lblCod.Location = new System.Drawing.Point(25, 19);
 			// 
+			// ckbStatus
+			// 
+			this.ckbStatus.Location = new System.Drawing.Point(860, 40);
+			// 
 			// txtCodigo
 			// 
 			this.txtCodigo.Location = new System.Drawing.Point(28, 38);
@@ -129,6 +133,7 @@
 			this.Controls.Add(this.lblPais);
 			this.Name = "frmCadastroPais";
 			this.Text = "Cadastro Países";
+			this.Controls.SetChildIndex(this.ckbStatus, 0);
 			this.Controls.SetChildIndex(this.lblDataCriacao, 0);
 			this.Controls.SetChildIndex(this.lblDataAlteracao, 0);
 			this.Controls.SetChildIndex(this.lblUserAlt, 0);

@@ -1,5 +1,6 @@
 ﻿using projeto_pratica.classes;
 using projeto_pratica.controllers;
+using projeto_pratica.pages.consulta;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,15 +19,18 @@ namespace projeto_pratica.pages.cadastro
 		private ParcelaCondPag oParcelaCondPag;
 		private CtrlParcCondPag aCtrlParcCondPag;
 		private CtrlFormPag aCtrlFormaPag;
+		private frmConsultaFormPag aFormConsultaFormPag;
 		private List<ParcelaCondPag> parcelasRemovidas = new List<ParcelaCondPag>();
 
 		public frmCadastroCondpag()
 		{
 			InitializeComponent();
 			oCondicaoPagamento = new CondicaoPagamento();
+			oParcelaCondPag = new ParcelaCondPag();
 			aCtrlCondPag = new CtrlCondPag();
 			aCtrlParcCondPag = new CtrlParcCondPag();
 			aCtrlFormaPag = new CtrlFormPag();
+			aFormConsultaFormPag = new frmConsultaFormPag();
 		}
 
 		public override void ConhecaObj(object obj, object ctrl)
@@ -37,12 +41,21 @@ namespace projeto_pratica.pages.cadastro
 			this.CarregaLV();
 		}
 
+		public void setFrmConsultaFormPag(object obj)
+		{
+			aFormConsultaFormPag = (frmConsultaFormPag)obj;
+		}
+
 		public override void LimparTxt()
 		{
 			base.LimparTxt();
 			this.txtCodigo.Text = "0";
 			this.txtDescricao.Clear();
 			this.txtParcelas.Clear();
+			this.txtJuro.Clear();
+			this.txtMulta.Clear();
+			this.txtDesconto.Clear();
+
 
 			this.txtCodFormPag.Clear();
 			this.cbFormaPagamentos.SelectedIndex = -1;
@@ -75,11 +88,19 @@ namespace projeto_pratica.pages.cadastro
 
 			oCondicaoPagamento.Descricao = txtDescricao.Text;
 			oCondicaoPagamento.NumParcelas = Convert.ToInt32(txtParcelas.Text);
+			oCondicaoPagamento.Juro = Convert.ToDouble(txtJuro.Text);
+			oCondicaoPagamento.Multa = Convert.ToDouble(txtMulta.Text);
+			oCondicaoPagamento.Desconto = Convert.ToDouble(txtDesconto.Text);
+
 
 			if (int.TryParse(txtCodigo.Text, out int condPagId))
 			{
 				oCondicaoPagamento.Id = condPagId;
 			}
+			if (oCondicaoPagamento.Id > 0)
+				oCondicaoPagamento.DtAlt = DateTime.Now;
+			else
+				oCondicaoPagamento.DtCriacao = DateTime.Now;
 
 			if (btnSave.Text == "Salvar")
 			{
@@ -152,8 +173,14 @@ namespace projeto_pratica.pages.cadastro
 				NumeroParcela = numParcela,
 				Prazo = prazo,
 				Percentual = percentual,
-				FormPagId = formaSelecionada.Id,
-				FormPagDesc = formaSelecionada.Descricao
+				Ativo = true,
+				DtCriacao = DateTime.Now,
+				AFormPag = new FormaPagamento 
+				{
+					Id = formaSelecionada.Id,
+					Descricao = formaSelecionada.Descricao
+				}
+
 			};
 
 
@@ -162,7 +189,7 @@ namespace projeto_pratica.pages.cadastro
 			ListViewItem item = new ListViewItem(novaParcela.NumeroParcela.ToString());
 			item.SubItems.Add(novaParcela.Prazo.ToString() + " dias");
 			item.SubItems.Add(novaParcela.Percentual.ToString() + "%");
-			item.SubItems.Add(novaParcela.FormPagDesc);
+			item.SubItems.Add(novaParcela.AFormPag.Descricao);
 			item.Tag = novaParcela;
 			listV.Items.Add(item);
 			LimparTxtParcela();
@@ -185,12 +212,12 @@ namespace projeto_pratica.pages.cadastro
 				txtNumParc.Text = oParcelaCondPag.NumeroParcela.ToString();
 				txtPrazo.Text = oParcelaCondPag.Prazo.ToString();
 				txtPercent.Text = oParcelaCondPag.Percentual.ToString();
-				txtCodFormPag.Text = oParcelaCondPag.FormPagId.ToString();
-
+				txtCodFormPag.Text = oParcelaCondPag.AFormPag.Id.ToString();
+				oParcelaCondPag.DtAlt = DateTime.Now;
 				for (int i = 0; i < cbFormaPagamentos.Items.Count; i++)
 				{
 					FormaPagamento forma = (FormaPagamento)cbFormaPagamentos.Items[i];
-					if (forma.Id == oParcelaCondPag.FormPagId)
+					if (forma.Id == oParcelaCondPag.AFormPag.Id)
 					{
 						cbFormaPagamentos.SelectedIndex = i;
 						break;
@@ -217,12 +244,12 @@ namespace projeto_pratica.pages.cadastro
 				txtNumParc.Text = oParcelaCondPag.NumeroParcela.ToString();
 				txtPrazo.Text = oParcelaCondPag.Prazo.ToString();
 				txtPercent.Text = oParcelaCondPag.Percentual.ToString();
-				txtCodFormPag.Text = oParcelaCondPag.FormPagId.ToString();
+				txtCodFormPag.Text = oParcelaCondPag.AFormPag.Id.ToString();
 
 				for (int i = 0; i < cbFormaPagamentos.Items.Count; i++)
 				{
 					FormaPagamento forma = (FormaPagamento)cbFormaPagamentos.Items[i];
-					if (forma.Id == oParcelaCondPag.FormPagId)
+					if (forma.Id == oParcelaCondPag.AFormPag.Id)
 					{
 						cbFormaPagamentos.SelectedIndex = i;
 						break;
@@ -261,8 +288,8 @@ namespace projeto_pratica.pages.cadastro
 			oParcelaCondPag.NumeroParcela = numParcela;
 			oParcelaCondPag.Prazo = prazo;
 			oParcelaCondPag.Percentual = percentual;
-			oParcelaCondPag.FormPagId = formaSelecionada.Id;
-			oParcelaCondPag.FormPagDesc = formaSelecionada.Descricao;
+			oParcelaCondPag.AFormPag.Id = formaSelecionada.Id;
+			oParcelaCondPag.AFormPag.Descricao = formaSelecionada.Descricao;
 
 			int index = oCondicaoPagamento.ParcelasCondPag.IndexOf(oParcelaCondPag);
 			if (index >= 0)
@@ -315,6 +342,13 @@ namespace projeto_pratica.pages.cadastro
 			this.txtDescricao.Text = oCondicaoPagamento.Descricao;
 			this.txtParcelas.Text = oCondicaoPagamento.NumParcelas.ToString();
 
+			this.txtJuro.Text = oCondicaoPagamento.Juro.ToString();
+			this.txtMulta.Text = oCondicaoPagamento.Multa.ToString();
+			this.txtDesconto.Text = oCondicaoPagamento.Desconto.ToString();
+				
+			this.txtDtCriacao.Text = oCondicaoPagamento.DtCriacao.ToString();
+			this.txtDtAlt.Text = oCondicaoPagamento.DtAlt.ToString();
+
 			CarregaLV();
 		}
 
@@ -324,11 +358,15 @@ namespace projeto_pratica.pages.cadastro
 			this.txtCodigo.Enabled = false;
 			this.txtDescricao.Enabled = false;
 			this.txtParcelas.Enabled = false;
+			this.txtJuro.Enabled = false;
+			this.txtMulta.Enabled = false;
+			this.txtDesconto.Enabled = false;
 			this.btnAlterarParc.Enabled = false;
 			this.btnExcluirParc.Enabled = false;
 			this.btnCriarParc.Enabled = false;
+			this.btnPesquisar.Enabled = false;
+			this.listV.Enabled = false;	
 
-			this.txtCodFormPag.Enabled = false;
 			this.cbFormaPagamentos.Enabled = false;
 			this.txtPrazo.Enabled = false;
 			this.txtNumParc.Enabled = false;
@@ -341,11 +379,15 @@ namespace projeto_pratica.pages.cadastro
 			this.txtCodigo.Enabled = true;
 			this.txtDescricao.Enabled = true;
 			this.txtParcelas.Enabled = true;
+			this.txtJuro.Enabled = true;
+			this.txtMulta.Enabled = true;
+			this.txtDesconto.Enabled = true;
 			this.btnAlterarParc.Enabled = true;
 			this.btnExcluirParc.Enabled = true;
 			this.btnCriarParc.Enabled = true;
+			this.btnPesquisar.Enabled = true;
+			this.listV.Enabled = true;
 
-			this.txtCodFormPag.Enabled = true;
 			this.cbFormaPagamentos.Enabled = true;
 			this.txtPrazo.Enabled = true;
 			this.txtNumParc.Enabled = true;
@@ -362,7 +404,7 @@ namespace projeto_pratica.pages.cadastro
 				ListViewItem item = new ListViewItem(parcela.NumeroParcela.ToString());
 				item.SubItems.Add(parcela.Prazo.ToString() + " dias");
 				item.SubItems.Add(parcela.Percentual.ToString() + "%");
-				item.SubItems.Add(parcela.FormPagDesc);
+				item.SubItems.Add(parcela.AFormPag.Descricao);
 				item.Tag = parcela;
 
 				listV.Items.Add(item);
@@ -438,6 +480,31 @@ namespace projeto_pratica.pages.cadastro
 		private void frmCadastroCondpag_Load(object sender, EventArgs e)
 		{
 
+		}
+
+		private void btnPesquisar_Click(object sender, EventArgs e)
+		{
+			CtrlFormPag aCtrlFormPag = new CtrlFormPag();
+
+			if (oParcelaCondPag.AFormPag == null)
+				oParcelaCondPag.AFormPag = new FormaPagamento();
+
+			aFormConsultaFormPag.ConhecaObj(oParcelaCondPag.AFormPag, aCtrlFormPag);
+			aFormConsultaFormPag.ShowDialog();
+
+			CarregarComboBoxFormaPag();
+
+			txtCodFormPag.Text = oParcelaCondPag.AFormPag.Id.ToString();
+
+			for (int i = 0; i < cbFormaPagamentos.Items.Count; i++)
+			{
+				var forma = (FormaPagamento)cbFormaPagamentos.Items[i];
+				if (forma.Id == oParcelaCondPag.AFormPag.Id)
+				{
+					cbFormaPagamentos.SelectedIndex = i;
+					break;
+				}
+			}
 		}
 	}
 }

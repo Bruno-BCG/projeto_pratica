@@ -59,6 +59,10 @@ namespace projeto_pratica.pages.cadastro
 			txtSalBruto.Clear();
 			txtSalLiquido.Clear();
 			txtCargaHoraria.Clear();
+			dtpDataAdmissao.Value = DateTime.Now;
+			dtpDataDemissao.Value = DateTime.Now;	
+			txtComple.Clear();
+			txtEstado.Clear();
 		}
 
 		public override void Salvar()
@@ -71,7 +75,8 @@ namespace projeto_pratica.pages.cadastro
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(txtCpf.Text))
+			// CPF obrigatório se o país for Brasil
+			if (string.IsNullOrWhiteSpace(txtCpf.Text) && (oFuncionario.OEndereco.ACidade?.OEstado?.OPais?.Nome == "Brasil"))
 			{
 				MessageBox.Show("O campo CPF é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
@@ -82,7 +87,8 @@ namespace projeto_pratica.pages.cadastro
 				MessageBox.Show("O campo Email é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
-			oFuncionario.Tipo = 'F';
+
+			oFuncionario.Tipo = 'F'; 
 			oFuncionario.NomeRazaoSocial = txtNome.Text;
 			oFuncionario.ApelidoFantasia = txtApelido.Text;
 			oFuncionario.CpfCnpj = txtCpf.Text;
@@ -90,26 +96,37 @@ namespace projeto_pratica.pages.cadastro
 			oFuncionario.Email = txtEmail.Text;
 			oFuncionario.Telefone = txtTel.Text;
 			oFuncionario.DataNascimento = dtpDataNascimento.Value;
+			oFuncionario.Ativo = ckbStatus.Checked;
 			oFuncionario.Matricula = txtMatricula.Text;
 			oFuncionario.Cargo = txtCargo.Text;
-			oFuncionario.SalarioBruto = Convert.ToDouble(txtSalBruto.Text);
-			oFuncionario.SalarioLiquido = Convert.ToDouble(txtSalLiquido.Text);
-			oFuncionario.CargaHoraria = Convert.ToInt32(txtCargaHoraria.Text);
+
+			oFuncionario.SalarioBruto = double.TryParse(txtSalBruto.Text, out double salBruto) ? salBruto : 0;
+			oFuncionario.SalarioLiquido = double.TryParse(txtSalLiquido.Text, out double salLiq) ? salLiq : 0;
+			oFuncionario.CargaHoraria = int.TryParse(txtCargaHoraria.Text, out int carga) ? carga : 0;
 			oFuncionario.DataAdmissao = dtpDataAdmissao.Value;
+			oFuncionario.Turno = cbTurno.Text;
 
 			oFuncionario.OEndereco.Endereco = txtEndereco.Text;
 			oFuncionario.OEndereco.Bairro = txtBairro.Text;
+			oFuncionario.OEndereco.Num = txtNum.Text;
+			oFuncionario.OEndereco.Complemento = txtComple.Text;
 			oFuncionario.OEndereco.Cep = txtCep.Text;
 			oFuncionario.OEndereco.ACidade = new Cidade
 			{
-				Id = int.TryParse(txtCodCidade.Text, out int cidadeId) ? cidadeId : 0,
+				Id = Convert.ToInt32(txtCodCidade.Text),
 				Nome = txtCidade.Text
 			};
 
+			// Verifica se é edição
 			if (int.TryParse(txtCodigo.Text, out int funcionarioId))
 			{
 				oFuncionario.Id = funcionarioId;
 			}
+
+			if (oFuncionario.Id > 0)
+				oFuncionario.DtAlt = DateTime.Now;
+			else
+				oFuncionario.DtCriacao = DateTime.Now;
 
 			if (btnSave.Text == "Salvar")
 			{
@@ -140,7 +157,7 @@ namespace projeto_pratica.pages.cadastro
 					MessageBox.Show($"Erro ao excluir: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
-			
+
 		}
 
 		public override void CarregarTxt()
@@ -166,6 +183,10 @@ namespace projeto_pratica.pages.cadastro
 			txtCargaHoraria.Text = oFuncionario.CargaHoraria.ToString();
 			txtDtAlt.Text = Convert.ToString(oFuncionario.DtAlt);
 			txtDtCriacao.Text = Convert.ToString(oFuncionario.DtCriacao);
+			cbTurno.Text = oFuncionario.Turno;
+			txtEstado.Text = oFuncionario.OEndereco.ACidade.OEstado.Nome;
+			txtComple.Text = oFuncionario.OEndereco.Complemento;
+			txtNum.Text = oFuncionario.OEndereco.Num;
 		}
 
 		public override void BloqueiaTxt()
@@ -183,12 +204,19 @@ namespace projeto_pratica.pages.cadastro
 			txtCpf.Enabled = false;
 			txtRg.Enabled = false;
 			dtpDataNascimento.Enabled = false;
+			dtpDataAdmissao.Enabled = false;
 			txtTel.Enabled = false;
 			txtMatricula.Enabled = false;
 			txtCargo.Enabled = false;
 			txtSalBruto.Enabled = false;
 			txtSalLiquido.Enabled = false;
 			txtCargaHoraria.Enabled = false;
+			txtNum.Enabled = false;
+			txtComple.Enabled = false;
+			cbTurno.Enabled = false;
+
+			btnPesquisarCidade.Enabled = false;
+
 		}
 
 		public override void DesbloqueiaTxt()
@@ -206,12 +234,18 @@ namespace projeto_pratica.pages.cadastro
 			txtCpf.Enabled = true;
 			txtRg.Enabled = true;
 			dtpDataNascimento.Enabled = true;
+			dtpDataAdmissao.Enabled = true;
 			txtTel.Enabled = true;
 			txtMatricula.Enabled = true;
 			txtCargo.Enabled = true;
 			txtSalBruto.Enabled = true;
 			txtSalLiquido.Enabled = true;
 			txtCargaHoraria.Enabled = true;
+			txtNum.Enabled = true;
+			txtComple.Enabled = true;
+			cbTurno.Enabled = true;
+
+			btnPesquisarCidade.Enabled = true;
 		}
 
 		private void btnPesquisarCidade_Click(object sender, EventArgs e)
@@ -220,6 +254,7 @@ namespace projeto_pratica.pages.cadastro
 			aFrmConCidade.ShowDialog();
 			txtCodCidade.Text = Convert.ToString(oFuncionario.OEndereco.ACidade.Id);
 			txtCidade.Text = oFuncionario.OEndereco.ACidade.Nome;
+			txtEstado.Text = oFuncionario.OEndereco.ACidade.OEstado.Nome;
 
 		}
 
@@ -229,6 +264,26 @@ namespace projeto_pratica.pages.cadastro
 		}
 
 		private void frmCadastroFuncionario_Load(object sender, EventArgs e)
+		{
+
+		}
+
+		private void lblTurno_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void lblCargo_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void lblSalLiquido_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void lblSalBruto_Click(object sender, EventArgs e)
 		{
 
 		}

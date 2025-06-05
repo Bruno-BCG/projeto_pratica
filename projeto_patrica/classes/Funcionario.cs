@@ -13,6 +13,7 @@ namespace projeto_pratica.classes
 		private double salarioBruto;
 		private double salarioLiquido;
 		private DateTime dataAdmissao;
+		private DateTime dataDemissao;
 		private string turno;
 		private int cargaHoraria;
 
@@ -23,6 +24,7 @@ namespace projeto_pratica.classes
 			salarioBruto = 0.0;
 			salarioLiquido = 0.0;
 			dataAdmissao = DateTime.Now;
+			dataDemissao = DateTime.Now;
 			turno = " ";
 			cargaHoraria = 0;
 		}
@@ -33,7 +35,7 @@ namespace projeto_pratica.classes
 			string cpf, string rg, string email, string telefone,
 			Enderecos endereco,
 			string matricula, string cargo, double salarioBruto, double salarioLiquido,
-			DateTime dataAdmissao, string turno, int cargaHoraria
+			DateTime dataAdmissao, DateTime dataDemissao, string turno, int cargaHoraria
 		) : base(id, dtCriacao, dtAlt, tipo, nome, apelido, nascimento, cpf, rg, email, telefone, ativo, endereco)
 		{
 			this.matricula = matricula;
@@ -41,6 +43,7 @@ namespace projeto_pratica.classes
 			this.salarioBruto = salarioBruto;
 			this.salarioLiquido = salarioLiquido;
 			this.dataAdmissao = dataAdmissao;
+			this.dataDemissao = dataDemissao;
 			this.turno = turno;
 			this.cargaHoraria = cargaHoraria;
 		}
@@ -73,6 +76,12 @@ namespace projeto_pratica.classes
 		{
 			get => dataAdmissao;
 			set => dataAdmissao = value;
+		}
+
+		public DateTime DataDemissao
+		{
+			get => dataDemissao;
+			set => dataDemissao = value;
 		}
 
 		public string Turno

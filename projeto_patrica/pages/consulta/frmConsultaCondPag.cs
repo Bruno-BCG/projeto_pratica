@@ -43,11 +43,17 @@ namespace projeto_pratica.pages.consulta
 		{
 			this.listV.Items.Clear();
 			var lista = aCtrlCondPag.Listar();
+
 			foreach (var cond in lista)
 			{
-				ListViewItem item = new ListViewItem(Convert.ToString(cond.Id));
+				ListViewItem item = new ListViewItem(cond.Id.ToString());
 				item.SubItems.Add(cond.Descricao);
-				item.SubItems.Add(Convert.ToString(cond.NumParcelas));
+				item.SubItems.Add(cond.NumParcelas.ToString());
+				item.SubItems.Add(cond.Juro.ToString("F2") + "%");
+				item.SubItems.Add(cond.Multa.ToString("F2") + "%");
+				item.SubItems.Add(cond.Desconto.ToString("F2") + "%");
+
+				item.Tag = cond; 
 				listV.Items.Add(item);
 			}
 		}
@@ -101,15 +107,13 @@ namespace projeto_pratica.pages.consulta
 			{
 				btnExcluir.Enabled = true;
 				btnAlterar.Enabled = true;
-				ListViewItem item = listV.SelectedItems[0]; // Get selected row
-
-				// Store data in an object (already available in ListView)
-				aCondPag = new CondicaoPagamento
-				{
-					Id = Convert.ToInt32(item.Text), // First column (ID)
-					Descricao = item.SubItems[1].Text, // Second column (Description)
-					NumParcelas = Convert.ToInt32(item.SubItems[2].Text) // Third column (NumParcelas)
-				};
+				var selecionado = (CondicaoPagamento)listV.SelectedItems[0].Tag;
+				aCondPag.Id = selecionado.Id;
+				aCondPag.Descricao = selecionado.Descricao;
+				aCondPag.Multa = selecionado.Multa;
+				aCondPag.Juro = selecionado.Juro;
+				aCondPag.Desconto = selecionado.Desconto;
+				aCondPag.NumParcelas = selecionado.NumParcelas;
 			}
 		}
 

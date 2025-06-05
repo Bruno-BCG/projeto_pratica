@@ -60,10 +60,12 @@ namespace projeto_pratica.classes
 			aFrmConsFuncionario.setFrmCadastro(aFrmCadFuncionario);
 			aFrmConsFornecedor.setFrmCadastro(aFrmCadFornecedor);
 
-
+			aFrmCadCondPag.setFrmConsultaFormPag(aFrmConsFormPag);
 			aFrmCadCliente.setFrmConsultaCidade(aFrmConsCidade);
+			aFrmCadCliente.setFrmConsultaCondPag(aFrmConsCondPag);
 			aFrmCadFuncionario.setFrmConsultaCidade(aFrmConsCidade);
 			aFrmCadFornecedor.setFrmConsultaCidade(aFrmConsCidade);
+			aFrmCadFornecedor.setFrmConsultaCondPag(aFrmConsCondPag);
 			aFrmCadCidade.setFrmConsultaEstado(aFrmConsEstados);
 			aFrmCadEstado.setFrmConsultaPais(aFrmConsPais);
 		}

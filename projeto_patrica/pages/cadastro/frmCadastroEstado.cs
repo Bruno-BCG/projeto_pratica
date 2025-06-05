@@ -42,6 +42,9 @@ namespace projeto_pratica
             this.txtUf.Clear();
             this.txtPais.Clear();
             this.txtIdPais.Text = "0";
+
+            this.txtDtAlt.Clear();
+            this.txtDtCriacao.Clear();
         }
 
         public override void Salvar()
@@ -108,6 +111,9 @@ namespace projeto_pratica
             this.txtUf.Text = oEstado.Uf;
             this.txtPais.Text = oEstado.OPais.Nome;
             this.txtIdPais.Text = Convert.ToString(oEstado.OPais.Id);
+
+            this.txtDtAlt.Text = oEstado.DtAlt.ToString();
+            this.txtDtCriacao.Text = oEstado.DtCriacao.ToString();
         }
 
         public override void BloqueiaTxt()
@@ -119,6 +125,7 @@ namespace projeto_pratica
             this.txtUf.Enabled = false;
             this.txtPais.Enabled = false;
             this.txtIdPais.Enabled = false;
+
         }
 
         public override void DesbloqueiaTxt()

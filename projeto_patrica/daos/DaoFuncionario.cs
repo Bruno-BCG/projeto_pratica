@@ -26,33 +26,34 @@ namespace projeto_pratica.daos
 				if (oFuncionario.Id == 0)
 				{
 					sql = @"INSERT INTO FUNCIONARIO 
-						(FUNCIONARIO_TIPO, FUNCIONARIO_NOME, FUNCIONARIO_APELIDO, FUNCIONARIO_NASCIMENTO, 
-						 FUNCIONARIO_CPF, FUNCIONARIO_RG, FUNCIONARIO_EMAIL, FUNCIONARIO_TELEFONE, 
-						 FUNCIONARIO_STATUS, FUNCIONARIO_ENDERECO, FUNCIONARIO_BAIRRO, FUNCIONARIO_CEP,
-						 FUNCIONARIO_MATRICULA, FUNCIONARIO_CARGO, FUNCIONARIO_SALBRUTO, 
-						 FUNCIONARIO_SALLIQ, FUNCIONARIO_DATA_ADMISSAO, FUNCIONARIO_CARGA_HORARIA,
-						 CIDADE_ID, FUNCIONARIO_DT_CRIACAO)
-						OUTPUT INSERTED.FUNCIONARIO_ID
-						VALUES 
-						(@tipo, @nomeRS, @apelidoFantasia, @nascimento, 
-						 @cpfCnpj, @rgInscr, @email, @telefone, 
-						 @status, @endereco, @bairro, @cep,
-						 @matricula, @cargo, @salBruto, @salLiquido, @dataAdm, @cargaHoraria,
-						 @cidadeId, @dtCriacao)";
+					(FUNCIONARIO_TIPO, FUNCIONARIO_NOME, FUNCIONARIO_APELIDO, FUNCIONARIO_NASCIMENTO, 
+					 FUNCIONARIO_CPF, FUNCIONARIO_RG, FUNCIONARIO_EMAIL, FUNCIONARIO_TELEFONE, 
+					 ATIVO, FUNCIONARIO_ENDERECO, FUNCIONARIO_BAIRRO, FUNCIONARIO_CEP,
+					 FUNCIONARIO_MATRICULA, FUNCIONARIO_CARGO, FUNCIONARIO_SALBRUTO, 
+					 FUNCIONARIO_SALLIQ, FUNCIONARIO_DATA_ADMISSAO, FUNCIONARIO_DATA_DEMISSAO, FUNCIONARIO_CARGA_HORARIA,
+					 CIDADE_ID, FUNCIONARIO_NUM, FUNCIONARIO_COMPLEMENTO, FUNCIONARIO_DT_CRIACAO, FUNCIONARIO_TURNO)
+					OUTPUT INSERTED.FUNCIONARIO_ID
+					VALUES 
+					(@tipo, @nomeRS, @apelidoFantasia, @nascimento, 
+					 @cpfCnpj, @rgInscr, @email, @telefone, 
+					 @ativo, @endereco, @bairro, @cep,
+					 @matricula, @cargo, @salBruto, @salLiquido, @dataAdm, @dataDemissao, @cargaHoraria,
+					 @cidadeId, @num, @complemento, @dtCriacao, @turno)";
 				}
 				else
 				{
 					operacao = 'U';
 					sql = @"UPDATE FUNCIONARIO SET 
-						FUNCIONARIO_TIPO = @tipo, FUNCIONARIO_NOME = @nomeRS, FUNCIONARIO_APELIDO = @apelidoFantasia, 
-						FUNCIONARIO_NASCIMENTO = @nascimento, FUNCIONARIO_CPF = @cpfCnpj, FUNCIONARIO_RG = @rgInscr, 
-						FUNCIONARIO_EMAIL = @email, FUNCIONARIO_TELEFONE = @telefone, FUNCIONARIO_STATUS = @status, 
-						FUNCIONARIO_ENDERECO = @endereco, FUNCIONARIO_BAIRRO = @bairro, FUNCIONARIO_CEP = @cep,
-						FUNCIONARIO_MATRICULA = @matricula, FUNCIONARIO_CARGO = @cargo, FUNCIONARIO_SALBRUTO = @salBruto,
-						FUNCIONARIO_SALLIQ = @salLiquido, FUNCIONARIO_DATA_ADMISSAO = @dataAdm, FUNCIONARIO_CARGA_HORARIA = @cargaHoraria,
-						CIDADE_ID = @cidadeId,
-						FUNCIONARIO_DT_ALT = @dtAlt
-						WHERE FUNCIONARIO_ID = @id";
+					FUNCIONARIO_TIPO = @tipo, FUNCIONARIO_NOME = @nomeRS, FUNCIONARIO_APELIDO = @apelidoFantasia, 
+					FUNCIONARIO_NASCIMENTO = @nascimento, FUNCIONARIO_CPF = @cpfCnpj, FUNCIONARIO_RG = @rgInscr, 
+					FUNCIONARIO_EMAIL = @email, FUNCIONARIO_TELEFONE = @telefone, ATIVO = @ativo, 
+					FUNCIONARIO_ENDERECO = @endereco, FUNCIONARIO_BAIRRO = @bairro, FUNCIONARIO_CEP = @cep,
+					FUNCIONARIO_MATRICULA = @matricula, FUNCIONARIO_CARGO = @cargo, FUNCIONARIO_SALBRUTO = @salBruto,
+					FUNCIONARIO_SALLIQ = @salLiquido, FUNCIONARIO_DATA_ADMISSAO = @dataAdm, FUNCIONARIO_DATA_DEMISSAO = @dataDemissao,
+					FUNCIONARIO_CARGA_HORARIA = @cargaHoraria, CIDADE_ID = @cidadeId,
+					FUNCIONARIO_NUM = @num, FUNCIONARIO_COMPLEMENTO = @complemento, FUNCIONARIO_TURNO = @turno,
+					FUNCIONARIO_DT_ALT = @dtAlt
+					WHERE FUNCIONARIO_ID = @id";
 				}
 
 				cmd.CommandText = sql;
@@ -64,7 +65,7 @@ namespace projeto_pratica.daos
 				cmd.Parameters.AddWithValue("@rgInscr", oFuncionario.RgInscricaoEst);
 				cmd.Parameters.AddWithValue("@email", oFuncionario.Email);
 				cmd.Parameters.AddWithValue("@telefone", oFuncionario.Telefone);
-				cmd.Parameters.AddWithValue("@status", oFuncionario.Ativo);
+				cmd.Parameters.AddWithValue("@ativo", oFuncionario.Ativo);
 				cmd.Parameters.AddWithValue("@endereco", oFuncionario.OEndereco.Endereco);
 				cmd.Parameters.AddWithValue("@bairro", oFuncionario.OEndereco.Bairro);
 				cmd.Parameters.AddWithValue("@cep", oFuncionario.OEndereco.Cep);
@@ -73,8 +74,12 @@ namespace projeto_pratica.daos
 				cmd.Parameters.AddWithValue("@salBruto", oFuncionario.SalarioBruto);
 				cmd.Parameters.AddWithValue("@salLiquido", oFuncionario.SalarioLiquido);
 				cmd.Parameters.AddWithValue("@dataAdm", oFuncionario.DataAdmissao);
+				cmd.Parameters.AddWithValue("@dataDemissao", oFuncionario.DataDemissao);
 				cmd.Parameters.AddWithValue("@cargaHoraria", oFuncionario.CargaHoraria);
 				cmd.Parameters.AddWithValue("@cidadeId", oFuncionario.OEndereco.ACidade.Id);
+				cmd.Parameters.AddWithValue("@num", oFuncionario.OEndereco.Num);
+				cmd.Parameters.AddWithValue("@complemento", oFuncionario.OEndereco.Complemento);
+				cmd.Parameters.AddWithValue("@turno", oFuncionario.Turno);
 
 				if (oFuncionario.Id == 0)
 					cmd.Parameters.AddWithValue("@dtCriacao", oFuncionario.DtCriacao);
@@ -142,18 +147,20 @@ namespace projeto_pratica.daos
 					SELECT 
 						F.FUNCIONARIO_ID, F.FUNCIONARIO_TIPO, F.FUNCIONARIO_NOME, F.FUNCIONARIO_APELIDO,
 						F.FUNCIONARIO_NASCIMENTO, F.FUNCIONARIO_CPF, F.FUNCIONARIO_RG, F.FUNCIONARIO_EMAIL,
-						F.FUNCIONARIO_TELEFONE, F.FUNCIONARIO_STATUS,
+						F.FUNCIONARIO_TELEFONE, F.ATIVO,
 						F.FUNCIONARIO_ENDERECO, F.FUNCIONARIO_BAIRRO, F.FUNCIONARIO_CEP,
 						F.FUNCIONARIO_MATRICULA, F.FUNCIONARIO_CARGO, F.FUNCIONARIO_SALBRUTO,
-						F.FUNCIONARIO_SALLIQ, F.FUNCIONARIO_DATA_ADMISSAO, F.FUNCIONARIO_CARGA_HORARIA,
-						F.FUNCIONARIO_DT_CRIACAO, F.FUNCIONARIO_DT_ALT,
+						F.FUNCIONARIO_SALLIQ, F.FUNCIONARIO_DATA_ADMISSAO, F.FUNCIONARIO_DATA_DEMISSAO,
+						F.FUNCIONARIO_CARGA_HORARIA, F.FUNCIONARIO_TURNO,
+						F.FUNCIONARIO_DT_CRIACAO, F.FUNCIONARIO_DT_ALT, F.FUNCIONARIO_NUM, F.FUNCIONARIO_COMPLEMENTO,
 						C.CIDADE_ID, C.CIDADE_NOME, C.CIDADE_DDD,
 						E.ESTADO_ID, E.ESTADO_NOME, E.ESTADO_UF,
 						P.PAIS_ID, P.PAIS_NOME, P.PAIS_SIGLA, P.PAIS_MOEDA, P.PAIS_DDI
 					FROM FUNCIONARIO F
 					INNER JOIN CIDADE C ON F.CIDADE_ID = C.CIDADE_ID
 					INNER JOIN ESTADO E ON C.ESTADO_ID = E.ESTADO_ID
-					INNER JOIN PAIS P ON E.PAIS_ID = P.PAIS_ID";
+					INNER JOIN PAIS P ON E.PAIS_ID = P.PAIS_ID
+					WHERE F.ATIVO = 1";
 
 				using (SqlCommand cmd = new SqlCommand(sql, conexao))
 				{
@@ -172,19 +179,23 @@ namespace projeto_pratica.daos
 								RgInscricaoEst = dr["FUNCIONARIO_RG"].ToString(),
 								Email = dr["FUNCIONARIO_EMAIL"].ToString(),
 								Telefone = dr["FUNCIONARIO_TELEFONE"].ToString(),
-								Ativo = Convert.ToBoolean(dr["FUNCIONARIO_STATUS"]),
+								Ativo = Convert.ToBoolean(dr["ATIVO"]),
 								DtCriacao = Convert.ToDateTime(dr["FUNCIONARIO_DT_CRIACAO"]),
 								DtAlt = dr["FUNCIONARIO_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["FUNCIONARIO_DT_ALT"]),
 								Matricula = dr["FUNCIONARIO_MATRICULA"].ToString(),
+								Turno = dr["FUNCIONARIO_TURNO"].ToString(),
 								Cargo = dr["FUNCIONARIO_CARGO"].ToString(),
 								SalarioBruto = Convert.ToDouble(dr["FUNCIONARIO_SALBRUTO"]),
 								SalarioLiquido = Convert.ToDouble(dr["FUNCIONARIO_SALLIQ"]),
 								DataAdmissao = Convert.ToDateTime(dr["FUNCIONARIO_DATA_ADMISSAO"]),
+								DataDemissao = Convert.ToDateTime(dr["FUNCIONARIO_DATA_DEMISSAO"]),
 								CargaHoraria = Convert.ToInt32(dr["FUNCIONARIO_CARGA_HORARIA"]),
 								OEndereco = new Enderecos
 								{
 									Endereco = dr["FUNCIONARIO_ENDERECO"].ToString(),
 									Bairro = dr["FUNCIONARIO_BAIRRO"].ToString(),
+									Complemento = dr["FUNCIONARIO_COMPLEMENTO"].ToString(),
+									Num = dr["FUNCIONARIO_NUM"].ToString(),
 									Cep = dr["FUNCIONARIO_CEP"].ToString(),
 									ACidade = new Cidade
 									{

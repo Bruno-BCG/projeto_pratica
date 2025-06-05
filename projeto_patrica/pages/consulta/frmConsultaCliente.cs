@@ -49,17 +49,18 @@ namespace projeto_pratica.pages.consulta
 				item.SubItems.Add(Convert.ToString(cliente.Tipo));
 				item.SubItems.Add(cliente.NomeRazaoSocial);
 				item.SubItems.Add(cliente.ApelidoFantasia);
-				item.SubItems.Add(Convert.ToString(cliente.DataNascimento));
-				item.SubItems.Add(Convert.ToString(cliente.OEndereco.ACidade.Id));
-				item.SubItems.Add(cliente.OEndereco.ACidade.Nome);
+				item.SubItems.Add(cliente.DataNascimento.ToShortDateString());
 				item.SubItems.Add(cliente.CpfCnpj);
+				item.SubItems.Add(cliente.RgInscricaoEst);
 				item.SubItems.Add(cliente.Email);
 				item.SubItems.Add(cliente.Telefone);
-				item.SubItems.Add(Convert.ToString(cliente.Ativo));
-				item.SubItems.Add(cliente.OEndereco.Endereco);
+                item.SubItems.Add(cliente.OEndereco.Cep);
+                item.SubItems.Add(cliente.OEndereco.Endereco);
 				item.SubItems.Add(cliente.OEndereco.Bairro);
-				item.SubItems.Add(cliente.OEndereco.Cep);
-				item.SubItems.Add(cliente.RgInscricaoEst);
+                item.SubItems.Add(cliente.OEndereco.ACidade.Nome);
+                item.SubItems.Add(Convert.ToString(cliente.Ativo));
+
+                item.Tag = cliente;
 				listV.Items.Add(item);
 			}
 		}
@@ -67,6 +68,7 @@ namespace projeto_pratica.pages.consulta
 		public override void Incluir()
 		{
 			base.Incluir();
+			oFrmCadastroCliente.DesbloqueiaTxt();
 			oFrmCadastroCliente.ConhecaObj(oCliente, aCtrlCliente);
 			oFrmCadastroCliente.LimparTxt();
 			oFrmCadastroCliente.ShowDialog();
@@ -101,33 +103,9 @@ namespace projeto_pratica.pages.consulta
 			{
 				btnExcluir.Enabled = true;
 				btnAlterar.Enabled = true;
-				ListViewItem item = listV.SelectedItems[0];
 
-				oCliente = new Cliente
-				{
-					Id = Convert.ToInt32(item.SubItems[0].Text), 
-					Tipo = Convert.ToChar(item.SubItems[1].Text[0]), 
-					NomeRazaoSocial = item.SubItems[2].Text,
-					ApelidoFantasia = item.SubItems[3].Text, 
-					DataNascimento = DateTime.Parse(item.SubItems[4].Text), 
-					CpfCnpj = item.SubItems[7].Text, 
-					Email = item.SubItems[8].Text,
-					Telefone = item.SubItems[9].Text, 
-					Ativo = Convert.ToBoolean(item.SubItems[10].Text), 
-					RgInscricaoEst = item.SubItems[15].Text,
-					OEndereco = new Enderecos		
-					{
-						Endereco = item.SubItems[12].Text,
-						Bairro = item.SubItems[13].Text,
-						Cep = item.SubItems[14].Text,
-						ACidade = new Cidade
-						{
-							Id = Convert.ToInt32(item.SubItems[5].Text), // Cidade ID
-							Nome = item.SubItems[6].Text // Cidade Nome
-						}
-						
-					}
-				};
+				oCliente = (Cliente)listV.SelectedItems[0].Tag;
+
 			}
 		}
 	}
