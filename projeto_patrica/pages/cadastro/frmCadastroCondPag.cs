@@ -80,13 +80,32 @@ namespace projeto_pratica.pages.cadastro
 		{
 			base.Salvar();
 
-			if (string.IsNullOrWhiteSpace(txtDescricao.Text) || string.IsNullOrWhiteSpace(txtParcelas.Text))
+			if (string.IsNullOrWhiteSpace(txtDescricao.Text) || string.IsNullOrWhiteSpace(txtParcelas.Text) || string.IsNullOrWhiteSpace(txtJuro.Text) || string.IsNullOrWhiteSpace(txtMulta.Text) || string.IsNullOrWhiteSpace(txtDesconto.Text) || string.IsNullOrWhiteSpace(txtParcelas.Text))
 			{
 				MessageBox.Show("Campo obrigatório não preenchido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
-			oCondicaoPagamento.Descricao = txtDescricao.Text;
+            // Soma dos percentuais das parcelas
+            decimal somaPercentuais = 0;
+            foreach (var p in oCondicaoPagamento.ParcelasCondPag)
+                somaPercentuais += p.Percentual;
+
+            decimal desconto = Convert.ToDecimal(txtDesconto.Text);
+            decimal totalEsperado = 100 - desconto;
+
+            if (Math.Round(somaPercentuais, 2) != Math.Round(totalEsperado, 2))
+            {
+                MessageBox.Show(
+                    $"A soma dos percentuais das parcelas ({somaPercentuais:F2}%) deve ser igual a {totalEsperado:F2}%.",
+                    "Erro de Validação",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            oCondicaoPagamento.Descricao = txtDescricao.Text;
 			oCondicaoPagamento.NumParcelas = Convert.ToInt32(txtParcelas.Text);
 			oCondicaoPagamento.Juro = Convert.ToDouble(txtJuro.Text);
 			oCondicaoPagamento.Multa = Convert.ToDouble(txtMulta.Text);

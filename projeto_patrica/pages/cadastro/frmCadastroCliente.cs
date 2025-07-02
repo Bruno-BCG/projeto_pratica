@@ -81,15 +81,45 @@ namespace projeto_pratica.pages.cadastro
 			{
 				MessageBox.Show("O campo CPF/CNPJ é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
-			}
+            }
 
-			if (string.IsNullOrWhiteSpace(txtEmail.Text))
+			//validação de CPF E CNPJ
+            if (rbtnFisica.Checked)
+            {
+                if (IsCpf(txtCpf.Text))
+                {
+                    MessageBox.Show("CPF não é valido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            else if (rbtnJuridico.Checked)
+            {
+                if (IsCnpj(txtCpf.Text))
+                {
+                    MessageBox.Show("CNPJ não é valido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
 			{
 				MessageBox.Show("O campo Email é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
-			oCliente.Tipo = rbtnFisica.Checked ? 'F' : 'J';
+            if (dtpDataNascimento.Value > DateTime.Now)
+            {
+                MessageBox.Show("Data Selecionada é invalida", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!IsValidEmail(txtEmail.Text))
+            {
+                MessageBox.Show("O e-mail informado não é válido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            oCliente.Tipo = rbtnFisica.Checked ? 'F' : 'J';
 
 			oCliente.NomeRazaoSocial = txtNome.Text;
 			oCliente.ApelidoFantasia = txtApelido.Text;

@@ -12,6 +12,7 @@ using projeto_pratica.pages.cadastro;
 using projeto_pratica.classes;
 using projeto_pratica.controllers;
 using projeto_pratica.daos;
+using projeto_pratica.pages.consulta;
 
 
 namespace projeto_pratica
@@ -105,5 +106,23 @@ namespace projeto_pratica
 		{
 			aInter.PecaFornecedor(oFornecedor, aCtrlFornecedor);
 		}
-	}
+
+		private void produtoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			frmConsultaProduto afrmConProduto = new frmConsultaProduto();
+			afrmConProduto.ShowDialog();
+		}
+
+        private void categoriaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			frmConsultaCategoria afrmConCategoria = new frmConsultaCategoria();
+			afrmConCategoria.ShowDialog();
+        }
+
+        private void unidadeDeMedidaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			frmConsultaUnidadeMedida afrmConUnidadeMedida = new frmConsultaUnidadeMedida();
+			afrmConUnidadeMedida.ShowDialog();
+        }
+    }
 }

@@ -80,15 +80,34 @@ namespace projeto_pratica.pages.cadastro
 			{
 				MessageBox.Show("O campo CPF é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
-			}
+            }
 
-			if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            //validação de CPF E CNPJ
+            if (IsCpf(txtCpf.Text))
+            {
+                MessageBox.Show("CPF não é valido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
 			{
 				MessageBox.Show("O campo Email é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
-			oFuncionario.Tipo = 'F'; 
+            if (dtpDataNascimento.Value > DateTime.Now )
+            {
+                MessageBox.Show("Data Selecionada é invalida", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!IsValidEmail(txtEmail.Text))
+            {
+                MessageBox.Show("O e-mail informado não é válido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            oFuncionario.Tipo = 'F'; 
 			oFuncionario.NomeRazaoSocial = txtNome.Text;
 			oFuncionario.ApelidoFantasia = txtApelido.Text;
 			oFuncionario.CpfCnpj = txtCpf.Text;
@@ -175,6 +194,8 @@ namespace projeto_pratica.pages.cadastro
 			txtCpf.Text = oFuncionario.CpfCnpj;
 			txtRg.Text = oFuncionario.RgInscricaoEst;
 			dtpDataNascimento.Value = oFuncionario.DataNascimento;
+			dtpDataAdmissao.Value = oFuncionario.DataAdmissao;
+			dtpDataDemissao.Value = oFuncionario.DataDemissao;
 			txtTel.Text = oFuncionario.Telefone;
 			txtMatricula.Text = oFuncionario.Matricula;
 			txtCargo.Text = oFuncionario.Cargo;
@@ -187,7 +208,11 @@ namespace projeto_pratica.pages.cadastro
 			txtEstado.Text = oFuncionario.OEndereco.ACidade.OEstado.Nome;
 			txtComple.Text = oFuncionario.OEndereco.Complemento;
 			txtNum.Text = oFuncionario.OEndereco.Num;
-		}
+
+			dtpDataNascimento.Refresh();
+			dtpDataAdmissao.Refresh();
+			dtpDataDemissao.Refresh();
+        }
 
 		public override void BloqueiaTxt()
 		{

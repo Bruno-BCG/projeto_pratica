@@ -83,13 +83,43 @@ namespace projeto_pratica.pages.cadastro
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            //validação de CPF E CNPJ
+            if (rbtnFisica.Checked)
+            {
+                if (IsCpf(txtCpf.Text))
+                {
+                    MessageBox.Show("CPF não é valido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            else if (rbtnJuridico.Checked)
+            {
+                if (IsCnpj(txtCpf.Text))
+                {
+                    MessageBox.Show("CNPJ não é valido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
 			{
 				MessageBox.Show("O campo Email é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
-			oFornecedor.Tipo = rbtnFisica.Checked ? 'F' : 'J';
+            if (dtpDataNascimento.Value > DateTime.Now)
+            {
+                MessageBox.Show("Data Selecionada é invalida", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!IsValidEmail(txtEmail.Text))
+            {
+                MessageBox.Show("O e-mail informado não é válido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            oFornecedor.Tipo = rbtnFisica.Checked ? 'F' : 'J';
 
 			oFornecedor.NomeRazaoSocial = txtNome.Text;
 			oFornecedor.ApelidoFantasia = txtApelido.Text;
@@ -171,7 +201,6 @@ namespace projeto_pratica.pages.cadastro
 			txtRg.Text = oFornecedor.RgInscricaoEst;
 			dtpDataNascimento.Value = oFornecedor.DataNascimento;
 			txtTel.Text = oFornecedor.Telefone;
-
 			txtDtAlt.Text = Convert.ToString(oFornecedor.DtAlt);
 			txtDtCriacao.Text = Convert.ToString(oFornecedor.DtCriacao);
 			txtComple.Text = oFornecedor.OEndereco.Complemento;
@@ -182,7 +211,9 @@ namespace projeto_pratica.pages.cadastro
 
 			rbtnFisica.Enabled = false;
 			rbtnJuridico.Enabled = false;
-		}
+
+            dtpDataNascimento.Refresh();
+        }
 
 		public override void BloqueiaTxt()
 		{

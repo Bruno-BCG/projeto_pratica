@@ -85,9 +85,9 @@ namespace projeto_pratica.pages.consulta
 		{
 			base.Alterar();
 			oFrmCadFornecedor.ConhecaObj(oFornecedor, aCtrlFornecedor);
-			oFrmCadFornecedor.CarregarTxt();
-			oFrmCadFornecedor.ShowDialog();
-			this.CarregaLV();
+            oFrmCadFornecedor.CarregarTxt();
+            oFrmCadFornecedor.ShowDialog();
+            this.CarregaLV();
 		}
 
 		public override void Excluir()
