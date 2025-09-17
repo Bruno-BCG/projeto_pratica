@@ -28,33 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.txtCategoria = new System.Windows.Forms.TextBox();
+            this.lblCategoria = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // textBox1
+            // txtCategoria
             // 
-            this.textBox1.Location = new System.Drawing.Point(19, 100);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 31;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txtCategoria.Location = new System.Drawing.Point(19, 100);
+            this.txtCategoria.MaxLength = 99;
+            this.txtCategoria.Name = "txtCategoria";
+            this.txtCategoria.Size = new System.Drawing.Size(100, 20);
+            this.txtCategoria.TabIndex = 31;
             // 
-            // label1
+            // lblCategoria
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 84);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 13);
-            this.label1.TabIndex = 32;
-            this.label1.Text = "CATEGORIA:*";
+            this.lblCategoria.AutoSize = true;
+            this.lblCategoria.Location = new System.Drawing.Point(16, 84);
+            this.lblCategoria.Name = "lblCategoria";
+            this.lblCategoria.Size = new System.Drawing.Size(76, 13);
+            this.lblCategoria.TabIndex = 32;
+            this.lblCategoria.Text = "CATEGORIA:*";
             // 
             // frmCadastroCategoria
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(754, 586);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.lblCategoria);
+            this.Controls.Add(this.txtCategoria);
             this.Name = "frmCadastroCategoria";
             this.Controls.SetChildIndex(this.btnSair, 0);
             this.Controls.SetChildIndex(this.txtCodigo, 0);
@@ -67,8 +67,8 @@
             this.Controls.SetChildIndex(this.txtDtAlt, 0);
             this.Controls.SetChildIndex(this.txtUserAlt, 0);
             this.Controls.SetChildIndex(this.ckbStatus, 0);
-            this.Controls.SetChildIndex(this.textBox1, 0);
-            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.txtCategoria, 0);
+            this.Controls.SetChildIndex(this.lblCategoria, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -76,7 +76,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtCategoria;
+        private System.Windows.Forms.Label lblCategoria;
     }
 }

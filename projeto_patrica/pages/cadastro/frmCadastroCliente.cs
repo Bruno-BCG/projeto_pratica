@@ -86,7 +86,7 @@ namespace projeto_pratica.pages.cadastro
 			//validação de CPF E CNPJ
             if (rbtnFisica.Checked)
             {
-                if (IsCpf(txtCpf.Text))
+                if (IsCpf(txtCpf.Text) == false) 
                 {
                     MessageBox.Show("CPF não é valido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -94,7 +94,7 @@ namespace projeto_pratica.pages.cadastro
             }
             else if (rbtnJuridico.Checked)
             {
-                if (IsCnpj(txtCpf.Text))
+                if (IsCnpj(txtCpf.Text) == false)
                 {
                     MessageBox.Show("CNPJ não é valido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -119,9 +119,13 @@ namespace projeto_pratica.pages.cadastro
                 return;
             }
 
-            oCliente.Tipo = rbtnFisica.Checked ? 'F' : 'J';
+            if (string.IsNullOrWhiteSpace(txtCondPag.Text))
+            {
+                MessageBox.Show("O campo Condição de Pagamento é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-			oCliente.NomeRazaoSocial = txtNome.Text;
+            oCliente.NomeRazaoSocial = txtNome.Text;
 			oCliente.ApelidoFantasia = txtApelido.Text;
 			oCliente.CpfCnpj = txtCpf.Text;
 			oCliente.RgInscricaoEst = txtRg.Text;

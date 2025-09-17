@@ -27,6 +27,10 @@ namespace projeto_pratica
 		private Cliente oCliente;
 		private Funcionario oFuncionario;
 		private Fornecedor oFornecedor;
+		private Categoria aCategoria;
+		private Marca aMarca;
+		private UnidadeMedida aUniMedida;
+		private Produto oProduto;
 
 		private Interfaces aInter;
 
@@ -38,6 +42,10 @@ namespace projeto_pratica
 		private CtrlCliente aCtrlCliente;
 		private CtrlFuncionario aCtrlFuncionario;
 		private CtrlFornecedor aCtrlFornecedor;
+		private CtrlCategoria aCtrlCategoria;
+		private CtrlMarca aCtrlMarca;
+		private CtrlUniMedida aCtrlUniMedida;
+		private CtrlProduto aCtrlProduto;
 
 		public frmPrincipal()
 		{
@@ -50,6 +58,10 @@ namespace projeto_pratica
 			oCliente = new Cliente();
 			oFuncionario = new Funcionario();
 			oFornecedor = new Fornecedor();
+			aCategoria = new Categoria();
+			aMarca = new Marca();
+			aUniMedida = new UnidadeMedida();
+			oProduto = new Produto();
 
 			aInter = new Interfaces();
 
@@ -61,6 +73,10 @@ namespace projeto_pratica
 			aCtrlCliente = new CtrlCliente();
 			aCtrlFuncionario = new CtrlFuncionario();
 			aCtrlFornecedor = new CtrlFornecedor();
+			aCtrlCategoria = new CtrlCategoria();
+			aCtrlMarca = new CtrlMarca();
+			aCtrlUniMedida = new CtrlUniMedida();
+			aCtrlProduto = new CtrlProduto();
 
 		}	
 
@@ -109,20 +125,22 @@ namespace projeto_pratica
 
 		private void produtoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			frmConsultaProduto afrmConProduto = new frmConsultaProduto();
-			afrmConProduto.ShowDialog();
+			aInter.PecaProduto(oProduto, aCtrlProduto);
 		}
 
         private void categoriaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			frmConsultaCategoria afrmConCategoria = new frmConsultaCategoria();
-			afrmConCategoria.ShowDialog();
+			aInter.PecaCategoria(aCategoria, aCtrlCategoria);
         }
 
         private void unidadeDeMedidaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			frmConsultaUnidadeMedida afrmConUnidadeMedida = new frmConsultaUnidadeMedida();
-			afrmConUnidadeMedida.ShowDialog();
+			aInter.PecaUniMedida(aUniMedida, aCtrlUniMedida);
+        }
+
+        private void marcaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			aInter.PecaMarca(aMarca, aCtrlMarca);
         }
     }
 }

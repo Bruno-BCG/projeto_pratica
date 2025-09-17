@@ -5,26 +5,27 @@ using projeto_pratica.controllers;
 
 namespace projeto_pratica.pages.cadastro
 {
-    public partial class frmCadastroCategoria : projeto_pratica.pages.cadastro.frmCadastro
+    public partial class frmCadastroMarca : projeto_pratica.pages.cadastro.frmCadastro
     {
-        private Categoria oCategoria;
-        private CtrlCategoria aCtrlCategoria;
-        public frmCadastroCategoria()
+        private Marca oMarca;
+        private CtrlMarca aCtrlMarca;
+        public frmCadastroMarca()
         {
             InitializeComponent();
         }
 
         public override void ConhecaObj(object obj, object ctrl)
         {
-            oCategoria = (Categoria)obj;
-            aCtrlCategoria = (CtrlCategoria)ctrl;
+            oMarca = (Marca)obj;
+            aCtrlMarca = (CtrlMarca)ctrl;
         }
 
         public override void LimparTxt()
         {
             base.LimparTxt();
             this.txtCodigo.Text = "0";
-            this.txtCategoria.Clear();
+            this.txtMarca.Clear();
+
             this.txtDtCriacao.Clear();
             this.txtDtAlt.Clear();
         }
@@ -33,27 +34,27 @@ namespace projeto_pratica.pages.cadastro
         {
             base.Salvar();
 
-            if (string.IsNullOrWhiteSpace(txtCategoria.Text))
+            if (string.IsNullOrWhiteSpace(txtMarca.Text))
             {
-                MessageBox.Show("O nome da categoria é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("O nome da marca é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (int.TryParse(txtCodigo.Text, out int categoriaId) && categoriaId > 0)
+            if (int.TryParse(txtCodigo.Text, out int marcaId) && marcaId > 0)
             {
-                oCategoria.Id = categoriaId;
+                oMarca.Id = marcaId;
             }
 
-            oCategoria.Nome = txtCategoria.Text;
+            oMarca.Nome = txtMarca.Text;
 
             if (btnSave.Text == "Salvar")
             {
-                string resultado = aCtrlCategoria.Salvar(oCategoria);
+                string resultado = aCtrlMarca.Salvar(oMarca);
 
                 if (int.TryParse(resultado, out int novoId))
                 {
                     txtCodigo.Text = novoId.ToString();
-                    MessageBox.Show($"A categoria '{oCategoria.Nome}' foi salva com o código {txtCodigo.Text}.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"A marca '{oMarca.Nome}' foi salva com o código {txtCodigo.Text}.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Close();
                 }
                 else
@@ -63,11 +64,11 @@ namespace projeto_pratica.pages.cadastro
             }
             else if (btnSave.Text == "Excluir")
             {
-                string resultado = aCtrlCategoria.Excluir(oCategoria);
+                string resultado = aCtrlMarca.Excluir(oMarca);
 
                 if (resultado == "OK")
                 {
-                    MessageBox.Show("Categoria excluída com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Marca excluída com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Close();
                 }
                 else
@@ -80,22 +81,22 @@ namespace projeto_pratica.pages.cadastro
         public override void CarregarTxt()
         {
             base.CarregarTxt();
-            this.txtCodigo.Text = Convert.ToString(oCategoria.Id);
-            this.txtCategoria.Text = oCategoria.Nome;
-            this.txtDtCriacao.Text = oCategoria.DtCriacao.ToString();
-            this.txtDtAlt.Text = oCategoria.DtAlt.ToString();
+            this.txtCodigo.Text = Convert.ToString(oMarca.Id);
+            this.txtMarca.Text = oMarca.Nome;
+            this.txtDtCriacao.Text = oMarca.DtCriacao.ToString();
+            this.txtDtAlt.Text = oMarca.DtAlt.ToString();
         }
 
         public override void BloqueiaTxt()
         {
             base.BloqueiaTxt();
-            this.txtCategoria.Enabled = false;
+            this.txtMarca.Enabled = false;
         }
 
         public override void DesbloqueiaTxt()
         {
             base.DesbloqueiaTxt();
-            this.txtCategoria.Enabled = true;
+            this.txtMarca.Enabled = true;
         }
     }
 }

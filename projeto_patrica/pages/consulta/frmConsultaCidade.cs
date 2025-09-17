@@ -86,6 +86,7 @@ namespace projeto_pratica
                 item.SubItems.Add(aCidade.Ddd);
                 item.SubItems.Add(Convert.ToString(aCidade.OEstado.Id));
                 item.SubItems.Add(aCidade.OEstado.Nome);
+                item.SubItems.Add(aCidade.OEstado.OPais.Nome);
                 item.Tag = aCidade;
                 listV.Items.Add(item);
             }

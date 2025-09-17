@@ -47,10 +47,10 @@
             this.columnHeader5,
             this.columnHeader6,
             this.columnHeader7});
+            this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
             // 
             // btnIncluir
             // 
-            this.btnIncluir.Click += new System.EventHandler(this.btnIncluir_Click);
             // 
             // columnHeader1
             // 

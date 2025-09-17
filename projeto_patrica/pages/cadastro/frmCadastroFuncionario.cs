@@ -75,7 +75,6 @@ namespace projeto_pratica.pages.cadastro
 				return;
 			}
 
-			// CPF obrigatório se o país for Brasil
 			if (string.IsNullOrWhiteSpace(txtCpf.Text) && (oFuncionario.OEndereco.ACidade?.OEstado?.OPais?.Nome == "Brasil"))
 			{
 				MessageBox.Show("O campo CPF é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -83,7 +82,7 @@ namespace projeto_pratica.pages.cadastro
             }
 
             //validação de CPF E CNPJ
-            if (IsCpf(txtCpf.Text))
+            if (IsCpf(txtCpf.Text) == false)
             {
                 MessageBox.Show("CPF não é valido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

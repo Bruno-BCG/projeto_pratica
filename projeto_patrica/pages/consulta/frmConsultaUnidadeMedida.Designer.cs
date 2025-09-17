@@ -35,10 +35,7 @@
             // 
             this.listV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
-            // 
-            // btnIncluir
-            // 
-            this.btnIncluir.Click += new System.EventHandler(this.btnIncluir_Click);
+            this.listV.SelectedIndexChanged += new System.EventHandler(this.ListV_SelectedIndexChanged);
             // 
             // columnHeader1
             // 

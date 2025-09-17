@@ -1,6 +1,6 @@
 ﻿namespace projeto_pratica.pages.consulta
 {
-    partial class frmConsultaCategoria
+    partial class frmConsultaMarca
     {
         /// <summary>
         /// Variável de designer necessária.
@@ -28,27 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmMarca = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // listV
             // 
             this.listV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
+            this.clmMarca});
             this.listV.SelectedIndexChanged += new System.EventHandler(this.ListV_SelectedIndexChanged);
             // 
-            // columnHeader1
+            // clmMarca
             // 
-            this.columnHeader1.Text = "Categoria";
-            this.columnHeader1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader1.Width = 120;
+            this.clmMarca.Text = "Marca";
+            this.clmMarca.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmMarca.Width = 120;
             // 
-            // frmConsultaCategoria
+            // frmConsultaMarca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(1008, 729);
-            this.Name = "frmConsultaCategoria";
-            this.Text = "Consulta de Categoria";
+            this.Name = "frmConsultaMarca";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -56,6 +55,6 @@
 
         #endregion
 
-        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader clmMarca;
     }
 }

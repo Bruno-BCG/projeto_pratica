@@ -20,6 +20,10 @@ namespace projeto_pratica.classes
 		frmConsultaCliente aFrmConsCliente;
 		frmConsultaFuncionario aFrmConsFuncionario;
 		frmConsultaFornecedor aFrmConsFornecedor;
+		frmConsultaCategoria aFrmConsCategoria;
+		frmConsultaMarca aFrmConsMarca;
+		frmConsultaUnidadeMedida aFrmConsUniMedida;
+		frmConsultaProduto aFrmConsProduto;
 
 		frmCadastroCondpag aFrmCadCondPag;
 		frmCadastroFormPag aFrmCadFormPag;
@@ -29,6 +33,10 @@ namespace projeto_pratica.classes
 		frmCadastroCliente aFrmCadCliente;
 		frmCadastroFuncionario aFrmCadFuncionario;
 		frmCadastroFornecedor aFrmCadFornecedor;
+		frmCadastroCategoria aFrmCadCategoria;
+		frmCadastroMarca aFrmCadMarca;
+		frmCadastroUnidadeMedida aFrmCadUniMedida;
+		frmCadastroProduto aFrmCadProduto;
 
 
 		public Interfaces()
@@ -41,6 +49,10 @@ namespace projeto_pratica.classes
 			aFrmConsCliente = new frmConsultaCliente();
 			aFrmConsFuncionario = new frmConsultaFuncionario();
 			aFrmConsFornecedor = new frmConsultaFornecedor();
+			aFrmConsCategoria = new frmConsultaCategoria();
+			aFrmConsMarca = new frmConsultaMarca();
+			aFrmConsUniMedida = new frmConsultaUnidadeMedida();
+			aFrmConsProduto = new frmConsultaProduto();
 
 			aFrmCadCondPag = new frmCadastroCondpag();
 			aFrmCadFormPag = new frmCadastroFormPag();
@@ -48,8 +60,11 @@ namespace projeto_pratica.classes
 			aFrmCadEstado = new frmCadastroEstado();
 			aFrmCadCidade = new frmCadastroCidade();
 			aFrmCadCliente = new frmCadastroCliente();
-			aFrmCadFuncionario =new frmCadastroFuncionario();
+			aFrmCadFuncionario = new frmCadastroFuncionario();
 			aFrmCadFornecedor = new frmCadastroFornecedor();
+			aFrmCadCategoria = new frmCadastroCategoria();
+			aFrmCadMarca = new frmCadastroMarca();
+			aFrmCadUniMedida = new frmCadastroUnidadeMedida();
 
 			aFrmConsCondPag.setFrmCadastro(aFrmCadCondPag);
 			aFrmConsFormPag.setFrmCadastro(aFrmCadFormPag);
@@ -103,17 +118,38 @@ namespace projeto_pratica.classes
 		public void PecaCliente(Cliente oCliente, CtrlCliente aCtrlCliente)
 		{
 			aFrmConsCliente.ConhecaObj(oCliente, aCtrlCliente);
-			aFrmConsCliente.ShowDialog();	
+			aFrmConsCliente.ShowDialog();
 		}
 		public void PecaFuncioanrio(Funcionario oFuncionario, CtrlFuncionario aCtrlFuncionario)
 		{
 			aFrmConsFuncionario.ConhecaObj(oFuncionario, aCtrlFuncionario);
 			aFrmConsFuncionario.ShowDialog();
 		}
-		public void PecaFornecedor (Fornecedor oFornecedor, CtrlFornecedor aCtrlFornecedor)
+		public void PecaFornecedor(Fornecedor oFornecedor, CtrlFornecedor aCtrlFornecedor)
 		{
 			aFrmConsFornecedor.ConhecaObj(oFornecedor, aCtrlFornecedor);
 			aFrmConsFornecedor.ShowDialog();
+		}
+
+		public void PecaCategoria(Categoria aCategoria, CtrlCategoria aCtrlCategoria)
+		{
+			aFrmConsCategoria.ConhecaObj(aCategoria, aCtrlCategoria);
+			aFrmConsCategoria.ShowDialog();
+		}
+		public void PecaMarca(Marca aMarca, CtrlMarca aCtrlMarca)
+		{
+			aFrmConsMarca.ConhecaObj(aMarca, aCtrlMarca);
+			aFrmConsMarca.ShowDialog();
+		}
+		public void PecaUniMedida(UnidadeMedida aUniMedida, CtrlUniMedida aCtrlUniMedida)
+		{
+			aFrmConsUniMedida.ConhecaObj(aUniMedida, aCtrlUniMedida);
+			aFrmConsUniMedida.ShowDialog();
+		}
+		public void PecaProduto(Produto oProduto, CtrlProduto aCtrlProduto)
+		{
+			aFrmConsProduto.ConhecaObj(oProduto, aCtrlProduto);
+			aFrmConsProduto.ShowDialog();
 		}
 	}
 }

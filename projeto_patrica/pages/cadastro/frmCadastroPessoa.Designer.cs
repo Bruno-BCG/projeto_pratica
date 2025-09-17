@@ -126,7 +126,7 @@
             this.rbtnFisica.Location = new System.Drawing.Point(401, 12);
             this.rbtnFisica.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rbtnFisica.Name = "rbtnFisica";
-            this.rbtnFisica.Size = new System.Drawing.Size(111, 20);
+            this.rbtnFisica.Size = new System.Drawing.Size(114, 20);
             this.rbtnFisica.TabIndex = 5;
             this.rbtnFisica.TabStop = true;
             this.rbtnFisica.Text = "Pessoa Fisica";
@@ -138,7 +138,7 @@
             this.rbtnJuridico.Location = new System.Drawing.Point(521, 12);
             this.rbtnJuridico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rbtnJuridico.Name = "rbtnJuridico";
-            this.rbtnJuridico.Size = new System.Drawing.Size(122, 20);
+            this.rbtnJuridico.Size = new System.Drawing.Size(125, 20);
             this.rbtnJuridico.TabIndex = 6;
             this.rbtnJuridico.TabStop = true;
             this.rbtnJuridico.Text = "Pessoa Juridica";
@@ -256,6 +256,7 @@
             // 
             this.txtCep.Location = new System.Drawing.Point(23, 139);
             this.txtCep.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtCep.MaxLength = 8;
             this.txtCep.Name = "txtCep";
             this.txtCep.Size = new System.Drawing.Size(148, 22);
             this.txtCep.TabIndex = 5;
@@ -444,6 +445,7 @@
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "frmCadastroPessoa";
             this.Text = "Cadastro Pessoa";
+            this.Load += new System.EventHandler(this.frmCadastroPessoa_Load);
             this.Controls.SetChildIndex(this.ckbStatus, 0);
             this.Controls.SetChildIndex(this.lblNome, 0);
             this.Controls.SetChildIndex(this.txtNome, 0);

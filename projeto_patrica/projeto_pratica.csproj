@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\Banco.cs" />
+    <Compile Include="classes\Categoria.cs" />
     <Compile Include="classes\Cidade.cs" />
     <Compile Include="classes\Cliente.cs" />
     <Compile Include="classes\CondicaoPagamento.cs" />
@@ -55,9 +56,16 @@
     <Compile Include="classes\Fornecedor.cs" />
     <Compile Include="classes\Funcionario.cs" />
     <Compile Include="classes\Interfaces.cs" />
+    <Compile Include="classes\Marca.cs" />
     <Compile Include="classes\Pais.cs" />
     <Compile Include="classes\ParcelaCondPag.cs" />
     <Compile Include="classes\Pessoa.cs" />
+    <Compile Include="classes\Produto.cs" />
+    <Compile Include="classes\UnidadeMedida.cs" />
+    <Compile Include="controllers\CtrlProduto.cs" />
+    <Compile Include="controllers\CtrlUniMedida.cs" />
+    <Compile Include="controllers\CtrlCategoria.cs" />
+    <Compile Include="controllers\CtrlMarca.cs" />
     <Compile Include="controllers\Controller.cs" />
     <Compile Include="classes\FormaPagamento.cs" />
     <Compile Include="classes\Pai.cs" />
@@ -78,6 +86,10 @@
     <Compile Include="daos\DaoFormPag.cs" />
     <Compile Include="daos\DaoFornecedor.cs" />
     <Compile Include="daos\DaoFuncionario.cs" />
+    <Compile Include="daos\DaoProduto.cs" />
+    <Compile Include="daos\DaoCategoria.cs" />
+    <Compile Include="daos\DaoUniMedida.cs" />
+    <Compile Include="daos\DaoMarca.cs" />
     <Compile Include="daos\DaoPaises.cs" />
     <Compile Include="daos\DaoParcCondPag.cs" />
     <Compile Include="frmBase.cs">
@@ -109,6 +121,12 @@
     </Compile>
     <Compile Include="pages\cadastro\frmCadastroFuncionario.Designer.cs">
       <DependentUpon>frmCadastroFuncionario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\cadastro\frmCadastroMarca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\cadastro\frmCadastroMarca.Designer.cs">
+      <DependentUpon>frmCadastroMarca.cs</DependentUpon>
     </Compile>
     <Compile Include="pages\cadastro\frmCadastroPessoa.cs">
       <SubType>Form</SubType>
@@ -224,6 +242,12 @@
     <Compile Include="pages\consulta\frmConsultaFormPag.Designer.cs">
       <DependentUpon>frmConsultaFormPag.cs</DependentUpon>
     </Compile>
+    <Compile Include="pages\consulta\frmConsultaMarca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\consulta\frmConsultaMarca.Designer.cs">
+      <DependentUpon>frmConsultaMarca.cs</DependentUpon>
+    </Compile>
     <Compile Include="pages\consulta\frmConsultaPais.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -258,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="pages\cadastro\frmCadastroFuncionario.resx">
       <DependentUpon>frmCadastroFuncionario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\cadastro\frmCadastroMarca.resx">
+      <DependentUpon>frmCadastroMarca.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pages\cadastro\frmCadastroPessoa.resx">
       <DependentUpon>frmCadastroPessoa.cs</DependentUpon>
@@ -315,6 +342,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="pages\consulta\frmConsultaFormPag.resx">
       <DependentUpon>frmConsultaFormPag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\consulta\frmConsultaMarca.resx">
+      <DependentUpon>frmConsultaMarca.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pages\consulta\frmConsultaPais.resx">
       <DependentUpon>frmConsultaPais.cs</DependentUpon>

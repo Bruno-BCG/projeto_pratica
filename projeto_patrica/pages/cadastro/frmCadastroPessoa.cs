@@ -120,5 +120,9 @@ namespace projeto_pratica.pages.cadastro
                 return false;
             }
         }
+private void frmCadastroPessoa_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

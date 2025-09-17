@@ -68,7 +68,8 @@ namespace projeto_pratica
 				{
 					txtCodigo.Text = novoId.ToString();
 					MessageBox.Show($"O país '{oPais.Nome}' foi salvo com o código {txtCodigo.Text}.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				}
+                    Close();
+                }
 				else
 				{
 					MessageBox.Show($"Erro ao salvar: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);

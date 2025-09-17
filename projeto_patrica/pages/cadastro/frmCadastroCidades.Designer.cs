@@ -152,7 +152,6 @@
             this.Controls.Add(this.lblCidade);
             this.Name = "frmCadastroCidade";
             this.Text = "Cadastro Cidades";
-            this.Load += new System.EventHandler(this.frmCadastroCidades_Load);
             this.Controls.SetChildIndex(this.ckbStatus, 0);
             this.Controls.SetChildIndex(this.lblDataCriacao, 0);
             this.Controls.SetChildIndex(this.lblDataAlteracao, 0);

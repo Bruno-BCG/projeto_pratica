@@ -55,7 +55,7 @@
             // 
             // txtCpf
             // 
-            this.txtCpf.Location = new System.Drawing.Point(27, 332);
+            this.txtCpf.Location = new System.Drawing.Point(23, 332);
             this.txtCpf.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             // 
             // lblCPF
@@ -183,11 +183,11 @@
             // btnSair
             // 
             this.btnSair.Location = new System.Drawing.Point(867, 665);
-            this.btnSair.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnSair.Margin = new System.Windows.Forms.Padding(5);
             // 
             // txtCodigo
             // 
-            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5);
             // 
             // txtCondPag
             // 

@@ -86,7 +86,7 @@ namespace projeto_pratica.pages.cadastro
             //validação de CPF E CNPJ
             if (rbtnFisica.Checked)
             {
-                if (IsCpf(txtCpf.Text))
+                if (IsCpf(txtCpf.Text) == false)
                 {
                     MessageBox.Show("CPF não é valido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -94,7 +94,7 @@ namespace projeto_pratica.pages.cadastro
             }
             else if (rbtnJuridico.Checked)
             {
-                if (IsCnpj(txtCpf.Text))
+                if (IsCnpj(txtCpf.Text) == false)
                 {
                     MessageBox.Show("CNPJ não é valido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -116,6 +116,12 @@ namespace projeto_pratica.pages.cadastro
             if (!IsValidEmail(txtEmail.Text))
             {
                 MessageBox.Show("O e-mail informado não é válido!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtCondPag.Text))
+            {
+                MessageBox.Show("O campo Condição de Pagamento é obrigatório!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

@@ -1,6 +1,6 @@
 ﻿namespace projeto_pratica.pages.cadastro
 {
-    partial class frmCadastroUnidadeMedida
+    partial class frmCadastroMarca
     {
         /// <summary>
         /// Variável de designer necessária.
@@ -29,32 +29,33 @@
         private void InitializeComponent()
         {
             this.lblMarca = new System.Windows.Forms.Label();
-            this.txtUniMedida = new System.Windows.Forms.TextBox();
+            this.txtMarca = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblMarca
             // 
             this.lblMarca.AutoSize = true;
-            this.lblMarca.Location = new System.Drawing.Point(15, 90);
+            this.lblMarca.Location = new System.Drawing.Point(16, 80);
             this.lblMarca.Name = "lblMarca";
-            this.lblMarca.Size = new System.Drawing.Size(126, 13);
-            this.lblMarca.TabIndex = 36;
-            this.lblMarca.Text = "UNIDADE DE MEDIDA:*";
+            this.lblMarca.Size = new System.Drawing.Size(52, 13);
+            this.lblMarca.TabIndex = 34;
+            this.lblMarca.Text = "MARCA:*";
             // 
-            // txtUniMedida
+            // txtMarca
             // 
-            this.txtUniMedida.Location = new System.Drawing.Point(18, 106);
-            this.txtUniMedida.Name = "txtUniMedida";
-            this.txtUniMedida.Size = new System.Drawing.Size(132, 20);
-            this.txtUniMedida.TabIndex = 35;
+            this.txtMarca.Location = new System.Drawing.Point(19, 96);
+            this.txtMarca.MaxLength = 99;
+            this.txtMarca.Name = "txtMarca";
+            this.txtMarca.Size = new System.Drawing.Size(100, 20);
+            this.txtMarca.TabIndex = 33;
             // 
-            // frmCadastroUnidadeMedida
+            // frmCadastroMarca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(754, 586);
             this.Controls.Add(this.lblMarca);
-            this.Controls.Add(this.txtUniMedida);
-            this.Name = "frmCadastroUnidadeMedida";
+            this.Controls.Add(this.txtMarca);
+            this.Name = "frmCadastroMarca";
             this.Controls.SetChildIndex(this.btnSair, 0);
             this.Controls.SetChildIndex(this.txtCodigo, 0);
             this.Controls.SetChildIndex(this.btnSave, 0);
@@ -66,7 +67,7 @@
             this.Controls.SetChildIndex(this.txtDtAlt, 0);
             this.Controls.SetChildIndex(this.txtUserAlt, 0);
             this.Controls.SetChildIndex(this.ckbStatus, 0);
-            this.Controls.SetChildIndex(this.txtUniMedida, 0);
+            this.Controls.SetChildIndex(this.txtMarca, 0);
             this.Controls.SetChildIndex(this.lblMarca, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -76,6 +77,6 @@
         #endregion
 
         private System.Windows.Forms.Label lblMarca;
-        private System.Windows.Forms.TextBox txtUniMedida;
+        private System.Windows.Forms.TextBox txtMarca;
     }
 }
