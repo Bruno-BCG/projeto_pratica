@@ -16,6 +16,14 @@ namespace projeto_pratica.pages.consulta
             InitializeComponent();
             frmCadMarca = new frmCadastroMarca();
         }
+        public override void setFrmCadastro(object obj)
+        {
+            base.setFrmCadastro(obj);
+            if (obj != null)
+            {
+                frmCadMarca = (frmCadastroMarca)obj;
+            }
+        }
 
         public override void ConhecaObj(object obj, object ctrl)
         {

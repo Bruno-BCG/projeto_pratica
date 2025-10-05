@@ -1,8 +1,9 @@
-﻿using projeto_pratica.pages.cadastro;
-using System;
-using System.Windows.Forms;
-using projeto_pratica.classes;
+﻿using projeto_pratica.classes;
 using projeto_pratica.controllers;
+using projeto_pratica.pages.cadastro;
+using System;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace projeto_pratica.pages.consulta
 {
@@ -15,6 +16,15 @@ namespace projeto_pratica.pages.consulta
         {
             InitializeComponent();
             frmCadProduto = new frmCadastroProduto();
+        }
+
+        public override void setFrmCadastro(object obj)
+        {
+            base.setFrmCadastro(obj);
+            if (obj != null)
+            {
+                frmCadProduto = (frmCadastroProduto)obj;
+            }
         }
 
         public override void ConhecaObj(object obj, object ctrl)
@@ -60,14 +70,20 @@ namespace projeto_pratica.pages.consulta
         {
             this.listV.Items.Clear();
             var lista = aCtrlProduto.Listar();
+
             foreach (var produto in lista)
             {
                 ListViewItem item = new ListViewItem(Convert.ToString(produto.Id));
                 item.SubItems.Add(produto.Nome);
-                item.SubItems.Add(produto.Estoque.ToString());
-                item.SubItems.Add(produto.Venda.ToString("C")); // Formata como moeda
-                item.SubItems.Add(produto.AMarca.Nome);
+                item.SubItems.Add(produto.AUnidadeMedida.Nome);
                 item.SubItems.Add(produto.ACategoria.Nome);
+                item.SubItems.Add(produto.AMarca.Nome);
+                item.SubItems.Add(produto.Custo.ToString("C"));
+                item.SubItems.Add(produto.Venda.ToString("C"));
+                item.SubItems.Add(produto.Estoque.ToString());
+
+                // A marca não está na sua grade visual, mas se precisar, adicione uma coluna para ela.
+
                 item.Tag = produto;
                 listV.Items.Add(item);
             }
@@ -79,9 +95,10 @@ namespace projeto_pratica.pages.consulta
             {
                 btnExcluir.Enabled = true;
                 btnAlterar.Enabled = true;
+
                 var selecionado = (Produto)listV.SelectedItems[0].Tag;
 
-                // Preenche o objeto produto com todos os seus dados e sub-objetos
+                // Atribuição individual dos campos...
                 oProduto.Id = selecionado.Id;
                 oProduto.Nome = selecionado.Nome;
                 oProduto.Codbar = selecionado.Codbar;
@@ -90,10 +107,16 @@ namespace projeto_pratica.pages.consulta
                 oProduto.Estoque = selecionado.Estoque;
                 oProduto.DtCriacao = selecionado.DtCriacao;
                 oProduto.DtAlt = selecionado.DtAlt;
-                oProduto.OFornecedor = selecionado.OFornecedor;
+                oProduto.OFornecedor = selecionado.OFornecedor; // A lista de fornecedores também é copiada
                 oProduto.AUnidadeMedida = selecionado.AUnidadeMedida;
                 oProduto.ACategoria = selecionado.ACategoria;
                 oProduto.AMarca = selecionado.AMarca;
+              
+            }
+            else
+            {
+                btnExcluir.Enabled = false;
+                btnAlterar.Enabled = false;
             }
         }
     }

@@ -17,6 +17,15 @@ namespace projeto_pratica.pages.consulta
             frmCadCategoria = new frmCadastroCategoria();
         }
 
+        public override void setFrmCadastro(object obj)
+        {
+            base.setFrmCadastro(obj);
+            if (obj != null)
+            {
+                frmCadCategoria = (frmCadastroCategoria)obj;
+            }
+        }
+
         public override void ConhecaObj(object obj, object ctrl)
         {
             oCategoria = (Categoria)obj;

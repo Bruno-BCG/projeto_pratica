@@ -18,6 +18,16 @@ namespace projeto_pratica.pages.consulta
             frmCadUniMedida = new frmCadastroUnidadeMedida();
         }
 
+        public override void setFrmCadastro(object obj)
+        {
+            base.setFrmCadastro(obj);
+            if (obj != null)
+            {
+                frmCadUniMedida = (frmCadastroUnidadeMedida)obj;
+            }
+        }
+
+
         public override void ConhecaObj(object obj, object ctrl)
         {
             oUnidadeMedida = (UnidadeMedida)obj;

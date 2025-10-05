@@ -194,8 +194,23 @@ namespace projeto_pratica.pages.cadastro
 			txtRg.Text = oFuncionario.RgInscricaoEst;
 			dtpDataNascimento.Value = oFuncionario.DataNascimento;
 			dtpDataAdmissao.Value = oFuncionario.DataAdmissao;
-			dtpDataDemissao.Value = oFuncionario.DataDemissao;
-			txtTel.Text = oFuncionario.Telefone;
+            if (oFuncionario.DataDemissao.HasValue)
+            {
+                // Se a data EXISTE, nós pegamos o valor real com .Value
+                // e o atribuímos ao DateTimePicker.
+                dtpDataDemissao.Value = oFuncionario.DataDemissao.Value;
+                dtpDataDemissao.Enabled = true; // Opcional: Habilita o controle
+            }
+            else
+            {
+                // Se a data é NULL, não há valor para atribuir.
+                // A melhor prática é desabilitar o controle visualmente.
+                dtpDataDemissao.Enabled = false;
+
+                // Opcional: você pode setar para a data de hoje para evitar erros, já que está desabilitado
+                // dtpDataDemissao.Value = DateTime.Now; 
+            }
+            txtTel.Text = oFuncionario.Telefone;
 			txtMatricula.Text = oFuncionario.Matricula;
 			txtCargo.Text = oFuncionario.Cargo;
 			txtSalBruto.Text = oFuncionario.SalarioBruto.ToString();

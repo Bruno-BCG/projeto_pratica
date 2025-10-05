@@ -12,7 +12,7 @@ namespace projeto_pratica.classes
     {
         protected string nome;
         protected string codBar;
-        protected Fornecedor oFornecedor;
+        protected List<Fornecedor> oFornecedor;
         protected UnidadeMedida aUnidadeMedida;
         protected Categoria aCategoria;
         protected Marca aMarca;
@@ -24,7 +24,7 @@ namespace projeto_pratica.classes
         {
             nome = " ";
             codBar = " ";
-            oFornecedor = new Fornecedor ();
+            oFornecedor = new List<Fornecedor>();
             aUnidadeMedida = new UnidadeMedida ();
             aCategoria = new Categoria ();
             aMarca = new Marca ();
@@ -33,7 +33,7 @@ namespace projeto_pratica.classes
             estoque = 0;
         }
 
-        public Produto (int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, string nome, string codBar, Fornecedor oFornecedor, UnidadeMedida aUnidadeMedida, Categoria aCategoria, Marca aMarca, double custo, double venda, int qtd) : base (id, dtCriacao, dtAlt, ativo)
+        public Produto (int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, string nome, string codBar, List<Fornecedor> oFornecedor, UnidadeMedida aUnidadeMedida, Categoria aCategoria, Marca aMarca, double custo, double venda, int qtd) : base (id, dtCriacao, dtAlt, ativo)
         {
             this.nome = nome;
             this.codBar = codBar;
@@ -56,7 +56,7 @@ namespace projeto_pratica.classes
             get => codBar;
             set => codBar = value;
         }
-        public Fornecedor OFornecedor
+        public List<Fornecedor> OFornecedor
         {
             get => oFornecedor;
             set => oFornecedor = value;
@@ -88,8 +88,8 @@ namespace projeto_pratica.classes
         }
         public int Estoque
         {
-            get => Estoque;
-            set => Estoque = value;
+            get => estoque;
+            set => estoque = value;
         }
     }
 }

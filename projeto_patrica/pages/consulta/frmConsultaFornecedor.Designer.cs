@@ -63,14 +63,14 @@
             this.clCondPag,
             this.clLimitCredit,
             this.clAtivo});
-            this.listV.Location = new System.Drawing.Point(24, 74);
-            this.listV.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listV.Size = new System.Drawing.Size(1288, 709);
+            this.listV.Location = new System.Drawing.Point(18, 60);
+            this.listV.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.listV.Size = new System.Drawing.Size(967, 577);
             this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
             // 
             // txtCodigo
             // 
-            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             // 
             // clTipo
             // 
@@ -162,10 +162,10 @@
             // 
             // frmConsultaFornecedor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1344, 897);
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ClientSize = new System.Drawing.Size(1008, 729);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmConsultaFornecedor";
             this.Text = "Consulta de Clientes";
             this.ResumeLayout(false);

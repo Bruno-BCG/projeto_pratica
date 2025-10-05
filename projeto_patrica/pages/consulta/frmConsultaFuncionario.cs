@@ -60,7 +60,7 @@ namespace projeto_pratica.pages.consulta
 				item.SubItems.Add(f.SalarioBruto.ToString("F2"));
 				item.SubItems.Add(f.SalarioLiquido.ToString("F2"));
 				item.SubItems.Add(f.DataAdmissao.ToShortDateString());
-                item.SubItems.Add(f.DataDemissao.ToShortDateString());
+                item.SubItems.Add(f.DataDemissao.HasValue ? f.DataDemissao.Value.ToShortDateString() : "");
                 item.SubItems.Add(f.CargaHoraria.ToString());
 				item.SubItems.Add(f.Turno);
                 item.SubItems.Add(f.Ativo.ToString());

@@ -97,5 +97,10 @@ namespace projeto_pratica.pages.cadastro
             base.DesbloqueiaTxt();
             this.txtCategoria.Enabled = true;
         }
+
+        private void frmCadastroCategoria_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

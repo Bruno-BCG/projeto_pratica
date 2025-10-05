@@ -28,76 +28,78 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmProduto = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmUniMed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmCatego = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmCusto = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmVenda = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmEstoque = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmMarca = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // listV
             // 
             this.listV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5,
-            this.columnHeader6,
-            this.columnHeader7});
+            this.clmProduto,
+            this.clmUniMed,
+            this.clmCatego,
+            this.clmMarca,
+            this.clmCusto,
+            this.clmVenda,
+            this.clmEstoque});
             this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
             // 
-            // btnIncluir
+            // txtCodigo
             // 
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5);
             // 
-            // columnHeader1
+            // clmProduto
             // 
-            this.columnHeader1.Text = "Produto";
-            this.columnHeader1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader1.Width = 240;
+            this.clmProduto.Text = "Produto";
+            this.clmProduto.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmProduto.Width = 320;
             // 
-            // columnHeader2
+            // clmUniMed
             // 
-            this.columnHeader2.Text = "Fornecedor";
-            this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader2.Width = 240;
+            this.clmUniMed.Text = "Unidade Medida";
+            this.clmUniMed.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmUniMed.Width = 100;
             // 
-            // columnHeader3
+            // clmCatego
             // 
-            this.columnHeader3.Text = "Unidade Medida";
-            this.columnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader3.Width = 100;
+            this.clmCatego.Text = "Categoria";
+            this.clmCatego.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmCatego.Width = 120;
             // 
-            // columnHeader4
+            // clmCusto
             // 
-            this.columnHeader4.Text = "Categoria";
-            this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader4.Width = 120;
+            this.clmCusto.Text = "Custo";
+            this.clmCusto.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmCusto.Width = 120;
             // 
-            // columnHeader5
+            // clmVenda
             // 
-            this.columnHeader5.Text = "Custo";
-            this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader5.Width = 120;
+            this.clmVenda.Text = "Valor Venda";
+            this.clmVenda.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmVenda.Width = 120;
             // 
-            // columnHeader6
+            // clmEstoque
             // 
-            this.columnHeader6.Text = "Valor Venda";
-            this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader6.Width = 120;
+            this.clmEstoque.Text = "Estoque";
+            this.clmEstoque.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmEstoque.Width = 120;
             // 
-            // columnHeader7
+            // clmMarca
             // 
-            this.columnHeader7.Text = "Estoque";
-            this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader7.Width = 120;
+            this.clmMarca.Text = "Marca";
+            this.clmMarca.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmMarca.Width = 120;
             // 
             // frmConsultaProduto
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(1008, 729);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.ClientSize = new System.Drawing.Size(1344, 897);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "frmConsultaProduto";
             this.Text = "Consulta de Produto";
             this.ResumeLayout(false);
@@ -107,12 +109,12 @@
 
         #endregion
 
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader clmProduto;
+        private System.Windows.Forms.ColumnHeader clmUniMed;
+        private System.Windows.Forms.ColumnHeader clmCatego;
+        private System.Windows.Forms.ColumnHeader clmCusto;
+        private System.Windows.Forms.ColumnHeader clmVenda;
+        private System.Windows.Forms.ColumnHeader clmEstoque;
+        private System.Windows.Forms.ColumnHeader clmMarca;
     }
 }

@@ -105,13 +105,32 @@ namespace projeto_pratica.pages.consulta
 
 		private void listV_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (listV.SelectedItems.Count > 0)
-			{
-				btnExcluir.Enabled = true;
-				btnAlterar.Enabled = true;
+            if (listV.SelectedItems.Count > 0)
+            {
+                btnExcluir.Enabled = true;
+                btnAlterar.Enabled = true;
 
-				oFornecedor = (Fornecedor)listV.SelectedItems[0].Tag;
-			}
-		}
-	}
+                // 1. Pega o objeto da lista em uma variável temporária "selecionado"
+                var selecionado = (Fornecedor)listV.SelectedItems[0].Tag;
+
+                // 2. Copia cada valor do "selecionado" para o objeto "oFornecedor" original.
+                // Isso preserva a referência do objeto que veio da tela anterior.
+                oFornecedor.Id = selecionado.Id;
+                oFornecedor.Tipo = selecionado.Tipo;
+                oFornecedor.NomeRazaoSocial = selecionado.NomeRazaoSocial;
+                oFornecedor.ApelidoFantasia = selecionado.ApelidoFantasia;
+				oFornecedor.DataNascimento = selecionado.DataNascimento;
+                oFornecedor.CpfCnpj = selecionado.CpfCnpj;
+                oFornecedor.RgInscricaoEst = selecionado.RgInscricaoEst;
+                oFornecedor.Email = selecionado.Email;
+                oFornecedor.Telefone = selecionado.Telefone;
+                oFornecedor.Ativo = selecionado.Ativo;
+                oFornecedor.LimiteCredito = selecionado.LimiteCredito;
+
+                // É crucial copiar também os objetos internos
+                oFornecedor.OEndereco = selecionado.OEndereco;
+                oFornecedor.ACondPag = selecionado.ACondPag;
+            }
+        }
+    }
 }

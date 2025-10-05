@@ -32,29 +32,49 @@
             this.txtUniMedida = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
+            // txtDtCriacao
+            // 
+            this.txtDtCriacao.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            // 
+            // txtDtAlt
+            // 
+            this.txtDtAlt.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            // 
+            // txtUserAlt
+            // 
+            this.txtUserAlt.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            // 
+            // txtCodigo
+            // 
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            // 
             // lblMarca
             // 
             this.lblMarca.AutoSize = true;
-            this.lblMarca.Location = new System.Drawing.Point(15, 90);
+            this.lblMarca.Location = new System.Drawing.Point(20, 111);
+            this.lblMarca.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMarca.Name = "lblMarca";
-            this.lblMarca.Size = new System.Drawing.Size(126, 13);
+            this.lblMarca.Size = new System.Drawing.Size(153, 16);
             this.lblMarca.TabIndex = 36;
             this.lblMarca.Text = "UNIDADE DE MEDIDA:*";
             // 
             // txtUniMedida
             // 
-            this.txtUniMedida.Location = new System.Drawing.Point(18, 106);
+            this.txtUniMedida.Location = new System.Drawing.Point(24, 130);
+            this.txtUniMedida.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtUniMedida.Name = "txtUniMedida";
-            this.txtUniMedida.Size = new System.Drawing.Size(132, 20);
+            this.txtUniMedida.Size = new System.Drawing.Size(175, 22);
             this.txtUniMedida.TabIndex = 35;
             // 
             // frmCadastroUnidadeMedida
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(754, 586);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.ClientSize = new System.Drawing.Size(1005, 721);
             this.Controls.Add(this.lblMarca);
             this.Controls.Add(this.txtUniMedida);
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "frmCadastroUnidadeMedida";
+            this.Text = "Cadastro de Unidade de Medida";
             this.Controls.SetChildIndex(this.btnSair, 0);
             this.Controls.SetChildIndex(this.txtCodigo, 0);
             this.Controls.SetChildIndex(this.btnSave, 0);

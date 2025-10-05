@@ -13,7 +13,7 @@ namespace projeto_pratica.classes
 		private double salarioBruto;
 		private double salarioLiquido;
 		private DateTime dataAdmissao;
-		private DateTime dataDemissao;
+		private DateTime? dataDemissao;
 		private string turno;
 		private int cargaHoraria;
 
@@ -35,7 +35,7 @@ namespace projeto_pratica.classes
 			string cpf, string rg, string email, string telefone,
 			Enderecos endereco,
 			string matricula, string cargo, double salarioBruto, double salarioLiquido,
-			DateTime dataAdmissao, DateTime dataDemissao, string turno, int cargaHoraria
+			DateTime dataAdmissao, DateTime? dataDemissao, string turno, int cargaHoraria
 		) : base(id, dtCriacao, dtAlt, tipo, nome, apelido, nascimento, cpf, rg, email, telefone, ativo, endereco)
 		{
 			this.matricula = matricula;
@@ -78,7 +78,7 @@ namespace projeto_pratica.classes
 			set => dataAdmissao = value;
 		}
 
-		public DateTime DataDemissao
+		public DateTime? DataDemissao
 		{
 			get => dataDemissao;
 			set => dataDemissao = value;

@@ -65,6 +65,7 @@ namespace projeto_pratica.classes
 			aFrmCadCategoria = new frmCadastroCategoria();
 			aFrmCadMarca = new frmCadastroMarca();
 			aFrmCadUniMedida = new frmCadastroUnidadeMedida();
+			aFrmCadProduto = new frmCadastroProduto();
 
 			aFrmConsCondPag.setFrmCadastro(aFrmCadCondPag);
 			aFrmConsFormPag.setFrmCadastro(aFrmCadFormPag);
@@ -74,6 +75,10 @@ namespace projeto_pratica.classes
 			aFrmConsCliente.setFrmCadastro(aFrmCadCliente);
 			aFrmConsFuncionario.setFrmCadastro(aFrmCadFuncionario);
 			aFrmConsFornecedor.setFrmCadastro(aFrmCadFornecedor);
+			aFrmConsCategoria.setFrmCadastro(aFrmCadCategoria);
+			aFrmConsMarca.setFrmCadastro(aFrmCadMarca);
+			aFrmConsUniMedida.setFrmCadastro(aFrmCadUniMedida);
+			aFrmConsProduto.setFrmCadastro(aFrmCadProduto);
 
 			aFrmCadCondPag.setFrmConsultaFormPag(aFrmConsFormPag);
 			aFrmCadCliente.setFrmConsultaCidade(aFrmConsCidade);
@@ -83,6 +88,10 @@ namespace projeto_pratica.classes
 			aFrmCadFornecedor.setFrmConsultaCondPag(aFrmConsCondPag);
 			aFrmCadCidade.setFrmConsultaEstado(aFrmConsEstados);
 			aFrmCadEstado.setFrmConsultaPais(aFrmConsPais);
+			aFrmCadProduto.setFrmConsultaCategoria(aFrmConsCategoria);
+			aFrmCadProduto.setFrmConsultaFornecedor(aFrmConsFornecedor);
+			aFrmCadProduto.setFrmConsultaUnidadeMedida(aFrmConsUniMedida);
+			aFrmCadProduto.setFrmConsultaMarca(aFrmConsMarca);
 		}
 
 		public void PecaCondPag(CondicaoPagamento aCondPag, CtrlCondPag aCtrlCondPag)

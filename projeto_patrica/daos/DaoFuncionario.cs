@@ -166,61 +166,64 @@ namespace projeto_pratica.daos
 				{
 					using (SqlDataReader dr = cmd.ExecuteReader())
 					{
-						while (dr.Read())
-						{
-							lista.Add(new Funcionario
-							{
-								Id = Convert.ToInt32(dr["FUNCIONARIO_ID"]),
-								Tipo = Convert.ToChar(dr["FUNCIONARIO_TIPO"]),
-								NomeRazaoSocial = dr["FUNCIONARIO_NOME"].ToString(),
-								ApelidoFantasia = dr["FUNCIONARIO_APELIDO"].ToString(),
-								DataNascimento = Convert.ToDateTime(dr["FUNCIONARIO_NASCIMENTO"]),
-								CpfCnpj = dr["FUNCIONARIO_CPF"].ToString(),
-								RgInscricaoEst = dr["FUNCIONARIO_RG"].ToString(),
-								Email = dr["FUNCIONARIO_EMAIL"].ToString(),
-								Telefone = dr["FUNCIONARIO_TELEFONE"].ToString(),
-								Ativo = Convert.ToBoolean(dr["ATIVO"]),
-								DtCriacao = Convert.ToDateTime(dr["FUNCIONARIO_DT_CRIACAO"]),
-								DtAlt = dr["FUNCIONARIO_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["FUNCIONARIO_DT_ALT"]),
-								Matricula = dr["FUNCIONARIO_MATRICULA"].ToString(),
-								Turno = dr["FUNCIONARIO_TURNO"].ToString(),
-								Cargo = dr["FUNCIONARIO_CARGO"].ToString(),
-								SalarioBruto = Convert.ToDouble(dr["FUNCIONARIO_SALBRUTO"]),
-								SalarioLiquido = Convert.ToDouble(dr["FUNCIONARIO_SALLIQ"]),
-								DataAdmissao = Convert.ToDateTime(dr["FUNCIONARIO_DATA_ADMISSAO"]),
-								DataDemissao = Convert.ToDateTime(dr["FUNCIONARIO_DATA_DEMISSAO"]),
-								CargaHoraria = Convert.ToInt32(dr["FUNCIONARIO_CARGA_HORARIA"]),
-								OEndereco = new Enderecos
-								{
-									Endereco = dr["FUNCIONARIO_ENDERECO"].ToString(),
-									Bairro = dr["FUNCIONARIO_BAIRRO"].ToString(),
-									Complemento = dr["FUNCIONARIO_COMPLEMENTO"].ToString(),
-									Num = dr["FUNCIONARIO_NUM"].ToString(),
-									Cep = dr["FUNCIONARIO_CEP"].ToString(),
-									ACidade = new Cidade
-									{
-										Id = Convert.ToInt32(dr["CIDADE_ID"]),
-										Nome = dr["CIDADE_NOME"].ToString(),
-										Ddd = dr["CIDADE_DDD"].ToString(),
-										OEstado = new Estado
-										{
-											Id = Convert.ToInt32(dr["ESTADO_ID"]),
-											Nome = dr["ESTADO_NOME"].ToString(),
-											Uf = dr["ESTADO_UF"].ToString(),
-											OPais = new Pais
-											{
-												Id = Convert.ToInt32(dr["PAIS_ID"]),
-												Nome = dr["PAIS_NOME"].ToString(),
-												Sigla = dr["PAIS_SIGLA"].ToString(),
-												Moeda = dr["PAIS_MOEDA"].ToString(),
-												Ddi = dr["PAIS_DDI"].ToString()
-											}
-										}
-									}
-								}
-							});
-						}
-					}
+                        while (dr.Read())
+                        {
+                            lista.Add(new Funcionario
+                            {
+                                Id = Convert.ToInt32(dr["FUNCIONARIO_ID"]),
+                                Tipo = Convert.ToChar(dr["FUNCIONARIO_TIPO"]),
+                                NomeRazaoSocial = dr["FUNCIONARIO_NOME"].ToString(),
+                                ApelidoFantasia = dr["FUNCIONARIO_APELIDO"].ToString(),
+                                DataNascimento = Convert.ToDateTime(dr["FUNCIONARIO_NASCIMENTO"]), // Assumindo que este campo nunca é nulo
+                                CpfCnpj = dr["FUNCIONARIO_CPF"].ToString(),
+                                RgInscricaoEst = dr["FUNCIONARIO_RG"].ToString(),
+                                Email = dr["FUNCIONARIO_EMAIL"].ToString(),
+                                Telefone = dr["FUNCIONARIO_TELEFONE"].ToString(),
+                                Ativo = Convert.ToBoolean(dr["ATIVO"]),
+                                DtCriacao = Convert.ToDateTime(dr["FUNCIONARIO_DT_CRIACAO"]),
+                                DtAlt = dr["FUNCIONARIO_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["FUNCIONARIO_DT_ALT"]),
+                                Matricula = dr["FUNCIONARIO_MATRICULA"].ToString(),
+                                Turno = dr["FUNCIONARIO_TURNO"].ToString(),
+                                Cargo = dr["FUNCIONARIO_CARGO"].ToString(),
+
+                                // --- CORREÇÕES APLICADAS ABAIXO ---
+
+                                SalarioBruto = dr["FUNCIONARIO_SALBRUTO"] == DBNull.Value ? 0 : Convert.ToDouble(dr["FUNCIONARIO_SALBRUTO"]),
+                                SalarioLiquido = dr["FUNCIONARIO_SALLIQ"] == DBNull.Value ? 0 : Convert.ToDouble(dr["FUNCIONARIO_SALLIQ"]),
+   
+                                CargaHoraria = dr["FUNCIONARIO_CARGA_HORARIA"] == DBNull.Value ? 0 : Convert.ToInt32(dr["FUNCIONARIO_CARGA_HORARIA"]),
+
+                                OEndereco = new Enderecos
+                                {
+                                    Endereco = dr["FUNCIONARIO_ENDERECO"].ToString(),
+                                    Bairro = dr["FUNCIONARIO_BAIRRO"].ToString(),
+                                    Complemento = dr["FUNCIONARIO_COMPLEMENTO"].ToString(),
+                                    Num = dr["FUNCIONARIO_NUM"].ToString(),
+                                    Cep = dr["FUNCIONARIO_CEP"].ToString(),
+                                    ACidade = new Cidade
+                                    {
+                                        Id = Convert.ToInt32(dr["CIDADE_ID"]),
+                                        Nome = dr["CIDADE_NOME"].ToString(),
+                                        Ddd = dr["CIDADE_DDD"].ToString(),
+                                        OEstado = new Estado
+                                        {
+                                            Id = Convert.ToInt32(dr["ESTADO_ID"]),
+                                            Nome = dr["ESTADO_NOME"].ToString(),
+                                            Uf = dr["ESTADO_UF"].ToString(),
+                                            OPais = new Pais
+                                            {
+                                                Id = Convert.ToInt32(dr["PAIS_ID"]),
+                                                Nome = dr["PAIS_NOME"].ToString(),
+                                                Sigla = dr["PAIS_SIGLA"].ToString(),
+                                                Moeda = dr["PAIS_MOEDA"].ToString(),
+                                                Ddi = dr["PAIS_DDI"].ToString()
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
 				}
 			}
 			return lista;

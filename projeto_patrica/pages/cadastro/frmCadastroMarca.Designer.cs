@@ -32,30 +32,50 @@
             this.txtMarca = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
+            // txtDtCriacao
+            // 
+            this.txtDtCriacao.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            // 
+            // txtDtAlt
+            // 
+            this.txtDtAlt.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            // 
+            // txtUserAlt
+            // 
+            this.txtUserAlt.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            // 
+            // txtCodigo
+            // 
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            // 
             // lblMarca
             // 
             this.lblMarca.AutoSize = true;
-            this.lblMarca.Location = new System.Drawing.Point(16, 80);
+            this.lblMarca.Location = new System.Drawing.Point(21, 98);
+            this.lblMarca.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMarca.Name = "lblMarca";
-            this.lblMarca.Size = new System.Drawing.Size(52, 13);
+            this.lblMarca.Size = new System.Drawing.Size(63, 16);
             this.lblMarca.TabIndex = 34;
             this.lblMarca.Text = "MARCA:*";
             // 
             // txtMarca
             // 
-            this.txtMarca.Location = new System.Drawing.Point(19, 96);
+            this.txtMarca.Location = new System.Drawing.Point(25, 118);
+            this.txtMarca.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtMarca.MaxLength = 99;
             this.txtMarca.Name = "txtMarca";
-            this.txtMarca.Size = new System.Drawing.Size(100, 20);
+            this.txtMarca.Size = new System.Drawing.Size(132, 22);
             this.txtMarca.TabIndex = 33;
             // 
             // frmCadastroMarca
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(754, 586);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.ClientSize = new System.Drawing.Size(1005, 721);
             this.Controls.Add(this.lblMarca);
             this.Controls.Add(this.txtMarca);
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "frmCadastroMarca";
+            this.Text = "Cadastro de Marca";
             this.Controls.SetChildIndex(this.btnSair, 0);
             this.Controls.SetChildIndex(this.txtCodigo, 0);
             this.Controls.SetChildIndex(this.btnSave, 0);
