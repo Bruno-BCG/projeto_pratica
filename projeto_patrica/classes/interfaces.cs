@@ -24,6 +24,7 @@ namespace projeto_pratica.classes
 		frmConsultaMarca aFrmConsMarca;
 		frmConsultaUnidadeMedida aFrmConsUniMedida;
 		frmConsultaProduto aFrmConsProduto;
+		frmConsultaNotasEntrada aFrmConsNotasEntrada;
 
 		frmCadastroCondpag aFrmCadCondPag;
 		frmCadastroFormPag aFrmCadFormPag;
@@ -37,6 +38,7 @@ namespace projeto_pratica.classes
 		frmCadastroMarca aFrmCadMarca;
 		frmCadastroUnidadeMedida aFrmCadUniMedida;
 		frmCadastroProduto aFrmCadProduto;
+		frmCadastroNotaEntrada aFrmCadNotaEntrada;
 
 
 		public Interfaces()
@@ -53,6 +55,7 @@ namespace projeto_pratica.classes
 			aFrmConsMarca = new frmConsultaMarca();
 			aFrmConsUniMedida = new frmConsultaUnidadeMedida();
 			aFrmConsProduto = new frmConsultaProduto();
+			aFrmConsNotasEntrada = new frmConsultaNotasEntrada();
 
 			aFrmCadCondPag = new frmCadastroCondpag();
 			aFrmCadFormPag = new frmCadastroFormPag();
@@ -66,6 +69,7 @@ namespace projeto_pratica.classes
 			aFrmCadMarca = new frmCadastroMarca();
 			aFrmCadUniMedida = new frmCadastroUnidadeMedida();
 			aFrmCadProduto = new frmCadastroProduto();
+			aFrmCadNotaEntrada = new frmCadastroNotaEntrada();
 
 			aFrmConsCondPag.setFrmCadastro(aFrmCadCondPag);
 			aFrmConsFormPag.setFrmCadastro(aFrmCadFormPag);
@@ -79,6 +83,7 @@ namespace projeto_pratica.classes
 			aFrmConsMarca.setFrmCadastro(aFrmCadMarca);
 			aFrmConsUniMedida.setFrmCadastro(aFrmCadUniMedida);
 			aFrmConsProduto.setFrmCadastro(aFrmCadProduto);
+			aFrmConsNotasEntrada.setFrmCadastro(aFrmCadNotaEntrada);
 
 			aFrmCadCondPag.setFrmConsultaFormPag(aFrmConsFormPag);
 			aFrmCadCliente.setFrmConsultaCidade(aFrmConsCidade);
@@ -92,6 +97,9 @@ namespace projeto_pratica.classes
 			aFrmCadProduto.setFrmConsultaFornecedor(aFrmConsFornecedor);
 			aFrmCadProduto.setFrmConsultaUnidadeMedida(aFrmConsUniMedida);
 			aFrmCadProduto.setFrmConsultaMarca(aFrmConsMarca);
+			aFrmCadNotaEntrada.setFrmConsultaFornecedor(aFrmConsFornecedor);
+			aFrmCadNotaEntrada.setFrmConsultaProduto(aFrmConsProduto);
+			aFrmCadNotaEntrada.setFrmConsultaCondPag(aFrmConsCondPag);
 		}
 
 		public void PecaCondPag(CondicaoPagamento aCondPag, CtrlCondPag aCtrlCondPag)
@@ -159,6 +167,11 @@ namespace projeto_pratica.classes
 		{
 			aFrmConsProduto.ConhecaObj(oProduto, aCtrlProduto);
 			aFrmConsProduto.ShowDialog();
+		}
+		public void PecaNotaEntrada(NotaEntrada aNotaEntrada, CtrlNotaEntrada aCtrlNotaEntrada)
+		{
+			aFrmConsNotasEntrada.ConhecaObj(aNotaEntrada, aCtrlNotaEntrada);
+			aFrmConsNotasEntrada.ShowDialog();
 		}
 	}
 }

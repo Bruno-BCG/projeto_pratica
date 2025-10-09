@@ -56,12 +56,15 @@
     <Compile Include="classes\Fornecedor.cs" />
     <Compile Include="classes\Funcionario.cs" />
     <Compile Include="classes\Interfaces.cs" />
+    <Compile Include="classes\ItensNotaEntrada.cs" />
     <Compile Include="classes\Marca.cs" />
+    <Compile Include="classes\NotaEntrada.cs" />
     <Compile Include="classes\Pais.cs" />
     <Compile Include="classes\ParcelaCondPag.cs" />
     <Compile Include="classes\Pessoa.cs" />
     <Compile Include="classes\Produto.cs" />
     <Compile Include="classes\UnidadeMedida.cs" />
+    <Compile Include="controllers\CtrlNotaEntrada.cs" />
     <Compile Include="controllers\CtrlProduto.cs" />
     <Compile Include="controllers\CtrlUniMedida.cs" />
     <Compile Include="controllers\CtrlCategoria.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="daos\DaoFormPag.cs" />
     <Compile Include="daos\DaoFornecedor.cs" />
     <Compile Include="daos\DaoFuncionario.cs" />
+    <Compile Include="daos\DaoNotaEntrada.cs" />
     <Compile Include="daos\DaoProduto.cs" />
     <Compile Include="daos\DaoCategoria.cs" />
     <Compile Include="daos\DaoUniMedida.cs" />
@@ -127,6 +131,12 @@
     </Compile>
     <Compile Include="pages\cadastro\frmCadastroMarca.Designer.cs">
       <DependentUpon>frmCadastroMarca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\cadastro\frmCadastroNotaEntrada.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\cadastro\frmCadastroNotaEntrada.Designer.cs">
+      <DependentUpon>frmCadastroNotaEntrada.cs</DependentUpon>
     </Compile>
     <Compile Include="pages\cadastro\frmCadastroPessoa.cs">
       <SubType>Form</SubType>
@@ -248,6 +258,12 @@
     <Compile Include="pages\consulta\frmConsultaMarca.Designer.cs">
       <DependentUpon>frmConsultaMarca.cs</DependentUpon>
     </Compile>
+    <Compile Include="pages\consulta\frmConsultaNotasEntrada.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\consulta\frmConsultaNotasEntrada.Designer.cs">
+      <DependentUpon>frmConsultaNotasEntrada.cs</DependentUpon>
+    </Compile>
     <Compile Include="pages\consulta\frmConsultaPais.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -285,6 +301,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="pages\cadastro\frmCadastroMarca.resx">
       <DependentUpon>frmCadastroMarca.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\cadastro\frmCadastroNotaEntrada.resx">
+      <DependentUpon>frmCadastroNotaEntrada.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pages\cadastro\frmCadastroPessoa.resx">
       <DependentUpon>frmCadastroPessoa.cs</DependentUpon>
@@ -345,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="pages\consulta\frmConsultaMarca.resx">
       <DependentUpon>frmConsultaMarca.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\consulta\frmConsultaNotasEntrada.resx">
+      <DependentUpon>frmConsultaNotasEntrada.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pages\consulta\frmConsultaPais.resx">
       <DependentUpon>frmConsultaPais.cs</DependentUpon>

@@ -31,6 +31,7 @@ namespace projeto_pratica
 		private Marca aMarca;
 		private UnidadeMedida aUniMedida;
 		private Produto oProduto;
+		private NotaEntrada aNotaEntrada;
 
 		private Interfaces aInter;
 
@@ -46,6 +47,7 @@ namespace projeto_pratica
 		private CtrlMarca aCtrlMarca;
 		private CtrlUniMedida aCtrlUniMedida;
 		private CtrlProduto aCtrlProduto;
+		private CtrlNotaEntrada aCtrlNotaEntrada;
 
 		public frmPrincipal()
 		{
@@ -62,6 +64,7 @@ namespace projeto_pratica
 			aMarca = new Marca();
 			aUniMedida = new UnidadeMedida();
 			oProduto = new Produto();
+			aNotaEntrada = new NotaEntrada();	
 
 			aInter = new Interfaces();
 
@@ -77,6 +80,7 @@ namespace projeto_pratica
 			aCtrlMarca = new CtrlMarca();
 			aCtrlUniMedida = new CtrlUniMedida();
 			aCtrlProduto = new CtrlProduto();
+			aCtrlNotaEntrada = new CtrlNotaEntrada();
 
 		}	
 
@@ -141,6 +145,11 @@ namespace projeto_pratica
         private void marcaToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			aInter.PecaMarca(aMarca, aCtrlMarca);
+        }
+
+        private void notaDeEntradaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			aInter.PecaNotaEntrada(aNotaEntrada, aCtrlNotaEntrada);
         }
     }
 }

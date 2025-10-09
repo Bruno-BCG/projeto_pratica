@@ -103,19 +103,31 @@ namespace projeto_pratica.pages.consulta
 
 		private void listV_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (listV.SelectedItems.Count > 0)
-			{
-				btnExcluir.Enabled = true;
-				btnAlterar.Enabled = true;
-				var selecionado = (CondicaoPagamento)listV.SelectedItems[0].Tag;
-				aCondPag.Id = selecionado.Id;
-				aCondPag.Descricao = selecionado.Descricao;
-				aCondPag.Multa = selecionado.Multa;
-				aCondPag.Juro = selecionado.Juro;
-				aCondPag.Desconto = selecionado.Desconto;
-				aCondPag.NumParcelas = selecionado.NumParcelas;
-			}
-		}
+            if (listV.SelectedItems.Count > 0)
+            {
+                btnExcluir.Enabled = true;
+                btnAlterar.Enabled = true;
+
+                var selecionado = (CondicaoPagamento)listV.SelectedItems[0].Tag;
+
+                aCondPag.Id = selecionado.Id;
+                aCondPag.Descricao = selecionado.Descricao;
+                aCondPag.Multa = selecionado.Multa;
+                aCondPag.Juro = selecionado.Juro;
+                aCondPag.Desconto = selecionado.Desconto;
+                aCondPag.NumParcelas = selecionado.NumParcelas;
+                aCondPag.DtCriacao = selecionado.DtCriacao;
+                aCondPag.DtAlt = selecionado.DtAlt;
+                aCondPag.Ativo = selecionado.Ativo;
+
+                CarregarParcelas();
+            }
+            else
+            {
+                btnExcluir.Enabled = false;
+                btnAlterar.Enabled = false;
+            }
+        }
 
 		private void frmConsultaCondPag_Load(object sender, EventArgs e)
 		{
