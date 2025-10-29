@@ -1,5 +1,6 @@
 ﻿using projeto_pratica.classes;
 using projeto_pratica.daos;
+using projeto_pratica.service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +11,21 @@ namespace projeto_pratica.controllers
 {
     internal class CtrlNotaEntrada : Controller
     {
-        protected DaoNotaEntrada aDaoNotaEntrada;
+        private NotaEntradaService serviceNota; 
 
-        public CtrlNotaEntrada() 
+        public CtrlNotaEntrada()
         {
-            aDaoNotaEntrada = new DaoNotaEntrada();
+            serviceNota = new NotaEntradaService(); 
         }
 
         public override string Salvar(object obj)
         {
-            return aDaoNotaEntrada.Salvar(obj);
-        }
-
-        public override string Excluir(object obj)
-        {
-            return aDaoNotaEntrada.Excluir(obj);
+            return serviceNota.Salvar((NotaEntrada)obj); 
         }
 
         public List<NotaEntrada> Listar()
         {
-            return aDaoNotaEntrada.Listar();
+            return serviceNota.Listar(); 
         }
-
     }
 }

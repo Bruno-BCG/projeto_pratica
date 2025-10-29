@@ -47,5 +47,5 @@ namespace projeto_pratica.pages.cadastro
 		{
 			Salvar();
 		}
-	}
+    }
 }

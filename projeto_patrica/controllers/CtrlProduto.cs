@@ -27,5 +27,9 @@ namespace projeto_pratica.controllers
         {
             return aDaoProduto.Listar();
         }
+        public Produto BuscarPorId(int id)
+        {
+            return aDaoProduto.BuscarPorId(id);
+        }
     }
 }

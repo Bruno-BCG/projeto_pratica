@@ -145,5 +145,73 @@ namespace projeto_pratica.daos
 			}
 			return lista;
 		}
-	}
+        public CondicaoPagamento BuscarPorId(int id)
+        {
+            CondicaoPagamento condPag = null;
+            using (SqlConnection conexao = Banco.Abrir())
+            {
+                if (conexao == null) return null;
+
+                // 1. Busca a Condição de Pagamento principal
+                string sqlCond = "SELECT * FROM COND_PAGAMENTO WHERE ATIVO = 1 AND CONDPAG_ID = @Id";
+                using (SqlCommand cmd = new SqlCommand(sqlCond, conexao))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            condPag = new CondicaoPagamento
+                            {
+                                Id = Convert.ToInt32(dr["CONDPAG_ID"]),
+                                Descricao = dr["CONDPAG_DESC"].ToString(),
+                                NumParcelas = Convert.ToInt32(dr["CONDPAG_PARCELAS"]),
+                                Juro = Convert.ToDouble(dr["CONDPAG_JURO"]),
+                                Multa = Convert.ToDouble(dr["CONDPAG_MULTA"]),
+                                Desconto = Convert.ToDouble(dr["CONDPAG_DESCONTO"]),
+                                Ativo = Convert.ToBoolean(dr["ATIVO"])
+                            };
+                        }
+                    }
+                }
+
+                // 2. Se encontrou, busca as parcelas
+                if (condPag != null)
+                {
+                    string sqlParcelas = $@"
+                        SELECT 
+                            P.PARCELA_ID, P.CONDPAG_ID, P.PARCELA_NUM, P.PARCELA_PRAZO, P.PARCELA_PERCT,
+                            FP.FORMAPAG_ID, FP.FORMAPAG_DESC
+                        FROM PARCELA_CONDPAG P
+                        INNER JOIN FORMA_PAGAMENTO FP ON P.FORMAPAG_ID = FP.FORMAPAG_ID
+                        WHERE P.CONDPAG_ID = @Id";
+
+                    using (SqlCommand cmd = new SqlCommand(sqlParcelas, conexao))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", id);
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                condPag.ParcelasCondPag.Add(new ParcelaCondPag
+                                {
+                                    Id = Convert.ToInt32(dr["PARCELA_ID"]),
+                                    CondPagId = condPag.Id,
+                                    NumeroParcela = Convert.ToInt32(dr["PARCELA_NUM"]),
+                                    Prazo = Convert.ToInt32(dr["PARCELA_PRAZO"]),
+                                    Percentual = Convert.ToDecimal(dr["PARCELA_PERCT"]),
+                                    AFormPag = new FormaPagamento
+                                    {
+                                        Id = Convert.ToInt32(dr["FORMAPAG_ID"]),
+                                        Descricao = dr["FORMAPAG_DESC"].ToString()
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            return condPag;
+        }
+    }
 }

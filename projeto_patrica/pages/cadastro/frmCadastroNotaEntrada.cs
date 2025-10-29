@@ -8,7 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Microsoft.VisualBasic;
 
 namespace projeto_pratica.pages.cadastro
 {
@@ -16,6 +16,7 @@ namespace projeto_pratica.pages.cadastro
     {
         private NotaEntrada aNotaEntrada;
         private CtrlNotaEntrada aCtrlNotaEntrada;
+        private bool _isBlockingControls = false; // <--- ADICIONE ESTA LINHA
 
         // Objetos temporários para receber dados das telas de consulta
         private Fornecedor oFornecedor;
@@ -79,38 +80,82 @@ namespace projeto_pratica.pages.cadastro
 
         public override void Salvar()
         {
-            try
+
+            if (btnSave.Text == "Salvar")
             {
-                PopulaObjetoDoForm();
+                try
+                {
+                    PopulaObjetoDoForm();
 
-                if (aNotaEntrada.OFornecedor == null || aNotaEntrada.OFornecedor.Id == 0)
-                {
-                    MessageBox.Show("É obrigatório selecionar um fornecedor.", "Erro de Validação", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (aNotaEntrada.ItensDaNota.Count == 0)
-                {
-                    MessageBox.Show("A nota de entrada deve conter pelo menos um item.", "Erro de Validação", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                    if (aNotaEntrada.OFornecedor == null || aNotaEntrada.OFornecedor.Id == 0)
+                    {
+                        MessageBox.Show("É obrigatório selecionar um fornecedor.", "Erro de Validação", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    if (aNotaEntrada.ItensDaNota.Count == 0)
+                    {
+                        MessageBox.Show("A nota de entrada deve conter pelo menos um item.", "Erro de Validação", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
-                string resultado = aCtrlNotaEntrada.Salvar(aNotaEntrada);
+                    string resultado = aCtrlNotaEntrada.Salvar(aNotaEntrada);
 
-                if (int.TryParse(resultado, out int idSalvo))
-                {
-                    aNotaEntrada.Id = idSalvo;
-                    txtCodigo.Text = idSalvo.ToString();
-                    MessageBox.Show("Nota de Entrada salva com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
+                    if (int.TryParse(resultado, out int idSalvo))
+                    {
+                        aNotaEntrada.Id = idSalvo;
+                        txtCodigo.Text = idSalvo.ToString();
+                        MessageBox.Show("Nota de Entrada salva com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Erro ao salvar a nota: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show($"Erro ao salvar a nota: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Ocorreu um erro inesperado: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (Exception ex)
+            else if (btnSave.Text == "Excluir")
             {
-                MessageBox.Show($"Ocorreu um erro inesperado: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (MessageBox.Show("Tem certeza que deseja cancelar esta Nota de Entrada?\nEsta ação reverterá o estoque.",
+                                    "Confirmar Cancelamento",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    string motivo = Interaction.InputBox("Por favor, informe o motivo do cancelamento:", "Motivo do Cancelamento");
+
+                    if (string.IsNullOrWhiteSpace(motivo))
+                    {
+                        MessageBox.Show("O motivo é obrigatório para cancelar a nota.", "Operação Cancelada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return; 
+                    }
+
+                    try
+                    {
+    
+                        PopulaObjetoDoForm();
+                        aNotaEntrada.Ativo = false;
+                        aNotaEntrada.MotivoCancelamento = motivo; 
+
+                        string resultado = aCtrlNotaEntrada.Salvar(aNotaEntrada);
+
+                        if (int.TryParse(resultado, out int idSalvo))
+                        {
+                            MessageBox.Show("Nota de Entrada cancelada com sucesso! O estoque foi revertido.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Erro ao cancelar a nota: {resultado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ocorreu um erro inesperado ao cancelar: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
 
@@ -143,6 +188,85 @@ namespace projeto_pratica.pages.cadastro
             AtualizaTotalNota();
         }
 
+        public override void BloqueiaTxt()
+        {
+            base.BloqueiaTxt();
+            this.txtValFrete.Leave -= new System.EventHandler(this.txtValoresRodape_Leave);
+            this.txtSeguro.Leave -= new System.EventHandler(this.txtValoresRodape_Leave);
+            this.txtDespesas.Leave -= new System.EventHandler(this.txtValoresRodape_Leave);
+            // --- TextBoxes ---
+            this.txtSerie.Enabled = false;
+            this.txtNum.Enabled = false;
+            this.txtCodForn.Enabled = false;
+            this.txtFornecedor.Enabled = false;
+            this.txtCodProd.Enabled = false;
+            this.txtQtd.Enabled = false;
+            this.txtValUnit.Enabled = false;
+            this.txtProduto.Enabled = false;
+            this.txtSeguro.Enabled = false;
+            this.txtValFrete.Enabled = false;
+            this.txtValTotal.Enabled = false;
+            this.txtDespesas.Enabled = false;
+            this.txtCodCondPag.Enabled = false;
+            this.txtCondPag.Enabled = false;
+
+            // --- Buttons ---
+            this.btnPesquisarForn.Enabled = false;
+            this.btnPesquisarProd.Enabled = false;
+            this.btnAdicionar.Enabled = false;
+            this.btnAlterar.Enabled = false;
+            this.btnExcluir.Enabled = false;
+            this.btnCancelar.Enabled = false;
+            this.btnPesquisarCondPag.Enabled = false;
+
+            this.dtpDataChegada.Enabled = false;
+            this.dtpDataEmissao.Enabled = false;
+
+            this.listVCondPag.Enabled = false;
+            this.listVProdutos.Enabled = false;
+
+        }
+
+        public override void DesbloqueiaTxt()
+        {
+            base.DesbloqueiaTxt();
+            
+
+            // --- TextBoxes ---
+            this.txtSerie.Enabled = true;
+            this.txtNum.Enabled = true;
+            this.txtCodForn.Enabled = true;
+            this.txtFornecedor.Enabled = true;
+            this.txtCodProd.Enabled = true;
+            this.txtQtd.Enabled = true;
+            this.txtValUnit.Enabled = true;
+            this.txtProduto.Enabled = true;
+            this.txtSeguro.Enabled = true;
+            this.txtValFrete.Enabled = true;
+            this.txtValTotal.Enabled = true;
+            this.txtDespesas.Enabled = true;
+            this.txtCodCondPag.Enabled = true;
+            this.txtCondPag.Enabled = true;
+
+            // --- Buttons ---
+            this.btnPesquisarForn.Enabled = true;
+            this.btnPesquisarProd.Enabled = true;
+            this.btnAdicionar.Enabled = true;
+            this.btnAlterar.Enabled = true;
+            this.btnExcluir.Enabled = true;
+            this.btnCancelar.Enabled = true;
+            this.btnPesquisarCondPag.Enabled = true;
+
+            this.dtpDataChegada.Enabled = true;
+            this.dtpDataEmissao.Enabled = true;
+
+            this.listVCondPag.Enabled = true;
+            this.listVProdutos.Enabled = true;
+            this.txtValFrete.Leave += new System.EventHandler(this.txtValoresRodape_Leave);
+            this.txtSeguro.Leave += new System.EventHandler(this.txtValoresRodape_Leave);
+            this.txtDespesas.Leave += new System.EventHandler(this.txtValoresRodape_Leave);
+        }
+
         public override void CarregarTxt()
         {
             if (aNotaEntrada == null) return;
@@ -163,6 +287,7 @@ namespace projeto_pratica.pages.cadastro
             txtValFrete.Text = aNotaEntrada.ValorFrete.ToString("F2");
             txtSeguro.Text = aNotaEntrada.ValorSeguro.ToString("F2");
             txtDespesas.Text = aNotaEntrada.OutrasDespesas.ToString("F2");
+            txtValTotal.Text = aNotaEntrada.ValorTotalNota.ToString("F2");
 
             if (aNotaEntrada.ACondicaoPagamento != null)
             {
@@ -175,7 +300,6 @@ namespace projeto_pratica.pages.cadastro
 
 
             AtualizaListViewItens();
-            AtualizaTotalNota();
         }
 
         private void AdicionarItem()
@@ -295,6 +419,7 @@ namespace projeto_pratica.pages.cadastro
                 lvi.SubItems.Add(p.Prazo.ToString());
                 lvi.SubItems.Add(p.Percentual.ToString("F2"));
                 lvi.SubItems.Add(p.AFormPag.Descricao);
+                lvi.SubItems.Add((aNotaEntrada.ValorTotalNota * (p.Percentual/100)).ToString());
                 listVCondPag.Items.Add(lvi);
             }
         }
@@ -316,14 +441,6 @@ namespace projeto_pratica.pages.cadastro
             btnAlterar.Enabled = emModoEdicao;
             btnExcluir.Enabled = emModoEdicao;
             btnCancelar.Enabled = emModoEdicao;
-        }
-
-        private void AtualizaTotalNota()
-        {
-            aNotaEntrada.ValorFrete = decimal.TryParse(txtValFrete.Text, out var frete) ? frete : 0;
-            aNotaEntrada.ValorSeguro = decimal.TryParse(txtSeguro.Text, out var seguro) ? seguro : 0;
-            aNotaEntrada.OutrasDespesas = decimal.TryParse(txtDespesas.Text, out var despesas) ? despesas : 0;
-            txtValTotal.Text = aNotaEntrada.ValorTotalNota.ToString("C2");
         }
 
         private void btnAdicionar_Click(object sender, EventArgs e) => AdicionarItem();
@@ -351,8 +468,29 @@ namespace projeto_pratica.pages.cadastro
                 MudarEstadoBotoesItem(false);
             }
         }
+        private void AtualizaTotalNota()
+        {
 
-        private void txtValoresRodape_Leave(object sender, EventArgs e) => AtualizaTotalNota();
+            txtValTotal.Text = aNotaEntrada.ValorTotalNota.ToString("C2");
+            AtualizaListViewParcelas();
+        }
+
+        private void txtValoresRodape_Leave(object sender, EventArgs e)
+        {
+            // Chame o novo método
+            AtualizaObjetoPeloRodape();
+        }
+        private void AtualizaObjetoPeloRodape()
+        {
+            // Este método SIM, lê dos TextBoxes e escreve no objeto
+            aNotaEntrada.ValorFrete = decimal.TryParse(txtValFrete.Text, out var frete) ? frete : 0;
+            aNotaEntrada.ValorSeguro = decimal.TryParse(txtSeguro.Text, out var seguro) ? seguro : 0;
+            aNotaEntrada.OutrasDespesas = decimal.TryParse(txtDespesas.Text, out var despesas) ? despesas : 0;
+
+            // E então recalcula o total
+            AtualizaTotalNota();
+
+        }
 
         private void btnPesquisarForn_Click(object sender, EventArgs e)
         {
@@ -382,6 +520,120 @@ namespace projeto_pratica.pages.cadastro
             txtCodCondPag.Text = aNotaEntrada.ACondicaoPagamento?.Id.ToString() ?? "";
             txtCondPag.Text = aNotaEntrada.ACondicaoPagamento?.Descricao ?? "";
             AtualizaListViewParcelas();
+        }
+
+        private void dtpDataEmissao_ValueChanged(object sender, EventArgs e)
+        {
+            this.dtpDataEmissao.ValueChanged -= dtpDataEmissao_ValueChanged;
+
+            if (dtpDataEmissao.Value < DateTime.Now)
+            {
+                dtpDataEmissao.Value = DateTime.Now;
+            }
+            else if (dtpDataEmissao.Value >= dtpDataChegada.Value)
+            {
+                dtpDataEmissao.Value = dtpDataChegada.Value;
+            }
+
+            this.dtpDataEmissao.ValueChanged += dtpDataEmissao_ValueChanged;
+        }
+
+        private void dtpDataChegada_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpDataEmissao.Value >= dtpDataChegada.Value)
+            {
+                dtpDataChegada.Value = dtpDataEmissao.Value;
+            }
+        }
+
+        private void txtCodForn_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtCodForn.Text))
+            {
+                // Limpa se o usuário apagar o código
+                aNotaEntrada.OFornecedor = new Fornecedor();
+                txtFornecedor.Clear();
+                return;
+            }
+
+            if (int.TryParse(txtCodForn.Text, out int id))
+            {
+                // Busca o fornecedor no controlador
+                oFornecedor = aCtrlFornecedor.BuscarPorId(id);
+                if (oFornecedor != null)
+                {
+                    aNotaEntrada.OFornecedor = oFornecedor;
+                    txtCodForn.Text = oFornecedor.Id.ToString();
+                    txtFornecedor.Text = oFornecedor.NomeRazaoSocial;
+                }
+                else
+                {
+                    MessageBox.Show("Fornecedor não encontrado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    aNotaEntrada.OFornecedor = new Fornecedor();
+                    txtCodForn.Clear();
+                    txtFornecedor.Clear();
+                }
+            }
+        }
+
+        private void txtCodProd_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtCodProd.Text))
+            {
+                oProduto = new Produto();
+                txtProduto.Clear();
+                return;
+            }
+
+            if (int.TryParse(txtCodProd.Text, out int id))
+            {
+                oProduto = aCtrlProduto.BuscarPorId(id);
+                if (oProduto != null)
+                {
+                    txtCodProd.Text = oProduto.Id.ToString();
+                    txtProduto.Text = oProduto.Nome;
+                    // Opcional: preencher valor unitário se o DAO o trouxer
+                    // txtValUnit.Text = oProduto.Venda.ToString("F2"); 
+                }
+                else
+                {
+                    MessageBox.Show("Produto não encontrado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    oProduto = new Produto();
+                    txtCodProd.Clear();
+                    txtProduto.Clear();
+                }
+            }
+        }
+
+        private void txtCodCondPag_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtCodCondPag.Text))
+            {
+                aNotaEntrada.ACondicaoPagamento = new CondicaoPagamento();
+                txtCondPag.Clear();
+                AtualizaListViewParcelas();
+                return;
+            }
+
+            if (int.TryParse(txtCodCondPag.Text, out int id))
+            {
+                aCondPag = aCtrlCondPag.BuscarPorId(id);
+                if (aCondPag != null)
+                {
+                    aNotaEntrada.ACondicaoPagamento = aCondPag;
+                    txtCodCondPag.Text = aCondPag.Id.ToString();
+                    txtCondPag.Text = aCondPag.Descricao;
+                    AtualizaTotalNota(); // Recalcula o total E as parcelas
+                }
+                else
+                {
+                    MessageBox.Show("Condição de Pagamento não encontrada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    aNotaEntrada.ACondicaoPagamento = new CondicaoPagamento();
+                    txtCodCondPag.Clear();
+                    txtCondPag.Clear();
+                    AtualizaListViewParcelas();
+                }
+            }
         }
     }
 }

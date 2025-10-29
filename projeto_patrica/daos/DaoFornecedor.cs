@@ -223,8 +223,35 @@ namespace projeto_pratica.daos
 					}
 				}
 			}
-
 			return lista;
 		}
-	}
+        public Fornecedor BuscarPorId(int id)
+        {
+            Fornecedor forn = null;
+            using (SqlConnection conexao = Banco.Abrir())
+            {
+                if (conexao == null) return null;
+
+                // (Vou assumir que você também quer carregar a Cidade e CondPag ID)
+                string sql = "SELECT * FROM FORNECEDOR WHERE FORNECEDOR_ID = @Id AND ATIVO = 1";
+                using (SqlCommand cmd = new SqlCommand(sql, conexao))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            forn = new Fornecedor
+                            {
+                                Id = Convert.ToInt32(dr["FORNECEDOR_ID"]),
+                                NomeRazaoSocial = dr["FORNECEDOR_NOME_RS"].ToString()
+                                // ... preencha outras propriedades se necessário
+                            };
+                        }
+                    }
+                }
+            }
+            return forn;
+        }
+    }
 }

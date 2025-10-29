@@ -43,10 +43,13 @@
             this.clEstado});
             this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
             // 
+            // clmCod
+            // 
+            this.clmCod.DisplayIndex = 0;
+            // 
             // clNome
             // 
             this.clNome.Text = "Nome";
-            this.clNome.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.clNome.Width = 198;
             // 
             // clDDD

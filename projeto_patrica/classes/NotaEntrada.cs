@@ -23,6 +23,8 @@ namespace projeto_pratica.classes
         protected decimal outrasDespesas;
         protected CondicaoPagamento aCondicaoPagamento;
 
+        protected string motivoCancelamento;
+
         public NotaEntrada() : base()
         {
             this.modelo = string.Empty;
@@ -36,6 +38,7 @@ namespace projeto_pratica.classes
             this.valorSeguro = 0;
             this.outrasDespesas = 0;
             this.aCondicaoPagamento = new CondicaoPagamento();
+            this.motivoCancelamento = string.Empty;
         }
 
         public NotaEntrada(
@@ -43,7 +46,7 @@ namespace projeto_pratica.classes
           string modelo, string serie, string numero, Fornecedor fornecedor,
           DateTime dataEmissao, DateTime dataChegada, List<ItensNotaEntrada> itens,
           decimal valorFrete, decimal valorSeguro, decimal outrasDespesas,
-          CondicaoPagamento condicaoPagamento): base(id, dtCriacao, dtAlt, ativo)
+          CondicaoPagamento condicaoPagamento, string motivoCancelamento) : base(id, dtCriacao, dtAlt, ativo)
         {
             this.modelo = modelo;
             this.serie = serie;
@@ -56,6 +59,7 @@ namespace projeto_pratica.classes
             this.valorSeguro = valorSeguro;
             this.outrasDespesas = outrasDespesas;
             this.aCondicaoPagamento = condicaoPagamento;
+            this.motivoCancelamento = motivoCancelamento;
         }
         public string Modelo { get => modelo; set => modelo = value; }
         public string Serie { get => serie; set => serie = value; }
@@ -68,6 +72,7 @@ namespace projeto_pratica.classes
         public decimal ValorSeguro { get => valorSeguro; set => valorSeguro = value; }
         public decimal OutrasDespesas { get => outrasDespesas; set => outrasDespesas = value; }
         public CondicaoPagamento ACondicaoPagamento { get => aCondicaoPagamento; set => aCondicaoPagamento = value; }
+        public string MotivoCancelamento { get => motivoCancelamento; set => motivoCancelamento = value; }
 
         // --- Propriedades Calculadas ---
 
@@ -79,5 +84,6 @@ namespace projeto_pratica.classes
         {
             get => SubTotalProdutos + this.valorFrete + this.valorSeguro + this.outrasDespesas;
         }
+
     }
 }

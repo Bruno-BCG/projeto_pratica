@@ -11,82 +11,7 @@ namespace projeto_pratica.daos
     internal class DaoNotaEntrada : Dao
     {
         public DaoNotaEntrada() { }
-        public override string Salvar(object obj)
-        {
-            NotaEntrada aNota = (NotaEntrada)obj;
-            string resultado = "";
-
-            using (SqlConnection cnn = Banco.Abrir())
-            {
-                if (cnn == null)
-                    return "Erro ao conectar ao banco de dados.";
-
-                SqlTransaction transaction = cnn.BeginTransaction();
-
-                try
-                {
-                    if (aNota.Id == 0)
-                    {
-                        InserirNotaCompleta(aNota, cnn, transaction);
-                    }
-                    else
-                    {
-                        AtualizarNotaCompleta(aNota, cnn, transaction);
-                    }
-
-                    transaction.Commit();
-                    resultado = aNota.Id.ToString();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    resultado = "Erro ao salvar a nota: " + ex.Message;
-                }
-            }
-            return resultado;
-        }
-
-        public override string Excluir(object obj)
-        {
-            NotaEntrada aNota = (NotaEntrada)obj;
-            string resultado = "";
-
-            using (SqlConnection cnn = Banco.Abrir())
-            {
-                if (cnn == null) return "Erro ao conectar ao banco de dados.";
-
-                SqlTransaction transaction = cnn.BeginTransaction();
-                try
-                {
-                    // Inativa todos os itens da nota
-                    string sqlItens = "UPDATE ITENS_NOTA_ENTRADA SET ATIVO = 0, ITEM_NOTA_DT_ALT = @DtAlt WHERE NOTA_ENTRADA_ID = @Id";
-                    using (SqlCommand cmdItens = new SqlCommand(sqlItens, cnn, transaction))
-                    {
-                        cmdItens.Parameters.AddWithValue("@Id", aNota.Id);
-                        cmdItens.Parameters.AddWithValue("@DtAlt", DateTime.Now);
-                        cmdItens.ExecuteNonQuery();
-                    }
-
-                    // Inativa o cabeçalho da nota
-                    string sqlNota = "UPDATE NOTA_ENTRADA SET ATIVO = 0, NOTA_ENTRADA_DT_ALT = @DtAlt WHERE NOTA_ENTRADA_ID = @Id";
-                    using (SqlCommand cmdNota = new SqlCommand(sqlNota, cnn, transaction))
-                    {
-                        cmdNota.Parameters.AddWithValue("@Id", aNota.Id);
-                        cmdNota.Parameters.AddWithValue("@DtAlt", DateTime.Now);
-                        int rows = cmdNota.ExecuteNonQuery();
-                        resultado = (rows > 0) ? "OK" : "Nota de entrada não encontrada.";
-                    }
-
-                    transaction.Commit();
-                }
-                catch (SqlException ex)
-                {
-                    transaction.Rollback();
-                    resultado = "Erro ao inativar a nota: " + ex.Message;
-                }
-            }
-            return resultado;
-        }
+            
         public List<NotaEntrada> Listar()
         {
             var notas = new Dictionary<int, NotaEntrada>();
@@ -103,14 +28,14 @@ namespace projeto_pratica.daos
                     SELECT 
                         N.NOTA_ENTRADA_ID, N.NOTA_ENTRADA_MODELO, N.NOTA_ENTRADA_SERIE, N.NOTA_ENTRADA_NUMERO,
                         N.NOTA_ENTRADA_DT_EMISSAO, N.NOTA_ENTRADA_DT_CHEGADA, N.NOTA_ENTRADA_VLR_FRETE,
-                        N.NOTA_ENTRADA_VLR_SEGURO, N.NOTA_ENTRADA_VLR_DESPESAS, N.ATIVO,
+                        N.NOTA_ENTRADA_VLR_SEGURO, N.NOTA_ENTRADA_VLR_DESPESAS, N.NOTA_ENTRADA_MOT_CANCELAMENTO,N.ATIVO,
                         N.NOTA_ENTRADA_DT_CRIACAO, N.NOTA_ENTRADA_DT_ALT,
                         F.FORNECEDOR_ID, F.FORNECEDOR_NOME_RS,
                         C.CONDPAG_ID, C.CONDPAG_DESC, C.CONDPAG_PARCELAS, C.CONDPAG_JURO, C.CONDPAG_MULTA, C.CONDPAG_DESCONTO
                     FROM NOTA_ENTRADA N
                     INNER JOIN FORNECEDOR F ON N.FORNECEDOR_ID = F.FORNECEDOR_ID
                     INNER JOIN COND_PAGAMENTO C ON N.CONDPAG_ID = C.CONDPAG_ID
-                    WHERE N.ATIVO = 1";
+                    ";
 
                 using (SqlCommand cmd = new SqlCommand(sqlNotas, conexao))
                 {
@@ -144,6 +69,7 @@ namespace projeto_pratica.daos
                                 ValorFrete = Convert.ToDecimal(dr["NOTA_ENTRADA_VLR_FRETE"]),
                                 ValorSeguro = Convert.ToDecimal(dr["NOTA_ENTRADA_VLR_SEGURO"]),
                                 OutrasDespesas = Convert.ToDecimal(dr["NOTA_ENTRADA_VLR_DESPESAS"]),
+                                MotivoCancelamento = dr["NOTA_ENTRADA_MOT_CANCELAMENTO"].ToString(),
                                 Ativo = Convert.ToBoolean(dr["ATIVO"]),
                                 DtCriacao = Convert.ToDateTime(dr["NOTA_ENTRADA_DT_CRIACAO"]),
                                 DtAlt = dr["NOTA_ENTRADA_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["NOTA_ENTRADA_DT_ALT"]),
@@ -166,8 +92,7 @@ namespace projeto_pratica.daos
                         I.ITEM_NOTA_ID, I.NOTA_ENTRADA_ID, I.ITEM_NOTA_QTD, I.ITEM_NOTA_VLR_UNIT, I.ATIVO,
                         P.PRODUTO_ID, P.PRODUTO_NOME
                     FROM ITENS_NOTA_ENTRADA I
-                    INNER JOIN PRODUTO P ON I.PRODUTO_ID = P.PRODUTO_ID
-                    WHERE I.ATIVO = 1";
+                    INNER JOIN PRODUTO P ON I.PRODUTO_ID = P.PRODUTO_ID";
 
                 using (SqlCommand cmd = new SqlCommand(sqlItens, conexao))
                 {
@@ -243,126 +168,117 @@ namespace projeto_pratica.daos
             }
             return notas.Values.ToList();
         }
-
-        private void InserirNotaCompleta(NotaEntrada aNota, SqlConnection cnn, SqlTransaction transaction)
+        public void SalvarCabecalho(NotaEntrada aNota, SqlConnection cnn, SqlTransaction transaction)
         {
-            // Insere o cabeçalho da nota
-            string sqlNota = @"
-                INSERT INTO NOTA_ENTRADA 
-                    (NOTA_ENTRADA_MODELO, NOTA_ENTRADA_SERIE, NOTA_ENTRADA_NUMERO, NOTA_ENTRADA_DT_EMISSAO, 
-                     NOTA_ENTRADA_DT_CHEGADA, NOTA_ENTRADA_VLR_FRETE, NOTA_ENTRADA_VLR_SEGURO, NOTA_ENTRADA_VLR_DESPESAS,
-                     FORNECEDOR_ID, CONDPAG_ID, ATIVO, NOTA_ENTRADA_DT_CRIACAO)
-                OUTPUT INSERTED.NOTA_ENTRADA_ID
-                VALUES (@Modelo, @Serie, @Numero, @DtEmissao, @DtChegada, @VlrFrete, @VlrSeguro, @VlrDespesas,
-                        @FornecedorId, @CondPagId, @Ativo, @DtCriacao)";
-
-            using (SqlCommand cmdNota = new SqlCommand(sqlNota, cnn, transaction))
+            if (aNota.Id == 0)
             {
-                aNota.DtCriacao = DateTime.Now;
-                cmdNota.Parameters.AddWithValue("@Modelo", aNota.Modelo);
-                cmdNota.Parameters.AddWithValue("@Serie", aNota.Serie);
-                cmdNota.Parameters.AddWithValue("@Numero", aNota.Numero);
-                cmdNota.Parameters.AddWithValue("@DtEmissao", aNota.DataEmissao);
-                cmdNota.Parameters.AddWithValue("@DtChegada", aNota.DataChegada);
-                cmdNota.Parameters.AddWithValue("@VlrFrete", aNota.ValorFrete);
-                cmdNota.Parameters.AddWithValue("@VlrSeguro", aNota.ValorSeguro);
-                cmdNota.Parameters.AddWithValue("@VlrDespesas", aNota.OutrasDespesas);
-                cmdNota.Parameters.AddWithValue("@FornecedorId", aNota.OFornecedor.Id);
-                cmdNota.Parameters.AddWithValue("@CondPagId", aNota.ACondicaoPagamento.Id);
-                cmdNota.Parameters.AddWithValue("@Ativo", aNota.Ativo);
-                cmdNota.Parameters.AddWithValue("@DtCriacao", aNota.DtCriacao);
+                // Lógica de 'InserirNotaCompleta' (só cabeçalho)
+                string sqlInsert = @"
+                    INSERT INTO NOTA_ENTRADA 
+                        (NOTA_ENTRADA_MODELO, NOTA_ENTRADA_SERIE, NOTA_ENTRADA_NUMERO, NOTA_ENTRADA_DT_EMISSAO, 
+                         NOTA_ENTRADA_DT_CHEGADA, NOTA_ENTRADA_VLR_FRETE, NOTA_ENTRADA_VLR_SEGURO, NOTA_ENTRADA_VLR_DESPESAS,
+                         FORNECEDOR_ID, CONDPAG_ID, NOTA_ENTRADA_MOT_CANCELAMENTO, ATIVO, NOTA_ENTRADA_DT_CRIACAO)
+                    OUTPUT INSERTED.NOTA_ENTRADA_ID
+                    VALUES (@Modelo, @Serie, @Numero, @DtEmissao, @DtChegada, @VlrFrete, @VlrSeguro, @VlrDespesas,
+                            @FornecedorId, @CondPagId, @MotivoCancelamento, @Ativo, @DtCriacao)";
 
-                aNota.Id = Convert.ToInt32(cmdNota.ExecuteScalar());
-            }
-
-            // Insere os novos itens
-            foreach (var item in aNota.ItensDaNota)
-            {
-                item.Ativo = true; // Garante que o item seja inserido como ativo
-                InserirItem(item, aNota.Id, cnn, transaction);
-            }
-        }
-
-        private void AtualizarNotaCompleta(NotaEntrada aNota, SqlConnection cnn, SqlTransaction transaction)
-        {
-            // 1. Atualiza o cabeçalho da nota
-            string sqlNota = @"
-                UPDATE NOTA_ENTRADA SET 
-                    NOTA_ENTRADA_MODELO = @Modelo, NOTA_ENTRADA_SERIE = @Serie, NOTA_ENTRADA_NUMERO = @Numero, 
-                    NOTA_ENTRADA_DT_EMISSAO = @DtEmissao, NOTA_ENTRADA_DT_CHEGADA = @DtChegada, 
-                    NOTA_ENTRADA_VLR_FRETE = @VlrFrete, NOTA_ENTRADA_VLR_SEGURO = @VlrSeguro, NOTA_ENTRADA_VLR_DESPESAS = @VlrDespesas,
-                    FORNECEDOR_ID = @FornecedorId, CONDPAG_ID = @CondPagId, ATIVO = @Ativo,
-                    NOTA_ENTRADA_DT_ALT = @DtAlt
-                WHERE NOTA_ENTRADA_ID = @Id";
-
-            using (SqlCommand cmdNota = new SqlCommand(sqlNota, cnn, transaction))
-            {
-                aNota.DtAlt = DateTime.Now;
-                cmdNota.Parameters.AddWithValue("@Modelo", aNota.Modelo);
-                cmdNota.Parameters.AddWithValue("@Serie", aNota.Serie);
-                cmdNota.Parameters.AddWithValue("@Numero", aNota.Numero);
-                cmdNota.Parameters.AddWithValue("@DtEmissao", aNota.DataEmissao);
-                cmdNota.Parameters.AddWithValue("@DtChegada", aNota.DataChegada);
-                cmdNota.Parameters.AddWithValue("@VlrFrete", aNota.ValorFrete);
-                cmdNota.Parameters.AddWithValue("@VlrSeguro", aNota.ValorSeguro);
-                cmdNota.Parameters.AddWithValue("@VlrDespesas", aNota.OutrasDespesas);
-                cmdNota.Parameters.AddWithValue("@FornecedorId", aNota.OFornecedor.Id);
-                cmdNota.Parameters.AddWithValue("@CondPagId", aNota.ACondicaoPagamento.Id);
-                cmdNota.Parameters.AddWithValue("@Ativo", aNota.Ativo);
-                cmdNota.Parameters.AddWithValue("@DtAlt", aNota.DtAlt);
-                cmdNota.Parameters.AddWithValue("@Id", aNota.Id);
-                cmdNota.ExecuteNonQuery();
-            }
-
-            SincronizarItens(aNota, cnn, transaction);
-        }
-
-        private void SincronizarItens(NotaEntrada aNota, SqlConnection cnn, SqlTransaction transaction)
-        {
-            // Pega a lista de IDs de todos os itens da nota que estão atualmente no banco
-            var idsNoBanco = new List<int>();
-            string sqlSelectIds = "SELECT ITEM_NOTA_ID FROM ITENS_NOTA_ENTRADA WHERE NOTA_ENTRADA_ID = @NotaId";
-            using (SqlCommand cmdSelect = new SqlCommand(sqlSelectIds, cnn, transaction))
-            {
-                cmdSelect.Parameters.AddWithValue("@NotaId", aNota.Id);
-                using (SqlDataReader reader = cmdSelect.ExecuteReader())
+                using (SqlCommand cmd = new SqlCommand(sqlInsert, cnn, transaction))
                 {
-                    while (reader.Read())
+                    aNota.DtCriacao = DateTime.Now;
+                    cmd.Parameters.AddWithValue("@Modelo", aNota.Modelo);
+                    cmd.Parameters.AddWithValue("@Serie", aNota.Serie);
+                    cmd.Parameters.AddWithValue("@Numero", aNota.Numero);
+                    cmd.Parameters.AddWithValue("@DtEmissao", aNota.DataEmissao);
+                    cmd.Parameters.AddWithValue("@DtChegada", aNota.DataChegada);
+                    cmd.Parameters.AddWithValue("@VlrFrete", aNota.ValorFrete);
+                    cmd.Parameters.AddWithValue("@VlrSeguro", aNota.ValorSeguro);
+                    cmd.Parameters.AddWithValue("@VlrDespesas", aNota.OutrasDespesas);
+                    cmd.Parameters.AddWithValue("@FornecedorId", aNota.OFornecedor.Id);
+                    cmd.Parameters.AddWithValue("@CondPagId", aNota.ACondicaoPagamento.Id);
+                    cmd.Parameters.AddWithValue("@MotivoCancelamento", (object)aNota.MotivoCancelamento ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Ativo", aNota.Ativo);
+                    cmd.Parameters.AddWithValue("@DtCriacao", aNota.DtCriacao);
+                    aNota.Id = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            else
+            {
+               
+                string sqlUpdate = @"
+                    UPDATE NOTA_ENTRADA SET 
+                        NOTA_ENTRADA_MODELO = @Modelo, NOTA_ENTRADA_SERIE = @Serie, NOTA_ENTRADA_NUMERO = @Numero, 
+                        NOTA_ENTRADA_DT_EMISSAO = @DtEmissao, NOTA_ENTRADA_DT_CHEGADA = @DtChegada, 
+                        NOTA_ENTRADA_VLR_FRETE = @VlrFrete, NOTA_ENTRADA_VLR_SEGURO = @VlrSeguro, NOTA_ENTRADA_VLR_DESPESAS = @VlrDespesas,
+                        FORNECEDOR_ID = @FornecedorId, 
+                        NOTA_ENTRADA_MOT_CANCELAMENTO = @MotivoCancelamento,
+                        CONDPAG_ID = @CondPagId, ATIVO = @Ativo,
+                        NOTA_ENTRADA_DT_ALT = @DtAlt
+                    WHERE NOTA_ENTRADA_ID = @Id";
+
+                using (SqlCommand cmd = new SqlCommand(sqlUpdate, cnn, transaction))
+                {
+                    aNota.DtAlt = DateTime.Now;
+                    cmd.Parameters.AddWithValue("@Modelo", aNota.Modelo);
+                    cmd.Parameters.AddWithValue("@Serie", aNota.Serie);
+                    cmd.Parameters.AddWithValue("@Numero", aNota.Numero);
+                    cmd.Parameters.AddWithValue("@DtEmissao", aNota.DataEmissao);
+                    cmd.Parameters.AddWithValue("@DtChegada", aNota.DataChegada);
+                    cmd.Parameters.AddWithValue("@VlrFrete", aNota.ValorFrete);
+                    cmd.Parameters.AddWithValue("@VlrSeguro", aNota.ValorSeguro);
+                    cmd.Parameters.AddWithValue("@VlrDespesas", aNota.OutrasDespesas);
+                    cmd.Parameters.AddWithValue("@FornecedorId", aNota.OFornecedor.Id);
+                    cmd.Parameters.AddWithValue("@CondPagId", aNota.ACondicaoPagamento.Id);
+                    cmd.Parameters.AddWithValue("@MotivoCancelamento", (object)aNota.MotivoCancelamento ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Ativo", aNota.Ativo);
+                    cmd.Parameters.AddWithValue("@DtAlt", aNota.DtAlt);
+                    cmd.Parameters.AddWithValue("@Id", aNota.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void InativarItensAntigos(int notaId, SqlConnection cnn, SqlTransaction transaction)
+        {
+            string sql = "UPDATE ITENS_NOTA_ENTRADA SET ATIVO = 0, ITEM_NOTA_DT_ALT = @DtAlt WHERE NOTA_ENTRADA_ID = @Id AND ATIVO = 1";
+            using (SqlCommand cmd = new SqlCommand(sql, cnn, transaction))
+            {
+                cmd.Parameters.AddWithValue("@Id", notaId);
+                cmd.Parameters.AddWithValue("@DtAlt", DateTime.Now);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public List<ItensNotaEntrada> ListarItensAtivos(int notaId, SqlConnection cnn, SqlTransaction transaction)
+        {
+            var lista = new List<ItensNotaEntrada>();
+            string sql = @"
+                SELECT 
+                    I.ITEM_NOTA_QTD, I.PRODUTO_ID, 
+                    ISNULL(PF.CUSTO_ATUAL_COMPRA, I.ITEM_NOTA_VLR_UNIT) as CustoRealUsado
+                FROM ITENS_NOTA_ENTRADA I
+                INNER JOIN NOTA_ENTRADA N ON I.NOTA_ENTRADA_ID = N.NOTA_ENTRADA_ID
+                LEFT JOIN PRODUTO_FORNECEDOR PF ON I.PRODUTO_ID = PF.PRODUTO_ID AND N.FORNECEDOR_ID = PF.FORNECEDOR_ID
+                WHERE I.NOTA_ENTRADA_ID = @NotaId AND I.ATIVO = 1";
+
+            using (SqlCommand cmd = new SqlCommand(sql, cnn, transaction))
+            {
+                cmd.Parameters.AddWithValue("@NotaId", notaId);
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
                     {
-                        idsNoBanco.Add(reader.GetInt32(0));
+                        lista.Add(new ItensNotaEntrada
+                        {
+                            Qtd = Convert.ToDecimal(dr["ITEM_NOTA_QTD"]),
+                            OProduto = new Produto { Id = Convert.ToInt32(dr["PRODUTO_ID"]) },
+                            CustoUnitarioReal = Convert.ToDecimal(dr["CustoRealUsado"])
+                        });
                     }
                 }
             }
-
-            var idsDaTela = new List<int>();
-            foreach (var item in aNota.ItensDaNota)
-            {
-                item.Ativo = true;
-                if (item.Id > 0) 
-                {
-                    AtualizarItem(item, cnn, transaction);
-                    idsDaTela.Add(item.Id);
-                }
-                else 
-                {
-                    InserirItem(item, aNota.Id, cnn, transaction);
-                }
-            }
-
-            // Compara as listas para descobrir quais itens foram removidos
-            var idsParaInativar = idsNoBanco.Except(idsDaTela).ToList();
-            if (idsParaInativar.Count > 0)
-            {
-                string sqlInativar = $"UPDATE ITENS_NOTA_ENTRADA SET ATIVO = 0, ITEM_NOTA_DT_ALT = @DtAlt WHERE ITEM_NOTA_ID IN ({string.Join(",", idsParaInativar)})";
-                using (SqlCommand cmdInativar = new SqlCommand(sqlInativar, cnn, transaction))
-                {
-                    cmdInativar.Parameters.AddWithValue("@DtAlt", DateTime.Now);
-                    cmdInativar.ExecuteNonQuery();
-                }
-            }
+            return lista;
         }
 
-        private void InserirItem(ItensNotaEntrada item, int notaId, SqlConnection cnn, SqlTransaction transaction)
+        public void InserirItem(ItensNotaEntrada item, int notaId, SqlConnection cnn, SqlTransaction transaction)
         {
             string sql = @"
                 INSERT INTO ITENS_NOTA_ENTRADA
@@ -378,29 +294,6 @@ namespace projeto_pratica.daos
                 cmd.Parameters.AddWithValue("@ValorUnit", item.ValorUnitario);
                 cmd.Parameters.AddWithValue("@Ativo", item.Ativo);
                 cmd.Parameters.AddWithValue("@DtCriacao", item.DtCriacao);
-                cmd.ExecuteNonQuery();
-            }
-        }
-
-        private void AtualizarItem(ItensNotaEntrada item, SqlConnection cnn, SqlTransaction transaction)
-        {
-            string sql = @"
-                UPDATE ITENS_NOTA_ENTRADA SET
-                    PRODUTO_ID = @ProdutoId, 
-                    ITEM_NOTA_QTD = @Qtd, 
-                    ITEM_NOTA_VLR_UNIT = @ValorUnit, 
-                    ATIVO = @Ativo, 
-                    ITEM_NOTA_DT_ALT = @DtAlt
-                WHERE ITEM_NOTA_ID = @Id";
-            using (SqlCommand cmd = new SqlCommand(sql, cnn, transaction))
-            {
-                item.DtAlt = DateTime.Now;
-                cmd.Parameters.AddWithValue("@ProdutoId", item.OProduto.Id);
-                cmd.Parameters.AddWithValue("@Qtd", item.Qtd);
-                cmd.Parameters.AddWithValue("@ValorUnit", item.ValorUnitario);
-                cmd.Parameters.AddWithValue("@Ativo", item.Ativo);
-                cmd.Parameters.AddWithValue("@DtAlt", item.DtAlt);
-                cmd.Parameters.AddWithValue("@Id", item.Id);
                 cmd.ExecuteNonQuery();
             }
         }

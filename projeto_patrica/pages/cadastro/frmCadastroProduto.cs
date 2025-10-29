@@ -119,6 +119,7 @@ namespace projeto_pratica.pages.cadastro
             txtCodBar.Text = oProduto.Codbar;
             txtCusto.Text = oProduto.Custo.ToString();
             txtVenda.Text = oProduto.Venda.ToString();
+            txtPercentLucro.Text = oProduto.PercentLucro.ToString();
             txtEstoque.Text = oProduto.Estoque.ToString();
             ckbStatus.Checked = oProduto.Ativo;
 
@@ -150,19 +151,19 @@ namespace projeto_pratica.pages.cadastro
             base.Salvar();
 
             // Validações básicas
-            if (string.IsNullOrWhiteSpace(txtProd.Text) || oProduto.OFornecedor.Count == 0)
+            if (string.IsNullOrWhiteSpace(txtProd.Text) || string.IsNullOrWhiteSpace(txtCodBar.Text) || string.IsNullOrWhiteSpace(txtProd.Text)
+                || string.IsNullOrWhiteSpace(txtCodUniMed.Text) || string.IsNullOrWhiteSpace(txtMarca.Text))
             {
-                MessageBox.Show("Campos obrigatórios (*) não preenchidos ou nenhum fornecedor adicionado!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Campos obrigatórios (*) não preenchidos", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             // Preenche o objeto Produto com os dados da tela
             oProduto.Nome = txtProd.Text;
             oProduto.Codbar = txtCodBar.Text;
-            oProduto.Custo = Convert.ToDouble(txtCusto.Text);
             oProduto.Venda = Convert.ToDouble(txtVenda.Text);
-            oProduto.Estoque = Convert.ToInt32(txtEstoque.Text);
             oProduto.Ativo = ckbStatus.Checked;
+            oProduto.PercentLucro = Convert.ToDouble(txtPercentLucro.Text);
 
             if (oProduto.Id > 0)
                 oProduto.DtAlt = DateTime.Now;

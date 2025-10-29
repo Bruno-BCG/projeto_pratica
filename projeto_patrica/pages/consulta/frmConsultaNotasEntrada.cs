@@ -17,12 +17,16 @@ namespace projeto_pratica.pages.consulta
         private NotaEntrada aNotaEntrada;
         private CtrlNotaEntrada aCtrlNotaEntrada;
 
+
         public frmConsultaNotasEntrada()
         {
             InitializeComponent();
             aCtrlNotaEntrada = new CtrlNotaEntrada();
             aNotaEntrada = new NotaEntrada();
             aFrmCadastroNotaEntrada = new frmCadastroNotaEntrada();
+            btnAlterar.Enabled = false;
+            btnExcluir.Enabled = false;
+
         }
         public override void setFrmCadastro(object obj)
         {
@@ -43,9 +47,12 @@ namespace projeto_pratica.pages.consulta
         public override void Incluir()
         {
             base.Incluir();
+            aFrmCadastroNotaEntrada.DesbloqueiaTxt();
             aFrmCadastroNotaEntrada.ConhecaObj(new NotaEntrada(), aCtrlNotaEntrada);
             aFrmCadastroNotaEntrada.LimparTxt();
             aFrmCadastroNotaEntrada.ShowDialog();
+            btnAlterar.Enabled = false;
+            btnExcluir.Enabled = false;
             this.CarregaLV();
         }
 
@@ -53,8 +60,13 @@ namespace projeto_pratica.pages.consulta
         {
             base.Alterar();
             aFrmCadastroNotaEntrada.ConhecaObj(aNotaEntrada, aCtrlNotaEntrada);
-            aFrmCadastroNotaEntrada.CarregarTxt();
+            aFrmCadastroNotaEntrada.BloqueiaTxt();
+            aFrmCadastroNotaEntrada.btnSave.Enabled = false;
+            aFrmCadastroNotaEntrada.btnSave.Visible = false;
             aFrmCadastroNotaEntrada.ShowDialog();
+            aFrmCadastroNotaEntrada.DesbloqueiaTxt();
+            aFrmCadastroNotaEntrada.btnSave.Enabled = true;
+            aFrmCadastroNotaEntrada.btnSave.Visible = true;
             this.CarregaLV();
         }
 
@@ -64,7 +76,6 @@ namespace projeto_pratica.pages.consulta
             string aux = aFrmCadastroNotaEntrada.btnSave.Text;
             aFrmCadastroNotaEntrada.btnSave.Text = "Excluir";
             aFrmCadastroNotaEntrada.ConhecaObj(aNotaEntrada, aCtrlNotaEntrada);
-            aFrmCadastroNotaEntrada.CarregarTxt();
             aFrmCadastroNotaEntrada.BloqueiaTxt();
             aFrmCadastroNotaEntrada.ShowDialog(this);
             aFrmCadastroNotaEntrada.DesbloqueiaTxt();
@@ -90,6 +101,9 @@ namespace projeto_pratica.pages.consulta
                 item.SubItems.Add(nota.OFornecedor?.NomeRazaoSocial ?? "N/D");
                 item.SubItems.Add(nota.DataEmissao.ToShortDateString());
                 item.SubItems.Add(nota.DataChegada.ToShortDateString());
+                item.SubItems.Add(nota.ValorTotalNota.ToString());
+                item.SubItems.Add(nota.MotivoCancelamento ?? "N/D");
+                item.SubItems.Add(nota.Ativo ? "Não" : "Cancelado");
 
                 item.Tag = nota; // Armazena o objeto completo na Tag para uso posterior
                 listV.Items.Add(item);
@@ -100,12 +114,47 @@ namespace projeto_pratica.pages.consulta
         {
             if (listV.SelectedItems.Count > 0)
             {
-                btnExcluir.Enabled = true;
-                btnAlterar.Enabled = true;
-
                 // Quando um item é selecionado, copiamos o objeto da Tag para a variável 'aNotaEntrada'
                 // para que os métodos Alterar() e Excluir() saibam qual objeto usar.
-                aNotaEntrada = (NotaEntrada)listV.SelectedItems[0].Tag;
+                var selecionada = (NotaEntrada)listV.SelectedItems[0].Tag;
+
+                // Propriedades da classe Pai
+                aNotaEntrada.Id = selecionada.Id;
+                aNotaEntrada.DtCriacao = selecionada.DtCriacao;
+                aNotaEntrada.DtAlt = selecionada.DtAlt;
+                aNotaEntrada.Ativo = selecionada.Ativo;
+
+                // Propriedades da NotaEntrada
+                aNotaEntrada.Modelo = selecionada.Modelo;
+                aNotaEntrada.Serie = selecionada.Serie;
+                aNotaEntrada.Numero = selecionada.Numero;
+                aNotaEntrada.DataEmissao = selecionada.DataEmissao;
+                aNotaEntrada.DataChegada = selecionada.DataChegada;
+
+                // Valores
+                aNotaEntrada.ValorFrete = selecionada.ValorFrete;
+                aNotaEntrada.ValorSeguro = selecionada.ValorSeguro;
+                aNotaEntrada.OutrasDespesas = selecionada.OutrasDespesas;
+
+                // Objetos complexos (atribuição de referência)
+                aNotaEntrada.OFornecedor = selecionada.OFornecedor;
+                aNotaEntrada.ACondicaoPagamento = selecionada.ACondicaoPagamento;
+
+                // Listas (atribuição de referência)
+                aNotaEntrada.ItensDaNota = selecionada.ItensDaNota;
+
+                aNotaEntrada.MotivoCancelamento = selecionada.MotivoCancelamento;
+
+                if (selecionada.Ativo == false)
+                {
+                    btnExcluir.Enabled = false;
+                    btnAlterar.Enabled = true;
+                }
+                else
+                {
+                    btnExcluir.Enabled = true;
+                    btnAlterar.Enabled = true;
+                }
             }
             else
             {
@@ -120,5 +169,9 @@ namespace projeto_pratica.pages.consulta
             CarregaLV();
         }
 
+        private void frmConsultaNotasEntrada_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

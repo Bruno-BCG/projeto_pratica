@@ -35,7 +35,14 @@
             this.clmFornecedor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmDtEmissao = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmDtCheg = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmTotal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmMotivoCancelamento = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmAtivo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
+            // 
+            // btnExcluir
+            // 
+            this.btnExcluir.Text = "Cancelar";
             // 
             // listV
             // 
@@ -46,8 +53,19 @@
             this.clmCodForn,
             this.clmFornecedor,
             this.clmDtEmissao,
-            this.clmDtCheg});
+            this.clmDtCheg,
+            this.clmTotal,
+            this.clmMotivoCancelamento,
+            this.clmAtivo});
             this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
+            // 
+            // btnAlterar
+            // 
+            this.btnAlterar.Text = "Visualizar";
+            // 
+            // txtCodigo
+            // 
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5);
             // 
             // clmModelo
             // 
@@ -76,7 +94,6 @@
             // clmFornecedor
             // 
             this.clmFornecedor.Text = "Fornecerdor";
-            this.clmFornecedor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.clmFornecedor.Width = 240;
             // 
             // clmDtEmissao
@@ -91,11 +108,29 @@
             this.clmDtCheg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.clmDtCheg.Width = 100;
             // 
+            // clmTotal
+            // 
+            this.clmTotal.Text = "Valor Total";
+            this.clmTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmTotal.Width = 100;
+            // 
+            // clmMotivoCancelamento
+            // 
+            this.clmMotivoCancelamento.Text = "Motivo Cancelamento";
+            this.clmMotivoCancelamento.Width = 360;
+            // 
+            // clmAtivo
+            // 
+            this.clmAtivo.Text = "Cancelado";
+            this.clmAtivo.Width = 120;
+            // 
             // frmConsultaNotasEntrada
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(1008, 729);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.ClientSize = new System.Drawing.Size(1344, 897);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "frmConsultaNotasEntrada";
+            this.Load += new System.EventHandler(this.frmConsultaNotasEntrada_Load_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -110,5 +145,8 @@
         private System.Windows.Forms.ColumnHeader clmFornecedor;
         private System.Windows.Forms.ColumnHeader clmDtEmissao;
         private System.Windows.Forms.ColumnHeader clmDtCheg;
+        private System.Windows.Forms.ColumnHeader clmTotal;
+        private System.Windows.Forms.ColumnHeader clmMotivoCancelamento;
+        private System.Windows.Forms.ColumnHeader clmAtivo;
     }
 }

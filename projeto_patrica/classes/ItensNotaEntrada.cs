@@ -12,6 +12,7 @@ namespace projeto_pratica.classes
         protected Produto oProduto;
         protected decimal qtd;
         protected decimal valorUnitario;
+        protected decimal custoUnitarioReal;
 
         // Construtores, Getters e Setters
 
@@ -51,6 +52,12 @@ namespace projeto_pratica.classes
         public decimal ValorTotal
         {
             get { return this.qtd * this.valorUnitario; }
+        }
+
+        public decimal CustoUnitarioReal 
+        { 
+            get => custoUnitarioReal; 
+            set => custoUnitarioReal = value; 
         }
 
     }

@@ -16,7 +16,9 @@ namespace projeto_pratica.classes
         protected UnidadeMedida aUnidadeMedida;
         protected Categoria aCategoria;
         protected Marca aMarca;
+        protected double custoAnterior;
         protected double custo;
+        protected double percentLucro;
         protected double venda;
         protected int estoque;
 
@@ -29,11 +31,15 @@ namespace projeto_pratica.classes
             aCategoria = new Categoria ();
             aMarca = new Marca ();
             custo = 0;
+            custoAnterior = 0;
             venda = 0;
+            percentLucro = 0;
             estoque = 0;
         }
-
-        public Produto (int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, string nome, string codBar, List<Fornecedor> oFornecedor, UnidadeMedida aUnidadeMedida, Categoria aCategoria, Marca aMarca, double custo, double venda, int qtd) : base (id, dtCriacao, dtAlt, ativo)
+            
+        public Produto (int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, string nome, string codBar, List<Fornecedor> oFornecedor, 
+                        UnidadeMedida aUnidadeMedida, Categoria aCategoria, Marca aMarca, double custoAnterior, double custo, double venda, double percentLucro, int qtd) 
+                        :base (id, dtCriacao, dtAlt, ativo)
         {
             this.nome = nome;
             this.codBar = codBar;
@@ -42,8 +48,10 @@ namespace projeto_pratica.classes
             this.aCategoria = aCategoria;
             this.aCategoria = aCategoria;
             this.aMarca = aMarca;
+            this.custoAnterior = custoAnterior;
             this.custo = custo;
             this.venda = venda;
+            this.percentLucro = percentLucro;
             this.estoque = qtd;
         }
         public string Nome 
@@ -80,6 +88,17 @@ namespace projeto_pratica.classes
         {
             get => custo;
             set => custo = value;
+        }
+        public double CustoAnterior
+        {
+            get => custoAnterior;
+            set => custoAnterior = value;
+        }
+
+        public double PercentLucro
+        {
+            get => percentLucro;
+            set => percentLucro = value;
         }
         public double Venda
         {

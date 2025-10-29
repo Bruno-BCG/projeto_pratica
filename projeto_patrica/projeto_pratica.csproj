@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,6 +52,7 @@
     <Compile Include="classes\Cidade.cs" />
     <Compile Include="classes\Cliente.cs" />
     <Compile Include="classes\CondicaoPagamento.cs" />
+    <Compile Include="classes\ContasPagar.cs" />
     <Compile Include="classes\Enderecos.cs" />
     <Compile Include="classes\Estado.cs" />
     <Compile Include="classes\Fornecedor.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="daos\DaoCidade.cs" />
     <Compile Include="daos\DaoCliente.cs" />
     <Compile Include="daos\DaoCondPag.cs" />
+    <Compile Include="daos\DaoContasPagar.cs" />
     <Compile Include="daos\DaoEstado.cs" />
     <Compile Include="daos\DaoFormPag.cs" />
     <Compile Include="daos\DaoFornecedor.cs" />
@@ -92,6 +95,7 @@
     <Compile Include="daos\DaoNotaEntrada.cs" />
     <Compile Include="daos\DaoProduto.cs" />
     <Compile Include="daos\DaoCategoria.cs" />
+    <Compile Include="daos\DaoProdutoFornecedor.cs" />
     <Compile Include="daos\DaoUniMedida.cs" />
     <Compile Include="daos\DaoMarca.cs" />
     <Compile Include="daos\DaoPaises.cs" />
@@ -113,6 +117,12 @@
     </Compile>
     <Compile Include="pages\cadastro\frmCadastroCategoria.Designer.cs">
       <DependentUpon>frmCadastroCategoria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\cadastro\frmCadastroContasPagar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\cadastro\frmCadastroContasPagar.Designer.cs">
+      <DependentUpon>frmCadastroContasPagar.cs</DependentUpon>
     </Compile>
     <Compile Include="pages\cadastro\frmCadastroFornecedor.cs">
       <SubType>Form</SubType>
@@ -216,6 +226,12 @@
     <Compile Include="pages\consulta\frmConsultaCidade.Designer.cs">
       <DependentUpon>frmConsultaCidade.cs</DependentUpon>
     </Compile>
+    <Compile Include="pages\consulta\frmConsultaContasPagar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pages\consulta\frmConsultaContasPagar.Designer.cs">
+      <DependentUpon>frmConsultaContasPagar.cs</DependentUpon>
+    </Compile>
     <Compile Include="pages\consulta\frmConsultaFornecedor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -284,6 +300,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="service\NotaEntradaService.cs" />
     <EmbeddedResource Include="frmBase.resx">
       <DependentUpon>frmBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -292,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="pages\cadastro\frmCadastroCategoria.resx">
       <DependentUpon>frmCadastroCategoria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\cadastro\frmCadastroContasPagar.resx">
+      <DependentUpon>frmCadastroContasPagar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pages\cadastro\frmCadastroFornecedor.resx">
       <DependentUpon>frmCadastroFornecedor.cs</DependentUpon>
@@ -400,5 +420,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

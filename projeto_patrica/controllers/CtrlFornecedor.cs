@@ -28,6 +28,10 @@ namespace projeto_pratica.controllers
 		{
 			return aDaoFornecedor.Listar();
 		}
+        public Fornecedor BuscarPorId(int id)
+        {
+            return aDaoFornecedor.BuscarPorId(id);
+        }
 
-	}
+    }
 }

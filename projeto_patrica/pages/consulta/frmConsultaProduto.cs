@@ -104,6 +104,7 @@ namespace projeto_pratica.pages.consulta
                 oProduto.Codbar = selecionado.Codbar;
                 oProduto.Custo = selecionado.Custo;
                 oProduto.Venda = selecionado.Venda;
+                oProduto.PercentLucro = selecionado.PercentLucro;
                 oProduto.Estoque = selecionado.Estoque;
                 oProduto.DtCriacao = selecionado.DtCriacao;
                 oProduto.DtAlt = selecionado.DtAlt;

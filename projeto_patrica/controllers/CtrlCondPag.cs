@@ -30,6 +30,10 @@ namespace projeto_pratica.controllers
 		{
 			return aDaoCondPag.Listar();
 		}
+        public CondicaoPagamento BuscarPorId(int id)
+        {
+            return aDaoCondPag.BuscarPorId(id);
+        }
 
-	}
+    }
 }
