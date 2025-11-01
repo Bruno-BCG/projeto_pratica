@@ -15,7 +15,6 @@ namespace projeto_pratica.daos
         public List<NotaEntrada> Listar()
         {
             var notas = new Dictionary<int, NotaEntrada>();
-            // Dicionário auxiliar para otimizar o preenchimento das parcelas
             var condicoesPagamento = new Dictionary<int, CondicaoPagamento>();
 
             using (SqlConnection conexao = Banco.Abrir())
@@ -23,7 +22,6 @@ namespace projeto_pratica.daos
                 if (conexao == null)
                     throw new Exception("Erro ao conectar ao Banco de dados.");
 
-                // PASSO 1: Busca todas as notas ATIVAS e as informações principais de Fornecedor e CondPag
                 string sqlNotas = @"
                     SELECT 
                         N.NOTA_ENTRADA_ID, N.NOTA_ENTRADA_MODELO, N.NOTA_ENTRADA_SERIE, N.NOTA_ENTRADA_NUMERO,
@@ -44,7 +42,6 @@ namespace projeto_pratica.daos
                         while (dr.Read())
                         {
                             int condPagId = Convert.ToInt32(dr["CONDPAG_ID"]);
-                            // Adiciona a condição de pagamento ao dicionário auxiliar se ela ainda não existir
                             if (!condicoesPagamento.ContainsKey(condPagId))
                             {
                                 condicoesPagamento.Add(condPagId, new CondicaoPagamento
@@ -78,7 +75,6 @@ namespace projeto_pratica.daos
                                     Id = Convert.ToInt32(dr["FORNECEDOR_ID"]),
                                     NomeRazaoSocial = dr["FORNECEDOR_NOME_RS"].ToString()
                                 },
-                                // Associa a nota à condição de pagamento do dicionário
                                 ACondicaoPagamento = condicoesPagamento[condPagId]
                             };
                             notas.Add(nota.Id, nota);
@@ -86,7 +82,6 @@ namespace projeto_pratica.daos
                     }
                 }
 
-                // PASSO 2: Busca todos os itens ATIVOS para preencher as notas já carregadas
                 string sqlItens = @"
                     SELECT 
                         I.ITEM_NOTA_ID, I.NOTA_ENTRADA_ID, I.ITEM_NOTA_QTD, I.ITEM_NOTA_VLR_UNIT, I.ATIVO,
@@ -122,9 +117,6 @@ namespace projeto_pratica.daos
                     }
                 }
 
-                // ============================================================================================
-                // PASSO 3 (NOVO): Busca todas as parcelas das condições de pagamento carregadas
-                // ============================================================================================
                 if (condicoesPagamento.Any())
                 {
                     string sqlParcelas = $@"
@@ -132,8 +124,8 @@ namespace projeto_pratica.daos
                             P.PARCELA_ID, P.CONDPAG_ID, P.PARCELA_NUM, P.PARCELA_PRAZO, P.PARCELA_PERCT,
                             FP.FORMAPAG_ID, FP.FORMAPAG_DESC
                         FROM PARCELA_CONDPAG P
-                        INNER JOIN FORMA_PAGAMENTO FP ON P.FORMAPAG_ID = FP.FORMAPAG_ID
-                        WHERE P.CONDPAG_ID IN ({string.Join(",", condicoesPagamento.Keys)})";
+                        INNER JOIN FORMA_PAGAMENTO FP ON P.FORMAPAG_ID = FP.FORMAPAG_ID AND FP.ATIVO = 1
+                        WHERE P.CONDPAG_ID IN ({string.Join(",", condicoesPagamento.Keys)}) AND P.ATIVO = 1";
 
                     using (SqlCommand cmd = new SqlCommand(sqlParcelas, conexao))
                     {
@@ -143,7 +135,6 @@ namespace projeto_pratica.daos
                             {
                                 int condPagId = Convert.ToInt32(dr["CONDPAG_ID"]);
 
-                                // Se a condição de pagamento existe no nosso dicionário, adiciona a parcela a ela
                                 if (condicoesPagamento.ContainsKey(condPagId))
                                 {
                                     ParcelaCondPag parcela = new ParcelaCondPag
@@ -172,7 +163,6 @@ namespace projeto_pratica.daos
         {
             if (aNota.Id == 0)
             {
-                // Lógica de 'InserirNotaCompleta' (só cabeçalho)
                 string sqlInsert = @"
                     INSERT INTO NOTA_ENTRADA 
                         (NOTA_ENTRADA_MODELO, NOTA_ENTRADA_SERIE, NOTA_ENTRADA_NUMERO, NOTA_ENTRADA_DT_EMISSAO, 

@@ -32,6 +32,7 @@ namespace projeto_pratica
 		private UnidadeMedida aUniMedida;
 		private Produto oProduto;
 		private NotaEntrada aNotaEntrada;
+		private ContasPagar aContasPagar;
 
 		private Interfaces aInter;
 
@@ -48,6 +49,7 @@ namespace projeto_pratica
 		private CtrlUniMedida aCtrlUniMedida;
 		private CtrlProduto aCtrlProduto;
 		private CtrlNotaEntrada aCtrlNotaEntrada;
+		private CtrlContasPagar aCtrlContasPagar;
 
 		public frmPrincipal()
 		{
@@ -64,7 +66,8 @@ namespace projeto_pratica
 			aMarca = new Marca();
 			aUniMedida = new UnidadeMedida();
 			oProduto = new Produto();
-			aNotaEntrada = new NotaEntrada();	
+			aNotaEntrada = new NotaEntrada();
+			aContasPagar = new ContasPagar();
 
 			aInter = new Interfaces();
 
@@ -81,7 +84,7 @@ namespace projeto_pratica
 			aCtrlUniMedida = new CtrlUniMedida();
 			aCtrlProduto = new CtrlProduto();
 			aCtrlNotaEntrada = new CtrlNotaEntrada();
-
+			aCtrlContasPagar = new CtrlContasPagar();
 		}	
 
 		private void condiçãoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -150,6 +153,11 @@ namespace projeto_pratica
         private void notaDeEntradaToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			aInter.PecaNotaEntrada(aNotaEntrada, aCtrlNotaEntrada);
+        }
+
+        private void contasAPagarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			aInter.PecaContasPagar(aContasPagar, aCtrlContasPagar);
         }
     }
 }

@@ -204,7 +204,8 @@ namespace projeto_pratica.daos
                                     {
                                         Id = Convert.ToInt32(dr["FORMAPAG_ID"]),
                                         Descricao = dr["FORMAPAG_DESC"].ToString()
-                                    }
+                                    },
+                                    Ativo = Convert.ToBoolean(dr["ATIVO"])
                                 });
                             }
                         }

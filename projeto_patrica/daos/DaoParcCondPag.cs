@@ -37,7 +37,7 @@ namespace projeto_pratica.daos
 					PARCELA_PERCT = @Percentual, 
 					PARCELA_NUM = @NumeroParcela, 
 					PARCELA_PRAZO = @Prazo,
-					PARCELA_CONDPAG_DT_ALT = @DtAlt
+					PARCELA_CONDPAG_DT_ALT = @DtAlt,
 					ATIVO = @Ativo
 					WHERE PARCELA_ID = @Id";
 				}

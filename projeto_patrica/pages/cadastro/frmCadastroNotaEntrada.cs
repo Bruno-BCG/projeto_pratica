@@ -16,8 +16,6 @@ namespace projeto_pratica.pages.cadastro
     {
         private NotaEntrada aNotaEntrada;
         private CtrlNotaEntrada aCtrlNotaEntrada;
-        private bool _isBlockingControls = false; // <--- ADICIONE ESTA LINHA
-
         // Objetos temporários para receber dados das telas de consulta
         private Fornecedor oFornecedor;
         private Produto oProduto;
@@ -500,6 +498,35 @@ namespace projeto_pratica.pages.cadastro
             aNotaEntrada.OFornecedor = oFornecedor;
             txtCodForn.Text = aNotaEntrada.OFornecedor?.Id.ToString() ?? "";
             txtFornecedor.Text = aNotaEntrada.OFornecedor?.NomeRazaoSocial ?? "";
+
+            txtCodCondPag.Text = aNotaEntrada.OFornecedor.ACondPag.Id.ToString();
+            if (string.IsNullOrWhiteSpace(txtCodCondPag.Text))
+            {
+                aNotaEntrada.ACondicaoPagamento = new CondicaoPagamento();
+                txtCondPag.Clear();
+                AtualizaListViewParcelas();
+                return;
+            }
+
+            if (int.TryParse(txtCodCondPag.Text, out int id))
+            {
+                aCondPag = aCtrlCondPag.BuscarPorId(id);
+                if (aCondPag != null)
+                {
+                    aNotaEntrada.ACondicaoPagamento = aCondPag;
+                    txtCodCondPag.Text = aCondPag.Id.ToString();
+                    txtCondPag.Text = aCondPag.Descricao;
+                    AtualizaTotalNota(); // Recalcula o total E as parcelas
+                }
+                else
+                {
+                    MessageBox.Show("Condição de Pagamento não encontrada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    aNotaEntrada.ACondicaoPagamento = new CondicaoPagamento();
+                    txtCodCondPag.Clear();
+                    txtCondPag.Clear();
+                    AtualizaListViewParcelas();
+                }
+            }
         }
 
         private void btnPesquisarProd_Click(object sender, EventArgs e)

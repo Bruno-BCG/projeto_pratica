@@ -145,16 +145,9 @@ namespace projeto_pratica.pages.consulta
 
                 aNotaEntrada.MotivoCancelamento = selecionada.MotivoCancelamento;
 
-                if (selecionada.Ativo == false)
-                {
-                    btnExcluir.Enabled = false;
-                    btnAlterar.Enabled = true;
-                }
-                else
-                {
-                    btnExcluir.Enabled = true;
-                    btnAlterar.Enabled = true;
-                }
+                btnExcluir.Enabled = selecionada.Ativo;
+                btnAlterar.Enabled = true;
+                
             }
             else
             {

@@ -66,6 +66,7 @@
     <Compile Include="classes\Pessoa.cs" />
     <Compile Include="classes\Produto.cs" />
     <Compile Include="classes\UnidadeMedida.cs" />
+    <Compile Include="controllers\CtrlContasPagar.cs" />
     <Compile Include="controllers\CtrlNotaEntrada.cs" />
     <Compile Include="controllers\CtrlProduto.cs" />
     <Compile Include="controllers\CtrlUniMedida.cs" />
@@ -363,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="pages\consulta\frmConsultaCidade.resx">
       <DependentUpon>frmConsultaCidade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\consulta\frmConsultaContasPagar.resx">
+      <DependentUpon>frmConsultaContasPagar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pages\consulta\frmConsultaFornecedor.resx">
       <DependentUpon>frmConsultaFornecedor.cs</DependentUpon>

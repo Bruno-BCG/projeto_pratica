@@ -65,6 +65,7 @@
             this.btnSave.Location = new System.Drawing.Point(741, 660);
             this.btnSave.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btnSave.TabIndex = 12;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // lblDataAlteracao
             // 
@@ -111,7 +112,6 @@
             // 
             // txtCodigo
             // 
-            this.txtCodigo.Margin = new System.Windows.Forms.Padding(4);
             this.txtCodigo.Size = new System.Drawing.Size(55, 22);
             // 
             // lblDescricao
@@ -147,7 +147,7 @@
             this.lblParcelas.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblParcelas.Location = new System.Drawing.Point(21, 92);
             this.lblParcelas.Name = "lblParcelas";
-            this.lblParcelas.Size = new System.Drawing.Size(142, 13);
+            this.lblParcelas.Size = new System.Drawing.Size(174, 16);
             this.lblParcelas.TabIndex = 5;
             this.lblParcelas.Text = "NUMERO DE PARCELAS: *";
             // 
@@ -345,7 +345,7 @@
             this.lblJuros.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblJuros.Location = new System.Drawing.Point(444, 27);
             this.lblJuros.Name = "lblJuros";
-            this.lblJuros.Size = new System.Drawing.Size(53, 13);
+            this.lblJuros.Size = new System.Drawing.Size(64, 16);
             this.lblJuros.TabIndex = 31;
             this.lblJuros.Text = "JUROS: *";
             // 
@@ -365,7 +365,7 @@
             this.lblMulta.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMulta.Location = new System.Drawing.Point(560, 27);
             this.lblMulta.Name = "lblMulta";
-            this.lblMulta.Size = new System.Drawing.Size(54, 13);
+            this.lblMulta.Size = new System.Drawing.Size(64, 16);
             this.lblMulta.TabIndex = 33;
             this.lblMulta.Text = "MULTA: *";
             // 
@@ -385,7 +385,7 @@
             this.lblDesconto.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDesconto.Location = new System.Drawing.Point(675, 27);
             this.lblDesconto.Name = "lblDesconto";
-            this.lblDesconto.Size = new System.Drawing.Size(77, 13);
+            this.lblDesconto.Size = new System.Drawing.Size(94, 16);
             this.lblDesconto.TabIndex = 35;
             this.lblDesconto.Text = "DESCONTO: *";
             // 

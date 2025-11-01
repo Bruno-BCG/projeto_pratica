@@ -33,7 +33,6 @@ namespace projeto_pratica.service
 
                 try
                 {
-                    // --- PASSO 2: REVERTER ESTOQUE (Se for Atualização ou Cancelamento) ---
                     List<ItensNotaEntrada> itensAntigos = new List<ItensNotaEntrada>();
                     if (aNota.Id > 0)
                     {
@@ -41,14 +40,12 @@ namespace projeto_pratica.service
 
                         foreach (var itemAntigo in itensAntigos)
                         {
-                            // ESTA É A LÓGICA DE ROLLBACK DO PRODUTO QUE VOCÊ PEDIU
                             _daoProduto.ReverterEstoqueCusto(itemAntigo, cnn, transaction);
                         }
                     }
 
                     _daoNotaEntrada.SalvarCabecalho(aNota, cnn, transaction);
 
-                    // --- PASSO 4: INATIVAR ITENS ANTIGOS (Soft Delete) ---
                     if (aNota.Id > 0)
                     {
                         _daoNotaEntrada.InativarItensAntigos(aNota.Id, cnn, transaction);
@@ -58,16 +55,14 @@ namespace projeto_pratica.service
                     {
                         daoContasPagar.InativarParcelas(aNota.Id, aNota.MotivoCancelamento, cnn, transaction);
                     }
-                    // ======================================================================
-
-                    // --- PASSO 5: SE NOTA FOI CANCELADA, PARA AQUI ---
+                    
+                    // caso a nota esteja sendo deletada
                     if (!aNota.Ativo)
                     {
-                        transaction.Commit(); // Comita a reversão do estoque e inativação
+                        transaction.Commit(); 
                         return aNota.Id.ToString();
                     }
 
-                    // --- PASSO 6: LÓGICA DE NEGÓCIO (Rateio de Custo) ---
                     decimal totalCustosAdicionais = aNota.ValorFrete + aNota.ValorSeguro + aNota.OutrasDespesas;
                     decimal valorTotalItens = aNota.ItensDaNota.Sum(i => i.ValorTotal);
 
@@ -82,7 +77,6 @@ namespace projeto_pratica.service
                         item.Ativo = true;
                     }
 
-                    // --- PASSO 7: SALVAR NOVOS ITENS E ATUALIZAR ESTOQUE ---
                     foreach (var item in aNota.ItensDaNota)
                     {
                         item.Id = 0;
@@ -91,28 +85,23 @@ namespace projeto_pratica.service
                         _daoProdForn.SalvarCustoFornecedor(item, aNota.OFornecedor.Id, aNota.DataEmissao, cnn, transaction);
                     }
 
-                    // ======================================================================
-                    // --- PASSO 8: GERAR NOVAS CONTAS A PAGAR ---
                     if (aNota.ACondicaoPagamento != null && aNota.ACondicaoPagamento.ParcelasCondPag.Count > 0)
                     {
                         daoContasPagar.GerarParcelas(aNota, cnn, transaction);
                     }
-                    // ======================================================================
 
-                    // --- PASSO 9: SUCESSO! ---
                     transaction.Commit();
                     return aNota.Id.ToString();
                 }
                 catch (Exception ex)
                 {
-                    // --- FALHA: REVERTE TUDO ---
+                    // REVERTE TUDO
                     transaction.Rollback();
                     return "Erro ao salvar a nota: " + ex.Message;
                 }
             }
         }
 
-        // O Service também pode chamar o Listar do DAO
         public List<NotaEntrada> Listar()
         {
             return _daoNotaEntrada.Listar();

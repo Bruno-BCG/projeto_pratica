@@ -199,7 +199,6 @@ namespace projeto_pratica.pages.cadastro
 					Id = formaSelecionada.Id,
 					Descricao = formaSelecionada.Descricao
 				}
-
 			};
 
 
@@ -232,7 +231,9 @@ namespace projeto_pratica.pages.cadastro
 				txtPrazo.Text = oParcelaCondPag.Prazo.ToString();
 				txtPercent.Text = oParcelaCondPag.Percentual.ToString();
 				txtCodFormPag.Text = oParcelaCondPag.AFormPag.Id.ToString();
+				
 				oParcelaCondPag.DtAlt = DateTime.Now;
+				oParcelaCondPag.Ativo = true;
 				for (int i = 0; i < cbFormaPagamentos.Items.Count; i++)
 				{
 					FormaPagamento forma = (FormaPagamento)cbFormaPagamentos.Items[i];
@@ -309,8 +310,8 @@ namespace projeto_pratica.pages.cadastro
 			oParcelaCondPag.Percentual = percentual;
 			oParcelaCondPag.AFormPag.Id = formaSelecionada.Id;
 			oParcelaCondPag.AFormPag.Descricao = formaSelecionada.Descricao;
-
-			int index = oCondicaoPagamento.ParcelasCondPag.IndexOf(oParcelaCondPag);
+            oParcelaCondPag.Ativo = true; 
+            int index = oCondicaoPagamento.ParcelasCondPag.IndexOf(oParcelaCondPag);
 			if (index >= 0)
 			{
 				oCondicaoPagamento.ParcelasCondPag[index] = oParcelaCondPag;
@@ -525,5 +526,10 @@ namespace projeto_pratica.pages.cadastro
 				}
 			}
 		}
-	}
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

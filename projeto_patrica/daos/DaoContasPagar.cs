@@ -12,19 +12,10 @@ namespace projeto_pratica.daos
     {
         public DaoContasPagar() { }
 
-        // ======================================================================
-        // MÉTODOS CHAMADOS PELO NotaEntradaService (O "Maestro")
-        // ======================================================================
-
-        /// <summary>
-        /// (Chamado pelo Service) Gera as parcelas no banco com base na Nota e Condição de Pagamento.
-        /// </summary>
         public void GerarParcelas(NotaEntrada aNota, SqlConnection cnn, SqlTransaction transaction)
         {
-            // Pega o valor total da nota (Produtos + Custos)
             decimal valorTotal = aNota.ValorTotalNota;
 
-            // Loop nas parcelas da Condição de Pagamento
             foreach (ParcelaCondPag parcelaCond in aNota.ACondicaoPagamento.ParcelasCondPag)
             {
                 string sql = @"
@@ -59,10 +50,6 @@ namespace projeto_pratica.daos
                 }
             }
         }
-
-        /// <summary>
-        /// (Chamado pelo Service) Inativa (Cancela) todas as parcelas em aberto de uma Nota de Entrada.
-        /// </summary>
         public void InativarParcelas(int notaEntradaId, string motivoCancelamento, SqlConnection cnn, SqlTransaction transaction)
         {
             string sql = @"
@@ -83,15 +70,6 @@ namespace projeto_pratica.daos
             }
         }
 
-
-        // ======================================================================
-        // MÉTODOS CHAMADOS PELA TELA DE CONTAS A PAGAR
-        // ======================================================================
-
-        /// <summary>
-        /// Salva uma conta avulsa (INSERT) ou atualiza uma conta existente (UPDATE).
-        /// Usado para "Dar Baixa" (pagar) ou editar uma conta avulsa.
-        /// </summary>
         public override string Salvar(object obj)
         {
             ContasPagar conta = (ContasPagar)obj;
@@ -183,9 +161,6 @@ namespace projeto_pratica.daos
             return resultado;
         }
 
-        /// <summary>
-        /// Lista todas as contas a pagar (para a tela de gerenciamento).
-        /// </summary>
         public List<ContasPagar> Listar()
         {
             var lista = new List<ContasPagar>();
@@ -198,12 +173,13 @@ namespace projeto_pratica.daos
                         CP.*,
                         F.FORNECEDOR_NOME_RS,
                         FP.FORMAPAG_DESC,
+                        NE.NOTA_ENTRADA_MODELO,
+                        NE.NOTA_ENTRADA_SERIE,
                         NE.NOTA_ENTRADA_NUMERO
                     FROM CONTAS_A_PAGAR CP
                     LEFT JOIN FORNECEDOR F ON CP.ID_FORNECEDOR = F.FORNECEDOR_ID
                     LEFT JOIN FORMA_PAGAMENTO FP ON CP.ID_FORMA_PAGAMENTO = FP.FORMAPAG_ID
                     LEFT JOIN NOTA_ENTRADA NE ON CP.NOTA_ENTRADA_ID = NE.NOTA_ENTRADA_ID
-                    WHERE CP.ATIVO = 1 
                     ORDER BY CP.DATA_VENCIMENTO";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conexao))
@@ -234,7 +210,10 @@ namespace projeto_pratica.daos
                             if (dr["NOTA_ENTRADA_ID"] != DBNull.Value)
                             {
                                 conta.ANotaEntrada.Id = Convert.ToInt32(dr["NOTA_ENTRADA_ID"]);
+                                conta.ANotaEntrada.Modelo = dr["NOTA_ENTRADA_MODELO"].ToString();
+                                conta.ANotaEntrada.Serie = dr["NOTA_ENTRADA_SERIE"].ToString();
                                 conta.ANotaEntrada.Numero = dr["NOTA_ENTRADA_NUMERO"].ToString();
+                                
                             }
                             if (dr["ID_FORNECEDOR"] != DBNull.Value)
                             {
@@ -255,9 +234,6 @@ namespace projeto_pratica.daos
             return lista;
         }
 
-        /// <summary>
-        /// Exclusão lógica (Soft Delete) de uma conta.
-        /// </summary>
         public override string Excluir(object obj)
         {
             ContasPagar conta = (ContasPagar)obj;
