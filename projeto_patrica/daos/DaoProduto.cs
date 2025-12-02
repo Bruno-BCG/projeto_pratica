@@ -69,10 +69,8 @@ namespace projeto_pratica.daos
                         cmd.Parameters.AddWithValue("@dtCriacao", aProduto.DtCriacao);
                         aProduto.Id = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        // --- INSERÇÃO DE NOVOS FORNECEDORES (para novo produto) ---
                         if (aProduto.OFornecedor != null && aProduto.OFornecedor.Count > 0)
                         {
-                            // SQL de INSERT atualizado com as novas colunas
                             string insertFornSql = @"
                             INSERT INTO PRODUTO_FORNECEDOR 
                                 (PRODUTO_ID, FORNECEDOR_ID, CUSTO_ULT_COMPRA, DT_ULT_COMPRA, CUSTO_ATUAL_COMPRA, ATIVO) 
@@ -85,23 +83,18 @@ namespace projeto_pratica.daos
                                 {
                                     fornCmd.Parameters.AddWithValue("@produtoId", aProduto.Id);
                                     fornCmd.Parameters.AddWithValue("@fornecedorId", forn.Id);
-                                    // NOTA: Se o 'forn' tivesse os custos, eles seriam adicionados aqui
                                     fornCmd.ExecuteNonQuery();
                                 }
                             }
                         }
                     }
-                    else // 'U' (Operação de Update)
+                    else
                     {
                         aProduto.DtAlt = DateTime.Now;
                         cmd.Parameters.AddWithValue("@dtAlt", aProduto.DtAlt);
                         cmd.Parameters.AddWithValue("@id", aProduto.Id);
                         cmd.ExecuteNonQuery();
 
-                        // --- LÓGICA DE SINCRONIZAÇÃO (ATIVA/DESATIVA) ---
-                        // Substitui o bloco "DELETE FROM PRODUTO_FORNECEDOR"
-
-                        // 1. Desativa TODOS os fornecedores associados a este produto.
                         string deactivateSql = "UPDATE PRODUTO_FORNECEDOR SET ATIVO = 0 WHERE PRODUTO_ID = @produtoId";
                         using (SqlCommand deactivateCmd = new SqlCommand(deactivateSql, cnn, transaction))
                         {
@@ -109,17 +102,13 @@ namespace projeto_pratica.daos
                             deactivateCmd.ExecuteNonQuery();
                         }
 
-                        // 2. Agora, "Upsert" (Update/Insert) os fornecedores da lista desejada,
-                        //    marcando-os (ou inserindo-os) como ATIVO = 1.
                         if (aProduto.OFornecedor != null && aProduto.OFornecedor.Count > 0)
                         {
-                            // SQL para reativar um fornecedor existente
                             string updateSql = @"
                             UPDATE PRODUTO_FORNECEDOR 
                             SET ATIVO = 1
                             WHERE PRODUTO_ID = @produtoId AND FORNECEDOR_ID = @fornecedorId";
 
-                            // SQL para inserir um novo fornecedor (com valores padrão)
                             string insertSql = @"
                             INSERT INTO PRODUTO_FORNECEDOR 
                                 (PRODUTO_ID, FORNECEDOR_ID, CUSTO_ULT_COMPRA, DT_ULT_COMPRA, CUSTO_ATUAL_COMPRA, ATIVO) 
@@ -130,17 +119,14 @@ namespace projeto_pratica.daos
                             {
                                 int rowsAffected = 0;
 
-                                // Tenta ATUALIZAR (reativar) primeiro
                                 using (SqlCommand updateCmd = new SqlCommand(updateSql, cnn, transaction))
                                 {
                                     updateCmd.Parameters.AddWithValue("@produtoId", aProduto.Id);
                                     updateCmd.Parameters.AddWithValue("@fornecedorId", forn.Id);
-                                    // Se 'forn' tivesse o custo:
-                                    // updateCmd.Parameters.AddWithValue("@custoAtual", forn.CustoAtual); 
+
                                     rowsAffected = updateCmd.ExecuteNonQuery();
                                 }
 
-                                // Se 0 linhas foram afetadas, o relacionamento não existe. INSERE.
                                 if (rowsAffected == 0)
                                 {
                                     using (SqlCommand insertCmd = new SqlCommand(insertSql, cnn, transaction))
@@ -154,12 +140,12 @@ namespace projeto_pratica.daos
                         }
                     }
 
-                    transaction.Commit(); // Confirma a transação
+                    transaction.Commit();
                     resultado = aProduto.Id.ToString();
                 }
                 catch (SqlException ex)
                 {
-                    transaction.Rollback(); // Desfaz a transação em caso de erro
+                    transaction.Rollback();
                     resultado = "Erro ao salvar: " + ex.Message;
                 }
             }
@@ -175,8 +161,6 @@ namespace projeto_pratica.daos
             {
                 if (cnn == null) return "Erro ao conectar ao banco de dados.";
 
-                // A exclusão em cascata (ON DELETE CASCADE) na FK da tabela PRODUTO_FORNECEDOR
-                // já remove as associações. Se não tivesse, seria necessário um DELETE manual aqui.
                 string sql = "DELETE FROM PRODUTO WHERE PRODUTO_ID = @id";
                 SqlCommand cmd = new SqlCommand(sql, cnn);
                 cmd.Parameters.AddWithValue("@id", aProduto.Id);
@@ -203,18 +187,17 @@ namespace projeto_pratica.daos
                 if (conexao == null)
                     throw new Exception("Erro ao conectar ao Banco de dados.");
 
-                // 1. Busca todos os produtos com suas associações diretas (Marca, Categoria, etc.)
                 string sqlProdutos = @"
-                SELECT 
-                    P.PRODUTO_ID, P.PRODUTO_NOME, P.PRODUTO_CODBAR, P.PRODUTO_CUSTO_ANTERIOR, P.PRODUTO_CUSTO, P.PRODUTO_PERCENT_LUCRO, P.PRODUTO_VENDA, 
-                    P.PRODUTO_QTD, P.ATIVO, P.PRODUTO_DT_CRIACAO, P.PRODUTO_DT_ALT,
-                    U.UN_MEDIDA_ID, U.UN_MEDIDA_NOME,
-                    C.CATEGORIA_ID, C.CATEGORIA_NOME,
-                    M.MARCA_ID, M.MARCA_NOME
-                FROM PRODUTO P
-                INNER JOIN UNIDADE_MEDIDA U ON P.UN_MEDIDA_ID = U.UN_MEDIDA_ID
-                INNER JOIN CATEGORIA C ON P.CATEGORIA_ID = C.CATEGORIA_ID
-                INNER JOIN MARCA M ON P.MARCA_ID = M.MARCA_ID";
+                    SELECT 
+                        P.PRODUTO_ID, P.PRODUTO_NOME, P.PRODUTO_CODBAR, P.PRODUTO_CUSTO_ANTERIOR, P.PRODUTO_CUSTO, P.PRODUTO_PERCENT_LUCRO, P.PRODUTO_VENDA, 
+                        P.PRODUTO_QTD, P.ATIVO, P.PRODUTO_DT_CRIACAO, P.PRODUTO_DT_ALT,
+                        U.UN_MEDIDA_ID, U.UN_MEDIDA_NOME,
+                        C.CATEGORIA_ID, C.CATEGORIA_NOME,
+                        M.MARCA_ID, M.MARCA_NOME
+                    FROM PRODUTO P
+                    INNER JOIN UNIDADE_MEDIDA U ON P.UN_MEDIDA_ID = U.UN_MEDIDA_ID
+                    INNER JOIN CATEGORIA C ON P.CATEGORIA_ID = C.CATEGORIA_ID
+                    INNER JOIN MARCA M ON P.MARCA_ID = M.MARCA_ID";
 
                 using (SqlCommand cmd = new SqlCommand(sqlProdutos, conexao))
                 {
@@ -227,9 +210,9 @@ namespace projeto_pratica.daos
                                 Id = Convert.ToInt32(dr["PRODUTO_ID"]),
                                 Nome = dr["PRODUTO_NOME"].ToString(),
                                 Codbar = dr["PRODUTO_CODBAR"].ToString(),
-                                CustoAnterior= Convert.ToDouble(dr["PRODUTO_CUSTO_ANTERIOR"]),
+                                CustoAnterior = Convert.ToDouble(dr["PRODUTO_CUSTO_ANTERIOR"]),
                                 Custo = Convert.ToDouble(dr["PRODUTO_CUSTO"]),
-                                PercentLucro= Convert.ToDouble(dr["PRODUTO_PERCENT_LUCRO"]),
+                                PercentLucro = Convert.ToDouble(dr["PRODUTO_PERCENT_LUCRO"]),
                                 Venda = Convert.ToDouble(dr["PRODUTO_VENDA"]),
                                 Estoque = Convert.ToInt32(dr["PRODUTO_QTD"]),
                                 Ativo = Convert.ToBoolean(dr["ATIVO"]),
@@ -256,7 +239,6 @@ namespace projeto_pratica.daos
                     }
                 }
 
-                // 2. Busca todos os fornecedores associados aos produtos
                 string sqlFornecedores = @"
                 SELECT 
                     PF.PRODUTO_ID,
@@ -280,7 +262,7 @@ namespace projeto_pratica.daos
                                 Fornecedor forn = new Fornecedor
                                 {
                                     Id = Convert.ToInt32(dr["FORNECEDOR_ID"]),
-                                    NomeRazaoSocial = dr["FORNECEDOR_NOME_RS"].ToString(), 
+                                    NomeRazaoSocial = dr["FORNECEDOR_NOME_RS"].ToString(),
                                     CpfCnpj = dr["FORNECEDOR_CPF_CNPJ"].ToString()
                                 };
                                 produtos[produtoId].OFornecedor.Add(forn);
@@ -289,13 +271,11 @@ namespace projeto_pratica.daos
                     }
                 }
             }
-            // Retorna a lista de valores do dicionário
             return produtos.Values.ToList();
         }
 
         public void AtualizarEstoqueCusto(ItensNotaEntrada item, SqlConnection cnn, SqlTransaction trans)
         {
-            // Lógica do 'AtualizarProduto' do Dao_compra.cs, traduzida para T-SQL
             string sql = @"
                 UPDATE PRODUTO
                 SET 
@@ -306,10 +286,17 @@ namespace projeto_pratica.daos
                             WHEN (PRODUTO_QTD + @QtdAdicionada) <= 0 THEN 0
                             ELSE ((PRODUTO_CUSTO * PRODUTO_QTD) + (@CustoReal * @QtdAdicionada)) / (PRODUTO_QTD + @QtdAdicionada)
                         END,
-                    PRODUTO_PERCENT_LUCRO = 
+                    PRODUTO_VENDA =
                         CASE 
-                            WHEN ((PRODUTO_CUSTO * PRODUTO_QTD) + (@CustoReal * @QtdAdicionada)) / (PRODUTO_QTD + @QtdAdicionada) <= 0 THEN 0
-                            ELSE ((PRODUTO_VENDA / (((PRODUTO_CUSTO * PRODUTO_QTD) + (@CustoReal * @QtdAdicionada)) / (PRODUTO_QTD + @QtdAdicionada))) - 1) * 100
+                            WHEN (PRODUTO_QTD + @QtdAdicionada) <= 0 THEN 0
+                            ELSE 
+                                -- venda = novo_custo * (1 + percent/100)
+                                ROUND(
+                                    (
+                                        ((PRODUTO_CUSTO * PRODUTO_QTD) + (@CustoReal * @QtdAdicionada)) 
+                                        / NULLIF((PRODUTO_QTD + @QtdAdicionada), 0)
+                                    ) * (1 + (PRODUTO_PERCENT_LUCRO / 100.0)), 2
+                                )
                         END
                 WHERE PRODUTO_ID = @IdProduto";
 
@@ -324,12 +311,12 @@ namespace projeto_pratica.daos
 
         public void ReverterEstoqueCusto(ItensNotaEntrada item, SqlConnection cnn, SqlTransaction trans)
         {
-            // Lógica de 'ReverterAtualizacaoProduto' do Dao_compra.cs, traduzida para T-SQL
             string sql = @"
-                DECLARE @CustoMedioAtual DECIMAL(18,2);
+                DECLARE @CustoMedioAtual DECIMAL(18,6);
                 DECLARE @EstoqueAtual INT;
-                DECLARE @NovoCustoMedio DECIMAL(18,2);
-                DECLARE @CustoAnteriorNaCompra DECIMAL(18,2);
+                DECLARE @NovoCustoMedio DECIMAL(18,6);
+                DECLARE @CustoAnteriorNaCompra DECIMAL(18,6);
+                DECLARE @NovoEstoque INT;
 
                 SELECT 
                     @CustoMedioAtual = PRODUTO_CUSTO, 
@@ -338,7 +325,7 @@ namespace projeto_pratica.daos
                 FROM PRODUTO WITH (UPDLOCK) 
                 WHERE PRODUTO_ID = @IdProduto;
 
-                DECLARE @NovoEstoque INT = @EstoqueAtual - @QtdRemovida;
+                SET @NovoEstoque = @EstoqueAtual - @QtdRemovida;
 
                 IF (@NovoEstoque > 0)
                 BEGIN
@@ -352,7 +339,9 @@ namespace projeto_pratica.daos
                 UPDATE PRODUTO
                 SET 
                     PRODUTO_QTD = @NovoEstoque,
-                    PRODUTO_CUSTO = @NovoCustoMedio
+                    PRODUTO_CUSTO = @NovoCustoMedio,
+                    PRODUTO_VENDA = 
+                        ROUND(@NovoCustoMedio * (1 + (PRODUTO_PERCENT_LUCRO / 100.0)), 2)
                 WHERE PRODUTO_ID = @IdProduto";
 
             using (SqlCommand cmd = new SqlCommand(sql, cnn, trans))
@@ -364,6 +353,33 @@ namespace projeto_pratica.daos
             }
         }
 
+        public void BaixarEstoqueSaida(ItensNotaSaida item, SqlConnection cnn, SqlTransaction trans)
+        {
+            const string sql = @"UPDATE PRODUTO 
+                         SET PRODUTO_QTD = PRODUTO_QTD - @Qtd
+                         WHERE PRODUTO_ID = @IdProduto";
+            using (SqlCommand cmd = new SqlCommand(sql, cnn, trans))
+            {
+                cmd.Parameters.AddWithValue("@Qtd", item.Qtd);
+                cmd.Parameters.AddWithValue("@IdProduto", item.OProduto.Id);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void ReporEstoqueSaida(ItensNotaSaida item, SqlConnection cnn, SqlTransaction trans)
+        {
+            const string sql = @"UPDATE PRODUTO 
+                         SET PRODUTO_QTD = PRODUTO_QTD + @Qtd
+                         WHERE PRODUTO_ID = @IdProduto";
+            using (SqlCommand cmd = new SqlCommand(sql, cnn, trans))
+            {
+                cmd.Parameters.AddWithValue("@Qtd", item.Qtd);
+                cmd.Parameters.AddWithValue("@IdProduto", item.OProduto.Id);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+
         public Produto BuscarPorId(int id)
         {
             Produto prod = null;
@@ -371,18 +387,30 @@ namespace projeto_pratica.daos
             {
                 if (conexao == null) return null;
 
-                // 1. Busca o produto principal
+                // 1) Produto + todas as infos das classes aninhadas (UM, Categoria, Marca)
                 string sqlProduto = @"
                 SELECT 
-                    P.PRODUTO_ID, P.PRODUTO_NOME, P.PRODUTO_CODBAR, P.PRODUTO_CUSTO_ANTERIOR, P.PRODUTO_CUSTO, P.PRODUTO_PERCENT_LUCRO, P.PRODUTO_VENDA, 
-                    P.PRODUTO_QTD, P.ATIVO, P.PRODUTO_DT_CRIACAO, P.PRODUTO_DT_ALT,
-                    U.UN_MEDIDA_ID, U.UN_MEDIDA_NOME,
-                    C.CATEGORIA_ID, C.CATEGORIA_NOME,
-                    M.MARCA_ID, M.MARCA_NOME
+                    -- PRODUTO
+                    P.PRODUTO_ID, P.PRODUTO_NOME, P.PRODUTO_CODBAR, P.PRODUTO_CUSTO_ANTERIOR, P.PRODUTO_CUSTO, 
+                    P.PRODUTO_PERCENT_LUCRO, P.PRODUTO_VENDA, P.PRODUTO_QTD, P.ATIVO AS P_ATIVO, 
+                    P.PRODUTO_DT_CRIACAO AS P_DT_CRIACAO, P.PRODUTO_DT_ALT AS P_DT_ALT,
+
+                    -- UNIDADE_MEDIDA
+                    U.UN_MEDIDA_ID AS UM_ID, U.UN_MEDIDA_NOME AS UM_NOME,
+                    U.ATIVO AS UM_ATIVO, U.UN_MEDIDA_DT_CRIACAO AS UM_DT_CRIACAO, U.UN_MEDIDA_DT_ALT AS UM_DT_ALT,
+
+                    -- CATEGORIA
+                    C.CATEGORIA_ID AS CAT_ID, C.CATEGORIA_NOME AS CAT_NOME,
+                    C.ATIVO AS CAT_ATIVO, C.CATEGORIA_DT_CRIACAO AS CAT_DT_CRIACAO, C.CATEGORIA_DT_ALT AS CAT_DT_ALT,
+
+                    -- MARCA
+                    M.MARCA_ID AS MARCA_ID, M.MARCA_NOME AS MARCA_NOME,
+                    M.ATIVO AS MARCA_ATIVO, M.MARCA_DT_CRIACAO AS MARCA_DT_CRIACAO, M.MARCA_DT_ALT AS MARCA_DT_ALT
+
                 FROM PRODUTO P
                 INNER JOIN UNIDADE_MEDIDA U ON P.UN_MEDIDA_ID = U.UN_MEDIDA_ID
-                INNER JOIN CATEGORIA C ON P.CATEGORIA_ID = C.CATEGORIA_ID
-                INNER JOIN MARCA M ON P.MARCA_ID = M.MARCA_ID
+                INNER JOIN CATEGORIA      C ON P.CATEGORIA_ID = C.CATEGORIA_ID
+                INNER JOIN MARCA         M ON P.MARCA_ID = M.MARCA_ID
                 WHERE P.PRODUTO_ID = @Id AND P.ATIVO = 1";
 
                 using (SqlCommand cmd = new SqlCommand(sqlProduto, conexao))
@@ -390,10 +418,11 @@ namespace projeto_pratica.daos
                     cmd.Parameters.AddWithValue("@Id", id);
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        if (dr.Read()) // Usa IF em vez de WHILE
+                        if (dr.Read())
                         {
                             prod = new Produto
                             {
+                                // PRODUTO
                                 Id = Convert.ToInt32(dr["PRODUTO_ID"]),
                                 Nome = dr["PRODUTO_NOME"].ToString(),
                                 Codbar = dr["PRODUTO_CODBAR"].ToString(),
@@ -402,39 +431,40 @@ namespace projeto_pratica.daos
                                 PercentLucro = Convert.ToDouble(dr["PRODUTO_PERCENT_LUCRO"]),
                                 Venda = Convert.ToDouble(dr["PRODUTO_VENDA"]),
                                 Estoque = Convert.ToInt32(dr["PRODUTO_QTD"]),
-                                Ativo = Convert.ToBoolean(dr["ATIVO"]),
-                                DtCriacao = Convert.ToDateTime(dr["PRODUTO_DT_CRIACAO"]),
-                                DtAlt = dr["PRODUTO_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["PRODUTO_DT_ALT"]),
-                                AUnidadeMedida = new UnidadeMedida { /* Preencher se necessário */ },
-                                ACategoria = new Categoria { /* Preencher se necessário */ },
-                                AMarca = new Marca { /* Preencher se necessário */ }
-                            };
-                        }
-                    }
-                }
+                                Ativo = Convert.ToBoolean(dr["P_ATIVO"]),
+                                DtCriacao = Convert.ToDateTime(dr["P_DT_CRIACAO"]),
+                                DtAlt = dr["P_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["P_DT_ALT"]),
 
-                // 2. Se o produto foi encontrado, busca seus fornecedores (opcional, mas bom)
-                if (prod != null)
-                {
-                    string sqlFornecedores = @"
-                    SELECT F.FORNECEDOR_ID, F.FORNECEDOR_NOME_RS
-                    FROM PRODUTO_FORNECEDOR PF
-                    INNER JOIN FORNECEDOR F ON PF.FORNECEDOR_ID = F.FORNECEDOR_ID
-                    WHERE PF.PRODUTO_ID = @Id AND PF.ATIVO = 1";
-
-                    using (SqlCommand cmd = new SqlCommand(sqlFornecedores, conexao))
-                    {
-                        cmd.Parameters.AddWithValue("@Id", id);
-                        using (SqlDataReader dr = cmd.ExecuteReader())
-                        {
-                            while (dr.Read())
-                            {
-                                prod.OFornecedor.Add(new Fornecedor
+                                // UNIDADE_MEDIDA (classe aninhada completa)
+                                AUnidadeMedida = new UnidadeMedida
                                 {
-                                    Id = Convert.ToInt32(dr["FORNECEDOR_ID"]),
-                                    NomeRazaoSocial = dr["FORNECEDOR_NOME_RS"].ToString()
-                                });
-                            }
+                                    Id = Convert.ToInt32(dr["UM_ID"]),
+                                    Nome = dr["UM_NOME"].ToString(),
+                                    Ativo = dr["UM_ATIVO"] == DBNull.Value ? true : Convert.ToBoolean(dr["UM_ATIVO"]),
+                                    DtCriacao = dr["UM_DT_CRIACAO"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["UM_DT_CRIACAO"]),
+                                    DtAlt = dr["UM_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["UM_DT_ALT"])
+                                },
+
+                                // CATEGORIA (classe aninhada completa)
+                                ACategoria = new Categoria
+                                {
+                                    Id = Convert.ToInt32(dr["CAT_ID"]),
+                                    Nome = dr["CAT_NOME"].ToString(),
+                                    Ativo = dr["CAT_ATIVO"] == DBNull.Value ? true : Convert.ToBoolean(dr["CAT_ATIVO"]),
+                                    DtCriacao = dr["CAT_DT_CRIACAO"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["CAT_DT_CRIACAO"]),
+                                    DtAlt = dr["CAT_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["CAT_DT_ALT"])
+                                },
+
+                                // MARCA (classe aninhada completa)
+                                AMarca = new Marca
+                                {
+                                    Id = Convert.ToInt32(dr["MARCA_ID"]),
+                                    Nome = dr["MARCA_NOME"].ToString(),
+                                    Ativo = dr["MARCA_ATIVO"] == DBNull.Value ? true : Convert.ToBoolean(dr["MARCA_ATIVO"]),
+                                    DtCriacao = dr["MARCA_DT_CRIACAO"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["MARCA_DT_CRIACAO"]),
+                                    DtAlt = dr["MARCA_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["MARCA_DT_ALT"])
+                                }
+                            };
                         }
                     }
                 }

@@ -74,5 +74,5 @@ namespace projeto_pratica.pages.consulta
 		{
 
 		}
-	}
+    }
 }

@@ -228,5 +228,104 @@ namespace projeto_pratica.daos
 			}
 			return lista;
 		}
-	}
+        public Funcionario BuscarPorId(int id)
+        {
+            Funcionario f = null;
+
+            using (SqlConnection conexao = Banco.Abrir())
+            {
+                if (conexao == null) return null;
+
+                string sql = @"
+                SELECT 
+                    -- FUNCIONARIO
+                    F.FUNCIONARIO_ID, F.FUNCIONARIO_TIPO, F.FUNCIONARIO_NOME, F.FUNCIONARIO_APELIDO,
+                    F.FUNCIONARIO_NASCIMENTO, F.FUNCIONARIO_CPF, F.FUNCIONARIO_RG, F.FUNCIONARIO_EMAIL,
+                    F.FUNCIONARIO_TELEFONE, F.ATIVO AS F_ATIVO,
+                    F.FUNCIONARIO_ENDERECO, F.FUNCIONARIO_BAIRRO, F.FUNCIONARIO_CEP,
+                    F.FUNCIONARIO_MATRICULA, F.FUNCIONARIO_CARGO, 
+                    F.FUNCIONARIO_SALBRUTO, F.FUNCIONARIO_SALLIQ, 
+                    F.FUNCIONARIO_DATA_ADMISSAO, F.FUNCIONARIO_DATA_DEMISSAO,
+                    F.FUNCIONARIO_CARGA_HORARIA, F.FUNCIONARIO_TURNO,
+                    F.FUNCIONARIO_DT_CRIACAO, F.FUNCIONARIO_DT_ALT, 
+                    F.FUNCIONARIO_NUM, F.FUNCIONARIO_COMPLEMENTO,
+
+                    -- CIDADE/ESTADO/PAÍS
+                    C.CIDADE_ID, C.CIDADE_NOME, C.CIDADE_DDD,
+                    E.ESTADO_ID, E.ESTADO_NOME, E.ESTADO_UF,
+                    P.PAIS_ID, P.PAIS_NOME, P.PAIS_SIGLA, P.PAIS_MOEDA, P.PAIS_DDI
+
+                FROM FUNCIONARIO F
+                INNER JOIN CIDADE C ON F.CIDADE_ID = C.CIDADE_ID
+                INNER JOIN ESTADO E ON C.ESTADO_ID = E.ESTADO_ID
+                INNER JOIN PAIS P   ON E.PAIS_ID   = P.PAIS_ID
+                WHERE F.FUNCIONARIO_ID = @Id AND F.ATIVO = 1";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conexao))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            f = new Funcionario
+                            {
+                                Id = Convert.ToInt32(dr["FUNCIONARIO_ID"]),
+                                Tipo = Convert.ToChar(dr["FUNCIONARIO_TIPO"]),
+                                NomeRazaoSocial = dr["FUNCIONARIO_NOME"].ToString(),
+                                ApelidoFantasia = dr["FUNCIONARIO_APELIDO"].ToString(),
+                                DataNascimento = dr["FUNCIONARIO_NASCIMENTO"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["FUNCIONARIO_NASCIMENTO"]),
+                                CpfCnpj = dr["FUNCIONARIO_CPF"].ToString(),
+                                RgInscricaoEst = dr["FUNCIONARIO_RG"].ToString(),
+                                Email = dr["FUNCIONARIO_EMAIL"].ToString(),
+                                Telefone = dr["FUNCIONARIO_TELEFONE"].ToString(),
+                                Ativo = Convert.ToBoolean(dr["F_ATIVO"]),
+                                DtCriacao = Convert.ToDateTime(dr["FUNCIONARIO_DT_CRIACAO"]),
+                                DtAlt = dr["FUNCIONARIO_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["FUNCIONARIO_DT_ALT"]),
+
+                                Matricula = dr["FUNCIONARIO_MATRICULA"].ToString(),
+                                Cargo = dr["FUNCIONARIO_CARGO"].ToString(),
+                                SalarioBruto = dr["FUNCIONARIO_SALBRUTO"] == DBNull.Value ? 0.0 : Convert.ToDouble(dr["FUNCIONARIO_SALBRUTO"]),
+                                SalarioLiquido = dr["FUNCIONARIO_SALLIQ"] == DBNull.Value ? 0.0 : Convert.ToDouble(dr["FUNCIONARIO_SALLIQ"]),
+                                DataAdmissao = dr["FUNCIONARIO_DATA_ADMISSAO"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["FUNCIONARIO_DATA_ADMISSAO"]),
+                                DataDemissao = dr["FUNCIONARIO_DATA_DEMISSAO"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["FUNCIONARIO_DATA_DEMISSAO"]),
+                                CargaHoraria = dr["FUNCIONARIO_CARGA_HORARIA"] == DBNull.Value ? 0 : Convert.ToInt32(dr["FUNCIONARIO_CARGA_HORARIA"]),
+                                Turno = dr["FUNCIONARIO_TURNO"].ToString(),
+
+                                OEndereco = new Enderecos
+                                {
+                                    Endereco = dr["FUNCIONARIO_ENDERECO"].ToString(),
+                                    Bairro = dr["FUNCIONARIO_BAIRRO"].ToString(),
+                                    Cep = dr["FUNCIONARIO_CEP"].ToString(),
+                                    Complemento = dr["FUNCIONARIO_COMPLEMENTO"].ToString(),
+                                    Num = dr["FUNCIONARIO_NUM"].ToString(),
+                                    ACidade = new Cidade
+                                    {
+                                        Id = Convert.ToInt32(dr["CIDADE_ID"]),
+                                        Nome = dr["CIDADE_NOME"].ToString(),
+                                        Ddd = dr["CIDADE_DDD"].ToString(),
+                                        OEstado = new Estado
+                                        {
+                                            Id = Convert.ToInt32(dr["ESTADO_ID"]),
+                                            Nome = dr["ESTADO_NOME"].ToString(),
+                                            Uf = dr["ESTADO_UF"].ToString(),
+                                            OPais = new Pais
+                                            {
+                                                Id = Convert.ToInt32(dr["PAIS_ID"]),
+                                                Nome = dr["PAIS_NOME"].ToString(),
+                                                Sigla = dr["PAIS_SIGLA"].ToString(),
+                                                Moeda = dr["PAIS_MOEDA"].ToString(),
+                                                Ddi = dr["PAIS_DDI"].ToString()
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+                        }
+                    }
+                }
+            }
+            return f;
+        }
+    }
 }

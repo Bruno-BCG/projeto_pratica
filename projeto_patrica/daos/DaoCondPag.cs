@@ -148,15 +148,28 @@ namespace projeto_pratica.daos
         public CondicaoPagamento BuscarPorId(int id)
         {
             CondicaoPagamento condPag = null;
+
             using (SqlConnection conexao = Banco.Abrir())
             {
                 if (conexao == null) return null;
 
-                // 1. Busca a Condição de Pagamento principal
-                string sqlCond = "SELECT * FROM COND_PAGAMENTO WHERE ATIVO = 1 AND CONDPAG_ID = @Id";
+                // 1) Cabeçalho da condição de pagamento (colunas explícitas)
+                string sqlCond = @"
+				SELECT 
+					CONDPAG_ID,
+					CONDPAG_DESC,
+					CONDPAG_PARCELAS,
+					CONDPAG_JURO,
+					CONDPAG_MULTA,
+					CONDPAG_DESCONTO,
+					ATIVO
+				FROM COND_PAGAMENTO
+				WHERE ATIVO = 1 AND CONDPAG_ID = @Id";
+
                 using (SqlCommand cmd = new SqlCommand(sqlCond, conexao))
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
+
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
                         if (dr.Read())
@@ -175,43 +188,56 @@ namespace projeto_pratica.daos
                     }
                 }
 
-                // 2. Se encontrou, busca as parcelas
+                // 2) Parcelas (com aliases para ATIVO)
                 if (condPag != null)
                 {
-                    string sqlParcelas = $@"
-                        SELECT 
-                            P.PARCELA_ID, P.CONDPAG_ID, P.PARCELA_NUM, P.PARCELA_PRAZO, P.PARCELA_PERCT,
-                            FP.FORMAPAG_ID, FP.FORMAPAG_DESC
-                        FROM PARCELA_CONDPAG P
-                        INNER JOIN FORMA_PAGAMENTO FP ON P.FORMAPAG_ID = FP.FORMAPAG_ID
-                        WHERE P.CONDPAG_ID = @Id";
+                    string sqlParcelas = @"
+					SELECT 
+						P.PARCELA_ID,
+						P.CONDPAG_ID,
+						P.PARCELA_NUM,
+						P.PARCELA_PRAZO,
+						P.PARCELA_PERCT,
+						P.ATIVO         AS PARC_ATIVO,
+						FP.FORMAPAG_ID,
+						FP.FORMAPAG_DESC,
+						FP.ATIVO        AS FP_ATIVO
+					FROM PARCELA_CONDPAG P
+					INNER JOIN FORMA_PAGAMENTO FP ON FP.FORMAPAG_ID = P.FORMAPAG_ID
+					WHERE P.CONDPAG_ID = @Id AND P.ATIVO = 1 AND FP.ATIVO = 1
+                ORDER BY P.PARCELA_NUM";
 
                     using (SqlCommand cmd = new SqlCommand(sqlParcelas, conexao))
                     {
                         cmd.Parameters.AddWithValue("@Id", id);
+
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
                             while (dr.Read())
                             {
-                                condPag.ParcelasCondPag.Add(new ParcelaCondPag
+                                var parcela = new ParcelaCondPag
                                 {
                                     Id = Convert.ToInt32(dr["PARCELA_ID"]),
                                     CondPagId = condPag.Id,
                                     NumeroParcela = Convert.ToInt32(dr["PARCELA_NUM"]),
                                     Prazo = Convert.ToInt32(dr["PARCELA_PRAZO"]),
                                     Percentual = Convert.ToDecimal(dr["PARCELA_PERCT"]),
+                                    Ativo = Convert.ToBoolean(dr["PARC_ATIVO"]),
                                     AFormPag = new FormaPagamento
                                     {
                                         Id = Convert.ToInt32(dr["FORMAPAG_ID"]),
-                                        Descricao = dr["FORMAPAG_DESC"].ToString()
-                                    },
-                                    Ativo = Convert.ToBoolean(dr["ATIVO"])
-                                });
+                                        Descricao = dr["FORMAPAG_DESC"].ToString(),
+                                        Ativo = Convert.ToBoolean(dr["FP_ATIVO"])
+                                    }
+                                };
+
+                                condPag.ParcelasCondPag.Add(parcela);
                             }
                         }
                     }
                 }
             }
+
             return condPag;
         }
     }

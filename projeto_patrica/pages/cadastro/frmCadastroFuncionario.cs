@@ -326,7 +326,17 @@ namespace projeto_pratica.pages.cadastro
 		{
 
 		}
-	}
+
+        private void txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            txtNumero_KeyPress(sender, e);
+        }
+
+        private void dtpDataNascimento_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
 
 

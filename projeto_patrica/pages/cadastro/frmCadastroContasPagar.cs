@@ -84,7 +84,6 @@ namespace projeto_pratica.pages.cadastro
 
             lblMotivoCancelamento.Visible = false;
             txtMotivoCancelamento.Visible = false;
-            txtMotivoCancelamento.Text = "";
 
             txtMultaValor.Text = "0,00";
             txtJuroValor.Text = "0,00";
@@ -127,27 +126,28 @@ namespace projeto_pratica.pages.cadastro
             {
                 dtpDataPagamento.Value = DateTime.Today;
                 dtpDataPagamento.Checked = false;
+                txtValorPago.Text = oContaPagar.ValorPago.HasValue ? oContaPagar.ValorPago.Value.ToString("F2") : "0,00";
+                ckbStatus.Checked = oContaPagar.Ativo;
+
+                txtDtCriacao.Text = oContaPagar.DtCriacao.ToString();
+                txtDtAlt.Text = oContaPagar.DtAlt.ToString();
+
+                bool cancelado = !oContaPagar.Ativo;
+                lblMotivoCancelamento.Visible = cancelado;
+                lblMotivoCancelamento.Text = "MOTIVO DE CANCELAMENTO";
+                txtMotivoCancelamento.Visible = cancelado;
+
+                txtMotivoCancelamento.Text = oContaPagar.MotivoCancelamento ?? "";
+
+                decimal valorParcela = oContaPagar.ValorParcela;
+                decimal multa = oContaPagar.Multa;
+                decimal juros = oContaPagar.Juros;
+                decimal desconto = oContaPagar.Desconto;
+
+                txtMultaValor.Text = (valorParcela * (multa / 100)).ToString("F2");
+                txtJuroValor.Text = (valorParcela * (juros / 100)).ToString("F2");
+                txtDesctValor.Text = (valorParcela * (desconto / 100)).ToString("F2");
             }
-
-            txtValorPago.Text = oContaPagar.ValorPago.HasValue ? oContaPagar.ValorPago.Value.ToString("F2") : "0,00";
-            ckbStatus.Checked = oContaPagar.Ativo;
-
-            txtDtCriacao.Text = oContaPagar.DtCriacao.ToString();
-            txtDtAlt.Text = oContaPagar.DtAlt.ToString();
-
-            bool cancelado = !oContaPagar.Ativo;
-            lblMotivoCancelamento.Visible = cancelado;
-            txtMotivoCancelamento.Visible = cancelado;
-            txtMotivoCancelamento.Text = oContaPagar.MotivoCancelamento ?? "";
-
-            decimal valorParcela = oContaPagar.ValorParcela;
-            decimal multa = oContaPagar.Multa;
-            decimal juros = oContaPagar.Juros;
-            decimal desconto = oContaPagar.Desconto;
-
-            txtMultaValor.Text = (valorParcela * (multa / 100)).ToString("F2");
-            txtJuroValor.Text = (valorParcela * (juros / 100)).ToString("F2");
-            txtDesctValor.Text = (valorParcela * (desconto / 100)).ToString("F2");
         }
 
         private void PopulaObjetoDoForm()
@@ -217,7 +217,6 @@ namespace projeto_pratica.pages.cadastro
 
         public override void BloqueiaTxt()
         {
-            // Modo "Visualizar" ou "Cancelar"
             base.BloqueiaTxt();
 
             txtCodigo.Enabled = false;
@@ -225,14 +224,14 @@ namespace projeto_pratica.pages.cadastro
             txtNumDaNota.Enabled = false;
             txtCodForn.Enabled = false;
             txtFornecedor.Enabled = false;
-            btnPesquisarProd.Enabled = false; // Botão Fornecedor
+            btnPesquisarProd.Enabled = false; 
             txtNumParcela.Enabled = false;
             dtpDataEmissao.Enabled = false;
             dtpDataVencimento.Enabled = false;
             txtValorParcela.Enabled = false;
             txtCodFormaPagamento.Enabled = false;
             txtFormaPagamento.Enabled = false;
-            btnPesquisarFormPag.Enabled = false; // Botão Forma Pagamento
+            btnPesquisarFormPag.Enabled = false; 
             txtJuros.Enabled = false;
             txtMulta.Enabled = false;
             txtDesconto.Enabled = false;
@@ -249,7 +248,7 @@ namespace projeto_pratica.pages.cadastro
             {
                 btnSave.Visible = false;
             }
-            else // "Confirmar Cancelamento"
+            else 
             {
                 btnSave.Visible = true;
             }
@@ -257,21 +256,20 @@ namespace projeto_pratica.pages.cadastro
 
         public override void DesbloqueiaTxt()
         {
-            // Modo "Inclusão" (Salvar)
             base.DesbloqueiaTxt();
 
-            txtCodigo.Enabled = false; // ID da Conta
-            txtSerie.Enabled = false; // Vem da nota
-            txtNumDaNota.Enabled = false; // Vem da nota
+            txtCodigo.Enabled = false; 
+            txtSerie.Enabled = false; 
+            txtNumDaNota.Enabled = false; 
 
             txtCodForn.Enabled = true;
-            btnPesquisarProd.Enabled = true; // Botão Fornecedor
+            btnPesquisarProd.Enabled = true; 
             txtNumParcela.Enabled = true;
             dtpDataEmissao.Enabled = true;
             dtpDataVencimento.Enabled = true;
             txtValorParcela.Enabled = true;
             txtCodFormaPagamento.Enabled = true;
-            btnPesquisarFormPag.Enabled = true; // Botão Forma Pagamento
+            btnPesquisarFormPag.Enabled = true; 
             txtJuros.Enabled = true;
             txtMulta.Enabled = true;
             txtDesconto.Enabled = true;
@@ -279,7 +277,7 @@ namespace projeto_pratica.pages.cadastro
             btnSave.Visible = true;
             ckbStatus.Enabled = false;
 
-            // Esconde campos de pagamento/cancelamento
+
             dtpDataPagamento.Visible = false;
             txtValorPago.Visible = false;
             lblDataPagamento.Visible = false;
@@ -329,7 +327,7 @@ namespace projeto_pratica.pages.cadastro
             if (!ValidacaoCampos())
                 return;
 
-            PopulaObjetoDoForm(); // Preenche o objeto com dados da tela
+            PopulaObjetoDoForm(); 
 
             try
             {
@@ -361,14 +359,14 @@ namespace projeto_pratica.pages.cadastro
                     }
                     else
                     {
-                        return; // Usuário desistiu
+                        return; 
                     }
                 }
                 else if (btnSave.Text == "Confirmar Pagamento")
                 {
                     if (ConfirmarBaixa())
                     {
-                        resultado = aCtrlContasPagar.Salvar(oContaPagar); // Chama o UPDATE do DAO
+                        resultado = aCtrlContasPagar.Salvar(oContaPagar);
                         if (int.TryParse(resultado, out _))
                             MessageBox.Show("Conta a Pagar baixada com sucesso.");
                         else
@@ -376,12 +374,12 @@ namespace projeto_pratica.pages.cadastro
                     }
                     else
                     {
-                        return; // Usuário não confirmou a baixa
+                        return; 
                     }
                 }
-                else // "Salvar" (Conta Avulsa)
+                else 
                 {
-                    resultado = aCtrlContasPagar.Salvar(oContaPagar); // Chama o INSERT do DAO
+                    resultado = aCtrlContasPagar.Salvar(oContaPagar); 
                     if (int.TryParse(resultado, out int idSalvo))
                     {
                         oContaPagar.Id = idSalvo;
@@ -394,11 +392,11 @@ namespace projeto_pratica.pages.cadastro
                     }
                 }
 
-                base.Salvar(); // Fecha o formulário
+                base.Salvar(); 
             }
             catch (SqlException ex)
             {
-                if (ex.Number == 2627 || ex.Number == 2601) // Violação de Unique Key
+                if (ex.Number == 2627 || ex.Number == 2601) 
                 {
                     MessageBox.Show(
                         "Não foi possível salvar.\n\nJá existe uma parcela com esta Nota de Entrada e Número de Parcela.",
@@ -407,7 +405,7 @@ namespace projeto_pratica.pages.cadastro
                         MessageBoxIcon.Error
                     );
                 }
-                else if (ex.Number == 547) // Violação de Foreign Key
+                else if (ex.Number == 547) 
                 {
                     MessageBox.Show(
                        "Não foi possível salvar.\n\nO Fornecedor ou a Forma de Pagamento especificada não existe.",
@@ -459,37 +457,63 @@ namespace projeto_pratica.pages.cadastro
 
         private void RecalcularValorPago(object sender, EventArgs e)
         {
+            // Base
             decimal.TryParse(txtValorParcela.Text, out decimal valorParcela);
-            decimal.TryParse(txtJuros.Text, out decimal juros);
-            decimal.TryParse(txtMulta.Text, out decimal multa);
-            decimal.TryParse(txtDesconto.Text, out decimal desconto);
+            decimal.TryParse(txtJuros.Text, out decimal jurosPerc);      
+            decimal.TryParse(txtMulta.Text, out decimal multaPerc);       
+            decimal.TryParse(txtDesconto.Text, out decimal descontoPerc); 
 
-            decimal valorJuros = valorParcela * (juros / 100);
-            decimal valorMulta = valorParcela * (multa / 100);
-            decimal valorDesconto = valorParcela * (desconto / 100);
-
-            txtJuroValor.Text = valorJuros.ToString("F2");
-            txtMultaValor.Text = valorMulta.ToString("F2");
-            txtDesctValor.Text = valorDesconto.ToString("F2");
-
-            decimal total = 0; 
-
-            if (dtpDataPagamento.Checked)
+            if (!dtpDataPagamento.Checked)
             {
-                total = valorParcela;
-
-                if (dtpDataPagamento.Value.Date > dtpDataVencimento.Value.Date)
-                {
-                    total += valorMulta;
-                    total += valorJuros;
-                }
-                else
-                {
-                    total -= valorDesconto;
-                    total += valorJuros; 
-                }
+                txtJuroValor.Text = "0,00";
+                txtMultaValor.Text = "0,00";
+                txtDesctValor.Text = "0,00";
+                txtValorPago.Text = "0,00";
+                return;
             }
-            txtValorPago.Text = total.ToString("F2");
+
+            DateTime venc = dtpDataVencimento.Value.Date;
+            DateTime pag = dtpDataPagamento.Value.Date;
+
+            int diasAtraso = (pag - venc).Days;       
+            int diasAdiantado = (venc - pag).Days;     
+
+            decimal valorMulta = 0m;
+            decimal valorJuros = 0m;
+            decimal valorDesc = 0m;
+
+            if (diasAtraso > 0)
+            {
+      
+                valorMulta = valorParcela * (multaPerc / 100m);
+                valorJuros = valorParcela * (jurosPerc / 100m) * diasAtraso;
+                valorDesc = 0m;
+            }
+            else if (diasAdiantado > 0)
+            {
+
+                valorMulta = 0m;
+                valorJuros = 0m;
+                valorDesc = valorParcela * (descontoPerc / 100m) * diasAdiantado;
+
+            }
+            else
+            {
+
+                valorMulta = 0m;
+                valorJuros = 0m;
+                valorDesc = 0m;
+            }
+
+            // Atualiza campos R$
+            txtMultaValor.Text = Math.Round(valorMulta, 2).ToString("F2");
+            txtJuroValor.Text = Math.Round(valorJuros, 2).ToString("F2");
+            txtDesctValor.Text = Math.Round(valorDesc, 2).ToString("F2");
+
+            // Total final (não negativo)
+            decimal total = valorParcela + valorMulta + valorJuros - valorDesc;
+            if (total < 0) total = 0m;
+            txtValorPago.Text = Math.Round(total, 2).ToString("F2");
         }
 
         private bool ConfirmarBaixa()
@@ -543,6 +567,51 @@ namespace projeto_pratica.pages.cadastro
                     txtFornecedor.Clear();
                 }
             }
+        }
+        private void txtCodFormaPagamento_Leave(object sender, EventArgs e)
+        {
+            // Se limpar o campo, limpa o objeto e o texto
+            if (string.IsNullOrWhiteSpace(txtCodFormaPagamento.Text))
+            {
+                aFormPag = new FormaPagamento();
+                oContaPagar.AFormaPagamento = new FormaPagamento();
+                txtFormaPagamento.Clear();
+                return;
+            }
+
+            // Só busca se for inteiro > 0
+            if (!int.TryParse(txtCodFormaPagamento.Text, out int id) || id <= 0)
+            {
+                aFormPag = new FormaPagamento();
+                oContaPagar.AFormaPagamento = new FormaPagamento();
+                txtCodFormaPagamento.Clear();
+                txtFormaPagamento.Clear();
+                return;
+            }
+
+            // Busca no controller
+            var fp = aCtrlFormaPagamento.BuscarPorId(id);
+            if (fp != null)
+            {
+                aFormPag = fp;
+                oContaPagar.AFormaPagamento = fp;
+                txtCodFormaPagamento.Text = fp.Id.ToString();
+                txtFormaPagamento.Text = fp.Descricao;
+            }
+            else
+            {
+                MessageBox.Show("Forma de pagamento não encontrada.", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                aFormPag = new FormaPagamento();
+                oContaPagar.AFormaPagamento = new FormaPagamento();
+                txtCodFormaPagamento.Clear();
+                txtFormaPagamento.Clear();
+            }
+        }
+
+        private void txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            txtNumero_KeyPress(sender, e);
         }
     }
 }

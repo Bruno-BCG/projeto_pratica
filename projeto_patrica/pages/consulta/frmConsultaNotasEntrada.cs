@@ -73,6 +73,18 @@ namespace projeto_pratica.pages.consulta
         public override void Excluir()
         {
             base.Excluir();
+
+            if (aCtrlNotaEntrada.ExistemParcelasPagasPorNota(aNotaEntrada.Id))
+            {
+                MessageBox.Show(
+                    "Não é possível cancelar esta Nota de Entrada.\nHá parcelas de Contas a Pagar já baixadas (pagas).",
+                    "Ação bloqueada",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return;
+            }
+
             string aux = aFrmCadastroNotaEntrada.btnSave.Text;
             aFrmCadastroNotaEntrada.btnSave.Text = "Excluir";
             aFrmCadastroNotaEntrada.ConhecaObj(aNotaEntrada, aCtrlNotaEntrada);
@@ -114,40 +126,31 @@ namespace projeto_pratica.pages.consulta
         {
             if (listV.SelectedItems.Count > 0)
             {
-                // Quando um item é selecionado, copiamos o objeto da Tag para a variável 'aNotaEntrada'
-                // para que os métodos Alterar() e Excluir() saibam qual objeto usar.
                 var selecionada = (NotaEntrada)listV.SelectedItems[0].Tag;
 
-                // Propriedades da classe Pai
+                // --- copia dos campos (mantém igual ao seu código atual) ---
                 aNotaEntrada.Id = selecionada.Id;
                 aNotaEntrada.DtCriacao = selecionada.DtCriacao;
                 aNotaEntrada.DtAlt = selecionada.DtAlt;
                 aNotaEntrada.Ativo = selecionada.Ativo;
-
-                // Propriedades da NotaEntrada
                 aNotaEntrada.Modelo = selecionada.Modelo;
                 aNotaEntrada.Serie = selecionada.Serie;
                 aNotaEntrada.Numero = selecionada.Numero;
                 aNotaEntrada.DataEmissao = selecionada.DataEmissao;
                 aNotaEntrada.DataChegada = selecionada.DataChegada;
-
-                // Valores
                 aNotaEntrada.ValorFrete = selecionada.ValorFrete;
                 aNotaEntrada.ValorSeguro = selecionada.ValorSeguro;
                 aNotaEntrada.OutrasDespesas = selecionada.OutrasDespesas;
-
-                // Objetos complexos (atribuição de referência)
                 aNotaEntrada.OFornecedor = selecionada.OFornecedor;
                 aNotaEntrada.ACondicaoPagamento = selecionada.ACondicaoPagamento;
-
-                // Listas (atribuição de referência)
                 aNotaEntrada.ItensDaNota = selecionada.ItensDaNota;
-
                 aNotaEntrada.MotivoCancelamento = selecionada.MotivoCancelamento;
 
-                btnExcluir.Enabled = selecionada.Ativo;
+                bool temParcelaPaga = aCtrlNotaEntrada.ExistemParcelasPagasPorNota(selecionada.Id);
+
+                // Só permite excluir se está ativa e NÃO tem parcela paga
+                btnExcluir.Enabled = selecionada.Ativo && !temParcelaPaga;
                 btnAlterar.Enabled = true;
-                
             }
             else
             {

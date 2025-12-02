@@ -266,5 +266,57 @@ namespace projeto_pratica.daos
             }
             return resultado;
         }
+
+        public bool ExistemParcelasAnterioresPendentesPorNota(int notaEntradaId, int numeroParcela)
+        {
+            using (SqlConnection conexao = Banco.Abrir())
+            {
+                if (conexao == null) return false;
+
+                string sql = @"
+            SELECT COUNT(*)
+            FROM CONTAS_A_PAGAR
+            WHERE
+                NOTA_ENTRADA_ID = @NotaId       -- mesma nota
+                AND NUMERO_PARCELA < @NumParcela -- anteriores
+                AND SITUACAO = 0                 -- Em Aberto
+                AND ATIVO = 1";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conexao))
+                {
+                    cmd.Parameters.AddWithValue("@NotaId", notaEntradaId);
+                    cmd.Parameters.AddWithValue("@NumParcela", numeroParcela);
+
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+        public bool ExistemParcelasAvulsasPendentes(int idFornecedor, int numeroParcela)
+        {
+            using (SqlConnection conexao = Banco.Abrir())
+            {
+                if (conexao == null) return false;
+
+                string sql = @"
+                    SELECT COUNT(*) 
+                    FROM CONTAS_A_PAGAR
+                    WHERE 
+                        NOTA_ENTRADA_ID IS NULL          -- Garante que é avulsa
+                        AND ID_FORNECEDOR = @FornecedorId -- Mesmo fornecedor
+                        AND NUMERO_PARCELA < @NumParcela -- Parcelas anteriores
+                        AND SITUACAO = 0                 -- Em Aberto (pendente)
+                        AND ATIVO = 1";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conexao))
+                {
+                    cmd.Parameters.AddWithValue("@FornecedorId", idFornecedor);
+                    cmd.Parameters.AddWithValue("@NumParcela", numeroParcela);
+
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0; // Retorna true se encontrou pendentes
+                }
+            }
+        }
     }
 }

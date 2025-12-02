@@ -56,10 +56,12 @@
             // txtCpf
             // 
             this.txtCpf.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.txtCpf.MaxLength = 11;
             // 
             // txtRg
             // 
             this.txtRg.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.txtRg.MaxLength = 30;
             // 
             // rbtnFisica
             // 
@@ -117,6 +119,10 @@
             // 
             this.txtEstado.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             // 
+            // dtpDataNascimento
+            // 
+            this.dtpDataNascimento.ValueChanged += new System.EventHandler(this.dtpDataNascimento_ValueChanged);
+            // 
             // btnSave
             // 
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -141,7 +147,7 @@
             // 
             // txtCodigo
             // 
-            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5);
             // 
             // lblLimiteCredito
             // 

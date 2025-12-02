@@ -24,7 +24,6 @@ namespace projeto_pratica.pages.consulta
         }
 
         // --- Métodos Herdados (Padrão) ---
-
         public override void setFrmCadastro(object obj)
         {
             base.setFrmCadastro(obj);
@@ -44,11 +43,16 @@ namespace projeto_pratica.pages.consulta
         public override void Incluir()
         {
             base.Incluir();
+
             oConta = new ContasPagar();
 
             frmCadConta.ConhecaObj(oConta, aCtrlContasPagar);
             frmCadConta.LimparTxt();
-            frmCadConta.ShowDialog();
+
+            frmCadConta.btnSave.Text = "Salvar";
+            frmCadConta.DesbloqueiaTxt();
+
+            frmCadConta.ShowDialog(this);
             this.CarregaLV();
         }
 
@@ -64,13 +68,42 @@ namespace projeto_pratica.pages.consulta
 
         public override void Excluir()
         {
+            if (oConta.Situacao == 1) // 1 = Pago
+            {
+                MessageBox.Show("Não é possível cancelar uma conta que já foi paga.",
+                                "Ação Bloqueada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (oConta.ANotaEntrada.Id > 0)
+            {
+                MessageBox.Show("Não é possível cancelar esta parcela individualmente.\n\n" +
+                                "Ela está vinculada à uma Nota de Entrada.\n" +
+                                "Para cancelar, acesse a Nota de Entrada e cancele a nota inteira.",
+                                "Ação Bloqueada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (oConta.OFornecedor.Id > 0 && oConta.NumeroParcela > 1)
+            {
+                bool pendentes = aCtrlContasPagar.ExistemParcelasAvulsasPendentes(oConta.OFornecedor.Id, oConta.NumeroParcela);
+                if (pendentes)
+                {
+                    MessageBox.Show("Não é possível cancelar esta parcela.\n\n" +
+                                    "Existem parcelas anteriores para este fornecedor que ainda estão pendentes (Em Aberto).",
+                                    "Ação Bloqueada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+
             base.Excluir();
             string aux = frmCadConta.btnSave.Text;
-            frmCadConta.btnSave.Text = "Confirmar Cancelamento"; 
+            frmCadConta.btnSave.Text = "Confirmar Cancelamento";
 
             frmCadConta.ConhecaObj(oConta, aCtrlContasPagar);
             frmCadConta.CarregarTxt();
-            frmCadConta.BloqueiaTxt(); 
+            frmCadConta.BloqueiaTxt();
 
             frmCadConta.ShowDialog(this);
 
@@ -87,14 +120,37 @@ namespace projeto_pratica.pages.consulta
                 return;
             }
 
+            bool temAnterioresPendentes = false;
+
+            if (oConta.ANotaEntrada.Id > 0)
+            {
+                temAnterioresPendentes = aCtrlContasPagar
+                    .ExistemParcelasAnterioresPendentesPorNota(oConta.ANotaEntrada.Id, oConta.NumeroParcela);
+            }
+            else if (oConta.OFornecedor.Id > 0 && oConta.NumeroParcela > 1)
+            {
+                temAnterioresPendentes = aCtrlContasPagar
+                    .ExistemParcelasAvulsasPendentes(oConta.OFornecedor.Id, oConta.NumeroParcela);
+            }
+
+            if (temAnterioresPendentes)
+            {
+                MessageBox.Show(
+                    "Não é possível dar baixa nesta parcela.\n\n" +
+                    "Existem parcelas anteriores em aberto para esta fatura.",
+                    "Ação Bloqueada",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return;
+            }
+
             string aux = frmCadConta.btnSave.Text;
             frmCadConta.btnSave.Text = "Confirmar Pagamento";
 
             frmCadConta.ConhecaObj(oConta, aCtrlContasPagar);
             frmCadConta.CarregarTxt();
-
             frmCadConta.ModoBaixa();
-
             frmCadConta.ShowDialog(this);
 
             frmCadConta.DesbloqueiaTxt();
@@ -179,6 +235,8 @@ namespace projeto_pratica.pages.consulta
                 btnBaixa.Enabled = false;
             }
         }
+
+
         private void btnBaixa_Click(object sender, EventArgs e)
         {
             DarBaixa();

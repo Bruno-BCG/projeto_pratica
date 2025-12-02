@@ -31,5 +31,13 @@ namespace projeto_pratica.controllers
         {
             return aDaoContasPagar.Listar();
         }
+        public bool ExistemParcelasAvulsasPendentes(int idFornecedor, int numeroParcela)
+        {
+            return aDaoContasPagar.ExistemParcelasAvulsasPendentes(idFornecedor, numeroParcela);
+        }
+        public bool ExistemParcelasAnterioresPendentesPorNota(int idFornecedor, int numeroParcela)
+        {
+            return aDaoContasPagar.ExistemParcelasAnterioresPendentesPorNota(idFornecedor,numeroParcela);
+        }
     }
 }

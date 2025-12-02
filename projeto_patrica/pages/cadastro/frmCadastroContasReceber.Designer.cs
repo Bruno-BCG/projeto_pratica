@@ -1,6 +1,6 @@
 ﻿namespace projeto_pratica.pages.cadastro
 {
-    partial class frmCadastroContasPagar
+    partial class frmCadastroContasReceber
     {
         /// <summary>
         /// Variável de designer necessária.
@@ -34,11 +34,11 @@
             this.lblSerie = new System.Windows.Forms.Label();
             this.dtpDataEmissao = new System.Windows.Forms.DateTimePicker();
             this.dtpDataVencimento = new System.Windows.Forms.DateTimePicker();
-            this.txtCodForn = new System.Windows.Forms.TextBox();
-            this.txtFornecedor = new System.Windows.Forms.TextBox();
+            this.txtCodCliente = new System.Windows.Forms.TextBox();
+            this.txtCliente = new System.Windows.Forms.TextBox();
             this.lblDataVencimento = new System.Windows.Forms.Label();
             this.lblDataEmissao = new System.Windows.Forms.Label();
-            this.lblFornecedor = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
             this.lblNumParcela = new System.Windows.Forms.Label();
             this.txtNumParcela = new System.Windows.Forms.TextBox();
             this.lblValorParcela = new System.Windows.Forms.Label();
@@ -58,7 +58,7 @@
             this.lblMotivoCancelamento = new System.Windows.Forms.Label();
             this.dtpDataPagamento = new System.Windows.Forms.DateTimePicker();
             this.txtMotivoCancelamento = new System.Windows.Forms.TextBox();
-            this.btnPesquisarProd = new System.Windows.Forms.Button();
+            this.btnPesquisarCliente = new System.Windows.Forms.Button();
             this.btnPesquisarFormPag = new System.Windows.Forms.Button();
             this.txtMultaValor = new System.Windows.Forms.TextBox();
             this.txtJuroValor = new System.Windows.Forms.TextBox();
@@ -157,7 +157,7 @@
             // 
             this.lblNumNota.Location = new System.Drawing.Point(172, 27);
             this.lblNumNota.Name = "lblNumNota";
-            this.lblNumNota.Size = new System.Drawing.Size(159, 16);
+            this.lblNumNota.Size = new System.Drawing.Size(132, 16);
             this.lblNumNota.TabIndex = 103;
             this.lblNumNota.Text = "NUMERO DA NOTA *";
             // 
@@ -165,7 +165,7 @@
             // 
             this.lblSerie.Location = new System.Drawing.Point(104, 27);
             this.lblSerie.Name = "lblSerie";
-            this.lblSerie.Size = new System.Drawing.Size(63, 16);
+            this.lblSerie.Size = new System.Drawing.Size(47, 16);
             this.lblSerie.TabIndex = 104;
             this.lblSerie.Text = "SERIE *";
             // 
@@ -187,30 +187,28 @@
             this.dtpDataVencimento.Name = "dtpDataVencimento";
             this.dtpDataVencimento.Size = new System.Drawing.Size(109, 22);
             this.dtpDataVencimento.TabIndex = 113;
-            this.dtpDataVencimento.ValueChanged += new System.EventHandler(this.RecalcularValorPago);
             // 
-            // txtCodForn
+            // txtCodCliente
             // 
-            this.txtCodForn.Location = new System.Drawing.Point(324, 47);
-            this.txtCodForn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtCodForn.Name = "txtCodForn";
-            this.txtCodForn.ShortcutsEnabled = false;
-            this.txtCodForn.Size = new System.Drawing.Size(60, 22);
-            this.txtCodForn.TabIndex = 110;
-            this.txtCodForn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtCodForn.Click += new System.EventHandler(this.txtCodForn_Leave);
-            this.txtCodForn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_KeyPress);
-            this.txtCodForn.Leave += new System.EventHandler(this.txtCodForn_Leave);
+            this.txtCodCliente.Location = new System.Drawing.Point(324, 47);
+            this.txtCodCliente.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtCodCliente.Name = "txtCodCliente";
+            this.txtCodCliente.ShortcutsEnabled = false;
+            this.txtCodCliente.Size = new System.Drawing.Size(60, 22);
+            this.txtCodCliente.TabIndex = 110;
+            this.txtCodCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtCodCliente.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_KeyPress);
+            this.txtCodCliente.Leave += new System.EventHandler(this.txtCodCliente_Leave);
             // 
-            // txtFornecedor
+            // txtCliente
             // 
-            this.txtFornecedor.Location = new System.Drawing.Point(389, 46);
-            this.txtFornecedor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtFornecedor.Name = "txtFornecedor";
-            this.txtFornecedor.ReadOnly = true;
-            this.txtFornecedor.ShortcutsEnabled = false;
-            this.txtFornecedor.Size = new System.Drawing.Size(215, 22);
-            this.txtFornecedor.TabIndex = 111;
+            this.txtCliente.Location = new System.Drawing.Point(389, 46);
+            this.txtCliente.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtCliente.Name = "txtCliente";
+            this.txtCliente.ReadOnly = true;
+            this.txtCliente.ShortcutsEnabled = false;
+            this.txtCliente.Size = new System.Drawing.Size(215, 22);
+            this.txtCliente.TabIndex = 111;
             // 
             // lblDataVencimento
             // 
@@ -228,13 +226,13 @@
             this.lblDataEmissao.TabIndex = 108;
             this.lblDataEmissao.Text = "DATA DE EMISSÃO *";
             // 
-            // lblFornecedor
+            // lblCliente
             // 
-            this.lblFornecedor.Location = new System.Drawing.Point(321, 28);
-            this.lblFornecedor.Name = "lblFornecedor";
-            this.lblFornecedor.Size = new System.Drawing.Size(216, 16);
-            this.lblFornecedor.TabIndex = 109;
-            this.lblFornecedor.Text = "FORNECEDOR *";
+            this.lblCliente.Location = new System.Drawing.Point(321, 28);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(216, 16);
+            this.lblCliente.TabIndex = 109;
+            this.lblCliente.Text = "CLIENTE*";
             // 
             // lblNumParcela
             // 
@@ -273,7 +271,6 @@
             this.txtValorParcela.TabIndex = 105;
             this.txtValorParcela.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtValorParcela.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_KeyPress);
-            this.txtValorParcela.Leave += new System.EventHandler(this.RecalcularValorPago);
             // 
             // lblDataPagamento
             // 
@@ -413,7 +410,6 @@
             this.dtpDataPagamento.Name = "dtpDataPagamento";
             this.dtpDataPagamento.Size = new System.Drawing.Size(135, 22);
             this.dtpDataPagamento.TabIndex = 166;
-            this.dtpDataPagamento.ValueChanged += new System.EventHandler(this.RecalcularValorPago);
             // 
             // txtMotivoCancelamento
             // 
@@ -424,16 +420,16 @@
             this.txtMotivoCancelamento.Size = new System.Drawing.Size(385, 22);
             this.txtMotivoCancelamento.TabIndex = 167;
             // 
-            // btnPesquisarProd
+            // btnPesquisarCliente
             // 
-            this.btnPesquisarProd.Location = new System.Drawing.Point(611, 43);
-            this.btnPesquisarProd.Margin = new System.Windows.Forms.Padding(4);
-            this.btnPesquisarProd.Name = "btnPesquisarProd";
-            this.btnPesquisarProd.Size = new System.Drawing.Size(97, 28);
-            this.btnPesquisarProd.TabIndex = 168;
-            this.btnPesquisarProd.Text = "Pesquisar";
-            this.btnPesquisarProd.UseVisualStyleBackColor = true;
-            this.btnPesquisarProd.Click += new System.EventHandler(this.btnPesquisarFornecedor_Click);
+            this.btnPesquisarCliente.Location = new System.Drawing.Point(611, 43);
+            this.btnPesquisarCliente.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPesquisarCliente.Name = "btnPesquisarCliente";
+            this.btnPesquisarCliente.Size = new System.Drawing.Size(97, 28);
+            this.btnPesquisarCliente.TabIndex = 168;
+            this.btnPesquisarCliente.Text = "Pesquisar";
+            this.btnPesquisarCliente.UseVisualStyleBackColor = true;
+            this.btnPesquisarCliente.Click += new System.EventHandler(this.btnPesquisarFornecedor_Click);
             // 
             // btnPesquisarFormPag
             // 
@@ -482,7 +478,7 @@
             this.txtDesctValor.TabIndex = 174;
             this.txtDesctValor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // frmCadastroContasPagar
+            // frmCadastroContasReceber
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.ClientSize = new System.Drawing.Size(1041, 721);
@@ -490,7 +486,7 @@
             this.Controls.Add(this.txtJuroValor);
             this.Controls.Add(this.txtMultaValor);
             this.Controls.Add(this.btnPesquisarFormPag);
-            this.Controls.Add(this.btnPesquisarProd);
+            this.Controls.Add(this.btnPesquisarCliente);
             this.Controls.Add(this.txtMotivoCancelamento);
             this.Controls.Add(this.dtpDataPagamento);
             this.Controls.Add(this.lblMotivoCancelamento);
@@ -505,12 +501,12 @@
             this.Controls.Add(this.lblFormaPagamento);
             this.Controls.Add(this.dtpDataEmissao);
             this.Controls.Add(this.dtpDataVencimento);
-            this.Controls.Add(this.txtCodForn);
-            this.Controls.Add(this.txtFornecedor);
+            this.Controls.Add(this.txtCodCliente);
+            this.Controls.Add(this.txtCliente);
             this.Controls.Add(this.lblDataPagamento);
             this.Controls.Add(this.lblDataVencimento);
             this.Controls.Add(this.lblDataEmissao);
-            this.Controls.Add(this.lblFornecedor);
+            this.Controls.Add(this.lblCliente);
             this.Controls.Add(this.txtValorPago);
             this.Controls.Add(this.txtValorParcela);
             this.Controls.Add(this.lblValorFinal);
@@ -522,8 +518,8 @@
             this.Controls.Add(this.lblNumNota);
             this.Controls.Add(this.lblSerie);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "frmCadastroContasPagar";
-            this.Text = "Cadastro de Contas a Pagar";
+            this.Name = "frmCadastroContasReceber";
+            this.Text = "Cadastro de Contas a Receber";
             this.Controls.SetChildIndex(this.lblSerie, 0);
             this.Controls.SetChildIndex(this.lblNumNota, 0);
             this.Controls.SetChildIndex(this.txtSerie, 0);
@@ -534,12 +530,12 @@
             this.Controls.SetChildIndex(this.lblValorFinal, 0);
             this.Controls.SetChildIndex(this.txtValorParcela, 0);
             this.Controls.SetChildIndex(this.txtValorPago, 0);
-            this.Controls.SetChildIndex(this.lblFornecedor, 0);
+            this.Controls.SetChildIndex(this.lblCliente, 0);
             this.Controls.SetChildIndex(this.lblDataEmissao, 0);
             this.Controls.SetChildIndex(this.lblDataVencimento, 0);
             this.Controls.SetChildIndex(this.lblDataPagamento, 0);
-            this.Controls.SetChildIndex(this.txtFornecedor, 0);
-            this.Controls.SetChildIndex(this.txtCodForn, 0);
+            this.Controls.SetChildIndex(this.txtCliente, 0);
+            this.Controls.SetChildIndex(this.txtCodCliente, 0);
             this.Controls.SetChildIndex(this.dtpDataVencimento, 0);
             this.Controls.SetChildIndex(this.dtpDataEmissao, 0);
             this.Controls.SetChildIndex(this.lblFormaPagamento, 0);
@@ -565,7 +561,7 @@
             this.Controls.SetChildIndex(this.lblUserAlt, 0);
             this.Controls.SetChildIndex(this.txtUserAlt, 0);
             this.Controls.SetChildIndex(this.ckbStatus, 0);
-            this.Controls.SetChildIndex(this.btnPesquisarProd, 0);
+            this.Controls.SetChildIndex(this.btnPesquisarCliente, 0);
             this.Controls.SetChildIndex(this.btnPesquisarFormPag, 0);
             this.Controls.SetChildIndex(this.txtMultaValor, 0);
             this.Controls.SetChildIndex(this.txtJuroValor, 0);
@@ -583,11 +579,11 @@
         private System.Windows.Forms.Label lblSerie;
         private System.Windows.Forms.DateTimePicker dtpDataEmissao;
         private System.Windows.Forms.DateTimePicker dtpDataVencimento;
-        private System.Windows.Forms.TextBox txtCodForn;
-        private System.Windows.Forms.TextBox txtFornecedor;
+        private System.Windows.Forms.TextBox txtCodCliente;
+        private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.Label lblDataVencimento;
         private System.Windows.Forms.Label lblDataEmissao;
-        private System.Windows.Forms.Label lblFornecedor;
+        private System.Windows.Forms.Label lblCliente;
         private System.Windows.Forms.Label lblNumParcela;
         private System.Windows.Forms.TextBox txtNumParcela;
         private System.Windows.Forms.Label lblValorParcela;
@@ -606,7 +602,7 @@
         private System.Windows.Forms.TextBox txtFormaPagamento;
         private System.Windows.Forms.DateTimePicker dtpDataPagamento;
         private System.Windows.Forms.TextBox txtMotivoCancelamento;
-        private System.Windows.Forms.Button btnPesquisarProd;
+        private System.Windows.Forms.Button btnPesquisarCliente;
         private System.Windows.Forms.Button btnPesquisarFormPag;
         private System.Windows.Forms.TextBox txtMultaValor;
         private System.Windows.Forms.TextBox txtJuroValor;

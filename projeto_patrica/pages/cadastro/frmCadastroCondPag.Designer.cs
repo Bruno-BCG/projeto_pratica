@@ -125,6 +125,7 @@
             // 
             // txtDescricao
             // 
+            this.txtDescricao.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtDescricao.Location = new System.Drawing.Point(129, 46);
             this.txtDescricao.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDescricao.MaxLength = 99;

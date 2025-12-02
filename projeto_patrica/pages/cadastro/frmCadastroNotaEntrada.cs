@@ -1,4 +1,5 @@
-﻿using projeto_pratica.classes;
+﻿using Microsoft.VisualBasic;
+using projeto_pratica.classes;
 using projeto_pratica.controllers;
 using projeto_pratica.pages.consulta;
 using System;
@@ -6,9 +7,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Microsoft.VisualBasic;
 
 namespace projeto_pratica.pages.cadastro
 {
@@ -16,18 +17,18 @@ namespace projeto_pratica.pages.cadastro
     {
         private NotaEntrada aNotaEntrada;
         private CtrlNotaEntrada aCtrlNotaEntrada;
-        // Objetos temporários para receber dados das telas de consulta
+
         private Fornecedor oFornecedor;
         private Produto oProduto;
         private CondicaoPagamento aCondPag;
-        private ItensNotaEntrada _itemSelecionado; // Para gerenciar o item selecionado na lista
+        private ItensNotaEntrada _itemSelecionado;
 
-        // Controladores para as entidades relacionadas
+
         private CtrlFornecedor aCtrlFornecedor;
         private CtrlProduto aCtrlProduto;
         private CtrlCondPag aCtrlCondPag;
 
-        // Forms de consulta
+
         private frmConsultaFornecedor aFrmConsultaFornecedor;
         private frmConsultaProduto aFrmConsultaProduto;
         private frmConsultaCondPag aFrmConsultaCondPag;
@@ -35,11 +36,10 @@ namespace projeto_pratica.pages.cadastro
         public frmCadastroNotaEntrada()
         {
             InitializeComponent();
-            // Inicializa o objeto principal e seu controlador
+
             aNotaEntrada = new NotaEntrada();
             aCtrlNotaEntrada = new CtrlNotaEntrada();
 
-            // Inicializa objetos e controladores de apoio
             oFornecedor = new Fornecedor();
             oProduto = new Produto();
             aCondPag = new CondicaoPagamento();
@@ -48,12 +48,11 @@ namespace projeto_pratica.pages.cadastro
             aCtrlProduto = new CtrlProduto();
             aCtrlCondPag = new CtrlCondPag();
 
-            // Inicializa os formulários de consulta
             aFrmConsultaFornecedor = new frmConsultaFornecedor();
             aFrmConsultaProduto = new frmConsultaProduto();
             aFrmConsultaCondPag = new frmConsultaCondPag();
 
-            LimparTxt(); // Garante que o form comece limpo e com valores padrão
+            LimparTxt(); 
         }
         public void setFrmConsultaFornecedor(object obj)
         {
@@ -163,8 +162,8 @@ namespace projeto_pratica.pages.cadastro
             aNotaEntrada = new NotaEntrada();
             _itemSelecionado = null;
 
-            txtCodigo.Clear();
-            txtSerie.Clear();
+            txtCodigo.Text = "55";
+            txtSerie.Text = "1";
             txtNum.Clear();
             txtCodForn.Clear();
             txtFornecedor.Clear();
@@ -409,15 +408,49 @@ namespace projeto_pratica.pages.cadastro
         private void AtualizaListViewParcelas()
         {
             listVCondPag.Items.Clear();
-            if (aNotaEntrada.ACondicaoPagamento?.ParcelasCondPag == null) return;
-
-            foreach (var p in aNotaEntrada.ACondicaoPagamento.ParcelasCondPag)
+            if (aNotaEntrada.ACondicaoPagamento?.ParcelasCondPag == null ||
+                !aNotaEntrada.ACondicaoPagamento.ParcelasCondPag.Any())
             {
+                return;
+            }
+
+            decimal valorTotalNota = aNotaEntrada.ValorTotalNota;
+            decimal valorAcumulado = 0;
+
+            var parcelas = aNotaEntrada.ACondicaoPagamento.ParcelasCondPag.ToList();
+            int totalDeParcelas = parcelas.Count;
+
+            for (int i = 0; i < totalDeParcelas; i++)
+            {
+                var p = parcelas[i];
+                bool isUltimaParcela = (i == totalDeParcelas - 1);
+
+                decimal valorParcela;
+
+                if (isUltimaParcela)
+                {
+      
+                    valorParcela = valorTotalNota - valorAcumulado;
+                }
+                else
+                {
+                    decimal percentualDaParcela = Convert.ToDecimal(p.Percentual) / 100;
+
+                    valorParcela = Math.Round(valorTotalNota * percentualDaParcela, 2);
+
+                    valorAcumulado += valorParcela;
+                }
+
+
                 var lvi = new ListViewItem(p.NumeroParcela.ToString());
                 lvi.SubItems.Add(p.Prazo.ToString());
+
                 lvi.SubItems.Add(p.Percentual.ToString("F2"));
+
                 lvi.SubItems.Add(p.AFormPag.Descricao);
-                lvi.SubItems.Add((aNotaEntrada.ValorTotalNota * (p.Percentual/100)).ToString());
+
+                lvi.SubItems.Add(valorParcela.ToString("F2"));
+
                 listVCondPag.Items.Add(lvi);
             }
         }
@@ -475,17 +508,14 @@ namespace projeto_pratica.pages.cadastro
 
         private void txtValoresRodape_Leave(object sender, EventArgs e)
         {
-            // Chame o novo método
             AtualizaObjetoPeloRodape();
         }
         private void AtualizaObjetoPeloRodape()
         {
-            // Este método SIM, lê dos TextBoxes e escreve no objeto
             aNotaEntrada.ValorFrete = decimal.TryParse(txtValFrete.Text, out var frete) ? frete : 0;
             aNotaEntrada.ValorSeguro = decimal.TryParse(txtSeguro.Text, out var seguro) ? seguro : 0;
             aNotaEntrada.OutrasDespesas = decimal.TryParse(txtDespesas.Text, out var despesas) ? despesas : 0;
 
-            // E então recalcula o total
             AtualizaTotalNota();
 
         }
@@ -553,11 +583,7 @@ namespace projeto_pratica.pages.cadastro
         {
             this.dtpDataEmissao.ValueChanged -= dtpDataEmissao_ValueChanged;
 
-            if (dtpDataEmissao.Value < DateTime.Now)
-            {
-                dtpDataEmissao.Value = DateTime.Now;
-            }
-            else if (dtpDataEmissao.Value >= dtpDataChegada.Value)
+            if (dtpDataEmissao.Value >= dtpDataChegada.Value)
             {
                 dtpDataEmissao.Value = dtpDataChegada.Value;
             }
@@ -619,8 +645,7 @@ namespace projeto_pratica.pages.cadastro
                 {
                     txtCodProd.Text = oProduto.Id.ToString();
                     txtProduto.Text = oProduto.Nome;
-                    // Opcional: preencher valor unitário se o DAO o trouxer
-                    // txtValUnit.Text = oProduto.Venda.ToString("F2"); 
+
                 }
                 else
                 {

@@ -31,5 +31,11 @@ namespace projeto_pratica.controllers
 		{
 			return aDaoCliente.Listar();
 		}
+
+		public Cliente BuscarPorId(int id)
+		{
+			return aDaoCliente.BuscarPorId(id);
+
+        }
 	}
 }

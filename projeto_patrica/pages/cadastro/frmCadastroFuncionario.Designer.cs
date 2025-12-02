@@ -99,14 +99,6 @@
             this.lblDtNascimento.Location = new System.Drawing.Point(549, 299);
             this.lblDtNascimento.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             // 
-            // dtpDataNascimento
-            // 
-            this.dtpDataNascimento.CustomFormat = " dd MMM yyyy";
-            this.dtpDataNascimento.Location = new System.Drawing.Point(551, 318);
-            this.dtpDataNascimento.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.dtpDataNascimento.TabIndex = 13;
-            this.dtpDataNascimento.Value = new System.DateTime(2025, 4, 9, 21, 24, 33, 0);
-            // 
             // rbtnFisica
             // 
             this.rbtnFisica.Checked = true;
@@ -187,6 +179,15 @@
             this.txtEstado.Location = new System.Drawing.Point(568, 258);
             this.txtEstado.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             // 
+            // dtpDataNascimento
+            // 
+            this.dtpDataNascimento.CustomFormat = " dd MMM yyyy";
+            this.dtpDataNascimento.Location = new System.Drawing.Point(551, 318);
+            this.dtpDataNascimento.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.dtpDataNascimento.TabIndex = 13;
+            this.dtpDataNascimento.Value = new System.DateTime(2025, 4, 9, 21, 24, 33, 0);
+            this.dtpDataNascimento.ValueChanged += new System.EventHandler(this.dtpDataNascimento_ValueChanged);
+            // 
             // btnSave
             // 
             this.btnSave.Location = new System.Drawing.Point(719, 658);
@@ -232,12 +233,12 @@
             // btnSair
             // 
             this.btnSair.Location = new System.Drawing.Point(867, 658);
-            this.btnSair.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnSair.Margin = new System.Windows.Forms.Padding(5);
             this.btnSair.TabIndex = 23;
             // 
             // txtCodigo
             // 
-            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5);
             // 
             // txtMatricula
             // 
@@ -246,6 +247,7 @@
             this.txtMatricula.Name = "txtMatricula";
             this.txtMatricula.Size = new System.Drawing.Size(173, 22);
             this.txtMatricula.TabIndex = 16;
+            this.txtMatricula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_KeyPress);
             // 
             // lblMatricula
             // 
@@ -291,6 +293,7 @@
             this.txtSalBruto.Name = "txtSalBruto";
             this.txtSalBruto.Size = new System.Drawing.Size(172, 22);
             this.txtSalBruto.TabIndex = 18;
+            this.txtSalBruto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_KeyPress);
             // 
             // lblSalLiquido
             // 
@@ -309,6 +312,7 @@
             this.txtSalLiquido.Name = "txtSalLiquido";
             this.txtSalLiquido.Size = new System.Drawing.Size(173, 22);
             this.txtSalLiquido.TabIndex = 19;
+            this.txtSalLiquido.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_KeyPress);
             // 
             // lblDtAdmissao
             // 
@@ -345,6 +349,7 @@
             this.txtCargaHoraria.Name = "txtCargaHoraria";
             this.txtCargaHoraria.Size = new System.Drawing.Size(137, 22);
             this.txtCargaHoraria.TabIndex = 21;
+            this.txtCargaHoraria.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_KeyPress);
             // 
             // lblTurno
             // 

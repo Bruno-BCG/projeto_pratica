@@ -284,6 +284,7 @@ namespace projeto_pratica.pages.cadastro
 		{
 			lblApelido.Text = "Apelido";
 			lblCPF.Text = "CPF";
+			txtCpf.MaxLength = 11;
 			lblRG.Text = "RG";
 			lblDtNascimento.Text = "Data de Nacimento";
 
@@ -298,6 +299,7 @@ namespace projeto_pratica.pages.cadastro
 		{
 			lblApelido.Text = "Nome Fantasia";
 			lblCPF.Text = "CNPJ";
+			txtCpf.MaxLength = 14;
 			lblRG.Text = "Inscrição Estadual";
 			lblDtNascimento.Text = "Data Criação";
 
@@ -318,6 +320,18 @@ namespace projeto_pratica.pages.cadastro
         private void btnSave_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dtpDataNascimento_ValueChanged(object sender, EventArgs e)
+        {
+            this.dtpDataNascimento.ValueChanged -= dtpDataNascimento_ValueChanged;
+
+            if (dtpDataNascimento.Value > DateTime.Now)
+            {
+                dtpDataNascimento.Value = DateTime.Now;
+            }
+
+            this.dtpDataNascimento.ValueChanged += dtpDataNascimento_ValueChanged;
         }
     }
 }

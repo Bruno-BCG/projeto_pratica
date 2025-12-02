@@ -1,6 +1,6 @@
 ﻿namespace projeto_pratica.pages.consulta
 {
-    partial class frmConsultaNotasEntrada
+    partial class frmConsultaNotasSaida
     {
         /// <summary>
         /// Variável de designer necessária.
@@ -31,10 +31,9 @@
             this.clmModelo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmSerie = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmNumero = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmCodForn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmFornecedor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmCodCliente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmCliente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmDtEmissao = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmDtCheg = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmTotal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmMotivoCancelamento = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmAtivo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -50,13 +49,13 @@
             this.clmModelo,
             this.clmSerie,
             this.clmNumero,
-            this.clmCodForn,
-            this.clmFornecedor,
+            this.clmCodCliente,
+            this.clmCliente,
             this.clmDtEmissao,
-            this.clmDtCheg,
             this.clmTotal,
             this.clmMotivoCancelamento,
             this.clmAtivo});
+            this.listV.Size = new System.Drawing.Size(1288, 709);
             this.listV.SelectedIndexChanged += new System.EventHandler(this.listV_SelectedIndexChanged);
             // 
             // btnAlterar
@@ -65,7 +64,7 @@
             // 
             // txtCodigo
             // 
-            this.txtCodigo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(5);
             // 
             // clmModelo
             // 
@@ -85,28 +84,22 @@
             this.clmNumero.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.clmNumero.Width = 100;
             // 
-            // clmCodForn
+            // clmCodCliente
             // 
-            this.clmCodForn.Text = "Cod. Fornecedor";
-            this.clmCodForn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.clmCodForn.Width = 80;
+            this.clmCodCliente.Text = "Cod. Cliente";
+            this.clmCodCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmCodCliente.Width = 80;
             // 
-            // clmFornecedor
+            // clmCliente
             // 
-            this.clmFornecedor.Text = "Fornecerdor";
-            this.clmFornecedor.Width = 240;
+            this.clmCliente.Text = "Cliente";
+            this.clmCliente.Width = 240;
             // 
             // clmDtEmissao
             // 
             this.clmDtEmissao.Text = "Emissao";
             this.clmDtEmissao.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.clmDtEmissao.Width = 100;
-            // 
-            // clmDtCheg
-            // 
-            this.clmDtCheg.Text = "Chegada";
-            this.clmDtCheg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.clmDtCheg.Width = 100;
             // 
             // clmTotal
             // 
@@ -124,14 +117,13 @@
             this.clmAtivo.Text = "Cancelado";
             this.clmAtivo.Width = 120;
             // 
-            // frmConsultaNotasEntrada
+            // frmConsultaNotasSaida
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(1008, 729);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "frmConsultaNotasEntrada";
-            this.Text = "Consulta de Nota de Entrada";
-            this.Load += new System.EventHandler(this.frmConsultaNotasEntrada_Load_1);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.ClientSize = new System.Drawing.Size(1344, 897);
+            this.Margin = new System.Windows.Forms.Padding(5);
+            this.Name = "frmConsultaNotasSaida";
+            this.Text = "Consulta de Notas de Saida";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,10 +134,9 @@
         private System.Windows.Forms.ColumnHeader clmModelo;
         private System.Windows.Forms.ColumnHeader clmSerie;
         private System.Windows.Forms.ColumnHeader clmNumero;
-        private System.Windows.Forms.ColumnHeader clmCodForn;
-        private System.Windows.Forms.ColumnHeader clmFornecedor;
+        private System.Windows.Forms.ColumnHeader clmCodCliente;
+        private System.Windows.Forms.ColumnHeader clmCliente;
         private System.Windows.Forms.ColumnHeader clmDtEmissao;
-        private System.Windows.Forms.ColumnHeader clmDtCheg;
         private System.Windows.Forms.ColumnHeader clmTotal;
         private System.Windows.Forms.ColumnHeader clmMotivoCancelamento;
         private System.Windows.Forms.ColumnHeader clmAtivo;

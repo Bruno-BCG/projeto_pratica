@@ -133,5 +133,33 @@ namespace projeto_pratica.daos
 
 			return lista;
 		}
-	}
+        public FormaPagamento BuscarPorId(int id)
+        {
+            using (SqlConnection conexao = Banco.Abrir())
+            {
+                if (conexao == null) return null;
+
+                const string sql = @"SELECT FORMAPAG_ID, FORMAPAG_DESC, FORMAPAG_DT_CRIACAO, FORMAPAG_DT_ALT
+                             FROM FORMA_PAGAMENTO
+                             WHERE ATIVO = 1 AND FORMAPAG_ID = @Id";
+
+                using (var cmd = new SqlCommand(sql, conexao))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        if (!dr.Read()) return null;
+                        return new FormaPagamento
+                        {
+                            Id = Convert.ToInt32(dr["FORMAPAG_ID"]),
+                            Descricao = dr["FORMAPAG_DESC"].ToString(),
+                            DtCriacao = Convert.ToDateTime(dr["FORMAPAG_DT_CRIACAO"]),
+                            DtAlt = dr["FORMAPAG_DT_ALT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(dr["FORMAPAG_DT_ALT"])
+                        };
+                    }
+                }
+            }
+        }
+
+    }
 }

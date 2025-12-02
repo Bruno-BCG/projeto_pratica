@@ -33,6 +33,14 @@ namespace projeto_pratica.service
 
                 try
                 {
+                    if (aNota.Id > 0 && !aNota.Ativo)
+                    {
+                        if (_daoNotaEntrada.ExistemParcelasPagasPorNota(aNota.Id, cnn, transaction))
+                        {
+                            transaction.Rollback();
+                            return "Cancelamento bloqueado: existem parcelas de Contas a Pagar já baixadas para esta nota.";
+                        }
+                    }
                     List<ItensNotaEntrada> itensAntigos = new List<ItensNotaEntrada>();
                     if (aNota.Id > 0)
                     {

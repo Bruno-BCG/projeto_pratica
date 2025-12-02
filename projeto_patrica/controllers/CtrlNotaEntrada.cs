@@ -11,7 +11,8 @@ namespace projeto_pratica.controllers
 {
     internal class CtrlNotaEntrada : Controller
     {
-        private NotaEntradaService serviceNota; 
+        private NotaEntradaService serviceNota;
+        private DaoNotaEntrada aDaoNotaEntrada = new DaoNotaEntrada();
 
         public CtrlNotaEntrada()
         {
@@ -26,6 +27,11 @@ namespace projeto_pratica.controllers
         public List<NotaEntrada> Listar()
         {
             return serviceNota.Listar(); 
+        }
+
+        public bool ExistemParcelasPagasPorNota(int notaEntradaId)
+        {
+            return aDaoNotaEntrada.ExistemParcelasPagasPorNota(notaEntradaId);
         }
     }
 }

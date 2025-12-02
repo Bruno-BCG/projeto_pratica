@@ -31,5 +31,9 @@ namespace projeto_pratica.controllers
 		{
 			return aDaoFuncionario.Listar();
 		}
+		public Funcionario BuscarPorId(int id)
+		{
+			return aDaoFuncionario.BuscarPorId(id);
+		}
 	}
 }

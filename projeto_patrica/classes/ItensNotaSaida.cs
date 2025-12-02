@@ -7,27 +7,25 @@ using System.Xml;
 
 namespace projeto_pratica.classes
 {
-    internal class ItensNotaEntrada : Pai
+    internal class ItensNotaSaida: Pai
     {
         protected Produto oProduto;
         protected decimal qtd;
         protected decimal valorUnitario;
-        protected decimal custoUnitarioReal;
 
         // Construtores, Getters e Setters
 
-        public ItensNotaEntrada()
+        public ItensNotaSaida()
         {
             this.oProduto = new Produto();
             this.qtd = 0;
             this.valorUnitario = 0;
         }
 
-        public ItensNotaEntrada(int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, Produto oProduto, decimal qtd, decimal valorUnitario) : base (id, dtCriacao, dtAlt, ativo)
+        public ItensNotaSaida(int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, Produto oProduto, decimal qtd) : base(id, dtCriacao, dtAlt, ativo)
         {
             this.oProduto = oProduto;
             this.qtd = qtd;
-            this.valorUnitario = valorUnitario;
         }
 
         // Getters e Setters
@@ -52,12 +50,6 @@ namespace projeto_pratica.classes
         public decimal ValorTotal
         {
             get { return this.qtd * this.valorUnitario; }
-        }
-
-        public decimal CustoUnitarioReal 
-        { 
-            get => custoUnitarioReal; 
-            set => custoUnitarioReal = value; 
         }
     }
 }

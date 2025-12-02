@@ -287,6 +287,32 @@ namespace projeto_pratica.daos
                 cmd.ExecuteNonQuery();
             }
         }
+        public bool ExistemParcelasPagasPorNota(int notaEntradaId, SqlConnection cnn, SqlTransaction tx)
+        {
+            const string sql = @"
+        SELECT COUNT(*)
+        FROM CONTAS_A_PAGAR
+        WHERE NOTA_ENTRADA_ID = @NotaId
+          AND SITUACAO = 1     -- 1 = paga (baixa confirmada)
+          AND ATIVO = 1";
+
+            using (var cmd = new SqlCommand(sql, cnn, tx))
+            {
+                cmd.Parameters.AddWithValue("@NotaId", notaEntradaId);
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
+            }
+        }
+
+        public bool ExistemParcelasPagasPorNota(int notaEntradaId)
+        {
+            using (SqlConnection cnn = Banco.Abrir())
+            {
+                if (cnn == null) return false;
+                return ExistemParcelasPagasPorNota(notaEntradaId, cnn, null);
+            }
+        }
+
     }
 }
 

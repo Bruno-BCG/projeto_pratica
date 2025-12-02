@@ -12,7 +12,7 @@ namespace projeto_pratica.daos
     {
         public void SalvarCustoFornecedor(ItensNotaEntrada item, int fornecedorId, DateTime dataCompra, SqlConnection cnn, SqlTransaction trans)
         {
-            // O comando MERGE do T-SQL (SQL Server) faz o "INSERT ou UPDATE" em uma só operação
+   
             string sql = @"
                 MERGE INTO PRODUTO_FORNECEDOR AS T
                 USING (SELECT @IdProduto AS PRODUTO_ID, @IdFornecedor AS FORNECEDOR_ID) AS S

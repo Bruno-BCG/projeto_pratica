@@ -120,9 +120,26 @@ namespace projeto_pratica.pages.cadastro
                 return false;
             }
         }
-private void frmCadastroPessoa_Load(object sender, EventArgs e)
+        private void frmCadastroPessoa_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            txtNumero_KeyPress(sender, e);
+        }
+
+        private void dtpDataNascimento_ValueChanged(object sender, EventArgs e)
+        {
+            this.dtpDataNascimento.ValueChanged -= dtpDataNascimento_ValueChanged;
+
+            if (dtpDataNascimento.Value > DateTime.Now)
+            {
+                dtpDataNascimento.Value = DateTime.Now;
+            }
+
+            this.dtpDataNascimento.ValueChanged += dtpDataNascimento_ValueChanged;
         }
     }
 }

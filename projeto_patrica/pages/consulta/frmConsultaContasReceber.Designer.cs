@@ -1,6 +1,6 @@
 ﻿namespace projeto_pratica.pages.consulta
 {
-    partial class frmConsultaContasPagar
+    partial class frmConsultaContasReceber
     {
         /// <summary>
         /// Variável de designer necessária.
@@ -30,8 +30,8 @@
         {
             this.clmSerie = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmNumNota = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmIdFornecedor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmFornecedor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmIdCliente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmCliente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmValorParcela = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmDataEmissao = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmDataVencimento = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -39,7 +39,6 @@
             this.lblFiltros = new System.Windows.Forms.Label();
             this.btnDarBaixa = new System.Windows.Forms.Button();
             this.clmFormaPagamento = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnBaixa = new System.Windows.Forms.Button();
             this.clmNumParc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmModelo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmMotCancel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,7 +46,9 @@
             // 
             // btnExcluir
             // 
+            this.btnExcluir.Location = new System.Drawing.Point(896, 671);
             this.btnExcluir.Text = "Cancelar";
+            this.btnExcluir.Visible = false;
             // 
             // listV
             // 
@@ -55,8 +56,8 @@
             this.clmModelo,
             this.clmSerie,
             this.clmNumNota,
-            this.clmIdFornecedor,
-            this.clmFornecedor,
+            this.clmIdCliente,
+            this.clmCliente,
             this.clmNumParc,
             this.clmValorParcela,
             this.clmFormaPagamento,
@@ -64,17 +65,24 @@
             this.clmDataVencimento,
             this.clmAtivo,
             this.clmMotCancel});
-            this.listV.Location = new System.Drawing.Point(18, 69);
+            this.listV.Location = new System.Drawing.Point(17, 60);
             this.listV.Size = new System.Drawing.Size(967, 577);
             this.listV.SelectedIndexChanged += new System.EventHandler(this.ListV_SelectedIndexChanged);
             // 
             // btnAlterar
             // 
+            this.btnAlterar.Enabled = true;
+            this.btnAlterar.Location = new System.Drawing.Point(804, 671);
             this.btnAlterar.Text = "Visualizar";
             // 
             // btnIncluir
             // 
-            this.btnIncluir.Location = new System.Drawing.Point(527, 665);
+            this.btnIncluir.Location = new System.Drawing.Point(712, 671);
+            this.btnIncluir.Text = "Dar Baixa";
+            // 
+            // btnSair
+            // 
+            this.btnSair.Location = new System.Drawing.Point(896, 671);
             // 
             // clmSerie
             // 
@@ -88,16 +96,16 @@
             this.clmNumNota.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.clmNumNota.Width = 150;
             // 
-            // clmIdFornecedor
+            // clmIdCliente
             // 
-            this.clmIdFornecedor.Text = "Cód. Fornecedor";
-            this.clmIdFornecedor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.clmIdFornecedor.Width = 136;
+            this.clmIdCliente.Text = "Cód. Cliente";
+            this.clmIdCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.clmIdCliente.Width = 136;
             // 
-            // clmFornecedor
+            // clmCliente
             // 
-            this.clmFornecedor.Text = "Fornecedor";
-            this.clmFornecedor.Width = 250;
+            this.clmCliente.Text = "Cliente";
+            this.clmCliente.Width = 250;
             // 
             // clmValorParcela
             // 
@@ -141,17 +149,6 @@
             this.clmFormaPagamento.Text = "Forma de Pagamento";
             this.clmFormaPagamento.Width = 150;
             // 
-            // btnBaixa
-            // 
-            this.btnBaixa.Location = new System.Drawing.Point(620, 666);
-            this.btnBaixa.Margin = new System.Windows.Forms.Padding(2);
-            this.btnBaixa.Name = "btnBaixa";
-            this.btnBaixa.Size = new System.Drawing.Size(88, 27);
-            this.btnBaixa.TabIndex = 8;
-            this.btnBaixa.Text = "Dar Baixa";
-            this.btnBaixa.UseVisualStyleBackColor = true;
-            this.btnBaixa.Click += new System.EventHandler(this.btnBaixa_Click);
-            // 
             // clmNumParc
             // 
             this.clmNumParc.Text = "Numero Parcela";
@@ -169,20 +166,12 @@
             this.clmMotCancel.Text = "Motivo Cancelamento";
             this.clmMotCancel.Width = 320;
             // 
-            // frmConsultaContasPagar
+            // frmConsultaContasReceber
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(1009, 729);
-            this.Controls.Add(this.btnBaixa);
-            this.Name = "frmConsultaContasPagar";
-            this.Text = "Consulta de Contas a Pagar";
-            this.Controls.SetChildIndex(this.btnExcluir, 0);
-            this.Controls.SetChildIndex(this.btnAlterar, 0);
-            this.Controls.SetChildIndex(this.btnIncluir, 0);
-            this.Controls.SetChildIndex(this.listV, 0);
-            this.Controls.SetChildIndex(this.btnSair, 0);
-            this.Controls.SetChildIndex(this.txtCodigo, 0);
-            this.Controls.SetChildIndex(this.btnBaixa, 0);
+            this.ClientSize = new System.Drawing.Size(997, 715);
+            this.Name = "frmConsultaContasReceber";
+            this.Text = "Consulta de Contas a Receber";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -191,8 +180,8 @@
         #endregion
         private System.Windows.Forms.ColumnHeader clmSerie;
         private System.Windows.Forms.ColumnHeader clmNumNota;
-        private System.Windows.Forms.ColumnHeader clmIdFornecedor;
-        private System.Windows.Forms.ColumnHeader clmFornecedor;
+        private System.Windows.Forms.ColumnHeader clmIdCliente;
+        private System.Windows.Forms.ColumnHeader clmCliente;
         private System.Windows.Forms.ColumnHeader clmValorParcela;
         private System.Windows.Forms.ColumnHeader clmDataEmissao;
         private System.Windows.Forms.ColumnHeader clmDataVencimento;
@@ -200,7 +189,6 @@
         private System.Windows.Forms.Label lblFiltros;
         private System.Windows.Forms.Button btnDarBaixa;
         private System.Windows.Forms.ColumnHeader clmFormaPagamento;
-        private System.Windows.Forms.Button btnBaixa;
         private System.Windows.Forms.ColumnHeader clmNumParc;
         private System.Windows.Forms.ColumnHeader clmModelo;
         private System.Windows.Forms.ColumnHeader clmMotCancel;

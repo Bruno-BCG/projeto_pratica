@@ -6,104 +6,88 @@ using System.Threading.Tasks;
 
 namespace projeto_pratica.classes
 {
-    internal class ContasPagar : Pai
+    internal class ContasReceber : Pai
     {
-        // Chaves Estrangeiras (como objetos, seguindo seu padrão)
-        protected NotaEntrada aNotaEntrada;
-        protected Fornecedor oFornecedor;
+        protected NotaSaida aNotaSaida;
+        protected Cliente oCliente;
         protected FormaPagamento aFormaPagamento;
 
-        // Propriedades da Parcela
         protected int numeroParcela;
         protected DateTime dataEmissao;
         protected DateTime dataVencimento;
         protected decimal valorParcela;
 
-        // Propriedades de Pagamento
-        protected int situacao; // 0: Em aberto, 1: Pago
+        protected int situacao; 
         protected decimal juros;
         protected decimal multa;
         protected decimal desconto;
-        protected decimal? valorPago; // Permite nulo
-        protected DateTime? dataPagamento; // Permite nulo
+        protected decimal? valorPago;
+        protected decimal? multaValor;
+        protected decimal? jurosValor;
+        protected decimal? descontoValor;
+        protected DateTime? dataPagamento;
 
-        // Propriedades de Cancelamento
         protected string motivoCancelamento;
 
-        // Construtor Padrão
-        public ContasPagar() : base()
+        public ContasReceber() : base()
         {
             // Inicializa os objetos (para evitar NullReferenceException)
-            this.aNotaEntrada = new NotaEntrada();
-            this.oFornecedor = new Fornecedor();
+            this.aNotaSaida = new NotaSaida();
+            this.oCliente = new Cliente();
             this.aFormaPagamento = new FormaPagamento();
-
-            // Inicializa valores padrão
-            this.numeroParcela = 1;
-            this.dataEmissao = DateTime.Now;
-            this.dataVencimento = DateTime.Now;
-            this.valorParcela = 0;
-            this.situacao = 0;
-            this.juros = 0;
-            this.multa = 0;
-            this.desconto = 0;
-            this.valorPago = null;
-            this.dataPagamento = null;
-            this.motivoCancelamento = string.Empty;
+            numeroParcela = 0;
+            dataEmissao = DateTime.MinValue;
+            dataVencimento = DateTime.MinValue;
+            valorParcela = 0;
+            aFormaPagamento = new FormaPagamento();
+            situacao = 0;
+            juros = 0;
+            multa = 0;
+            desconto = 0;
+            valorPago = null;
+            multaValor = null;
+            jurosValor = null;
+            descontoValor = null;
+            dataPagamento = null;
+            motivoCancelamento = null;
         }
 
-        public ContasPagar(
-            int id, DateTime dtCriacao, DateTime dtAlt, bool ativo,
-            NotaEntrada notaEntrada, Fornecedor fornecedor,
-            FormaPagamento formaPagamento, int numeroParcela,
-            DateTime dataEmissao, DateTime dataVencimento,
-            decimal valorParcela, int situacao,
-            decimal juros, decimal multa, decimal desconto,
-            decimal valorPago, DateTime dataPagamento,
-            string motivoCancelamento
+        public ContasReceber(
+            int id, DateTime dtCriacao, DateTime dtAlt, bool ativo, int modeloVenda, string serieVenda, int numeroNotaVenda, Cliente oCliente, int numeroParcela,
+            DateTime dataEmissao, DateTime dataVencimento, decimal valorParcela, FormaPagamento aFormaPagamento,
+            int situacao, decimal juros, decimal multa, decimal desconto, decimal? valorPago, DateTime? dataPagamento,
+            DateTime dataCadastro, DateTime? dataUltimaEdicao, string motivoCancelamento, decimal? multaValor, decimal? jurosValor, decimal? descontoValor
         ) : base(id, dtCriacao, dtAlt, ativo)
         {
-            // Objetos relacionados
-            this.aNotaEntrada = notaEntrada ?? new NotaEntrada();
-            this.oFornecedor = fornecedor ?? new Fornecedor();
-            this.aFormaPagamento = formaPagamento ?? new FormaPagamento();
 
-            // Dados principais
+            this.oCliente = oCliente;
             this.numeroParcela = numeroParcela;
             this.dataEmissao = dataEmissao;
             this.dataVencimento = dataVencimento;
             this.valorParcela = valorParcela;
+            this.aFormaPagamento = aFormaPagamento;
             this.situacao = situacao;
-
-            // Financeiro
             this.juros = juros;
             this.multa = multa;
             this.desconto = desconto;
-
-            // Pagamento
             this.valorPago = valorPago;
+            this.multaValor = multaValor;
+            this.jurosValor = jurosValor;
+            this.descontoValor = descontoValor;
             this.dataPagamento = dataPagamento;
-
-            this.motivoCancelamento = motivoCancelamento ?? string.Empty;
+            this.motivoCancelamento = motivoCancelamento;
         }
 
-
-        public NotaEntrada ANotaEntrada
+        public Cliente OCliente
         {
-            get => aNotaEntrada;
-            set => aNotaEntrada = value;
+            get => oCliente;
+            set => oCliente = value;
         }
 
-        public Fornecedor OFornecedor
+        public NotaSaida ANotaSaida
         {
-            get => oFornecedor;
-            set => oFornecedor = value;
-        }
-
-        public FormaPagamento AFormaPagamento
-        {
-            get => aFormaPagamento;
-            set => aFormaPagamento = value;
+            get => aNotaSaida;
+            set => aNotaSaida = value;
         }
 
         public int NumeroParcela
@@ -130,42 +114,56 @@ namespace projeto_pratica.classes
             set => valorParcela = value;
         }
 
+        public FormaPagamento AFormaPagamento
+        {
+            get => aFormaPagamento;
+            set => aFormaPagamento = value;
+        }
         public int Situacao
         {
             get => situacao;
             set => situacao = value;
         }
-
         public decimal Juros
         {
             get => juros;
             set => juros = value;
         }
-
         public decimal Multa
         {
             get => multa;
             set => multa = value;
         }
-
         public decimal Desconto
         {
             get => desconto;
             set => desconto = value;
         }
-
         public decimal? ValorPago
         {
             get => valorPago;
             set => valorPago = value;
         }
-
+        public decimal? MultaValor
+        {
+            get => multaValor;
+            set => multaValor = value;
+        }
+        public decimal? JurosValor
+        {
+            get => jurosValor;
+            set => jurosValor = value;
+        }
+        public decimal? DescontoValor
+        {
+            get => descontoValor;
+            set => descontoValor = value;
+        }
         public DateTime? DataPagamento
         {
             get => dataPagamento;
             set => dataPagamento = value;
         }
-
         public string MotivoCancelamento
         {
             get => motivoCancelamento;

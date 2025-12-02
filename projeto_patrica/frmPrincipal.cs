@@ -33,6 +33,8 @@ namespace projeto_pratica
 		private Produto oProduto;
 		private NotaEntrada aNotaEntrada;
 		private ContasPagar aContasPagar;
+		private NotaSaida aNotaSaida;
+		private ContasReceber aContasReceber;
 
 		private Interfaces aInter;
 
@@ -50,6 +52,8 @@ namespace projeto_pratica
 		private CtrlProduto aCtrlProduto;
 		private CtrlNotaEntrada aCtrlNotaEntrada;
 		private CtrlContasPagar aCtrlContasPagar;
+		private CtrlNotaSaida aCtrlNotaSaida;
+		private CtrlContasReceber aCtrlContasReceber;
 
 		public frmPrincipal()
 		{
@@ -68,6 +72,8 @@ namespace projeto_pratica
 			oProduto = new Produto();
 			aNotaEntrada = new NotaEntrada();
 			aContasPagar = new ContasPagar();
+			aNotaSaida = new NotaSaida();
+			aContasReceber = new ContasReceber();
 
 			aInter = new Interfaces();
 
@@ -85,6 +91,8 @@ namespace projeto_pratica
 			aCtrlProduto = new CtrlProduto();
 			aCtrlNotaEntrada = new CtrlNotaEntrada();
 			aCtrlContasPagar = new CtrlContasPagar();
+			aCtrlNotaSaida = new CtrlNotaSaida();
+			aCtrlContasReceber = new CtrlContasReceber();
 		}	
 
 		private void condiçãoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -158,6 +166,16 @@ namespace projeto_pratica
         private void contasAPagarToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			aInter.PecaContasPagar(aContasPagar, aCtrlContasPagar);
+        }
+
+        private void notaDeSaidaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			aInter.PecaNotaSaida(aNotaSaida, aCtrlNotaSaida);
+        }
+
+        private void contasAReceberToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			aInter.PecaContasReceber(aContasReceber, aCtrlContasReceber);
         }
     }
 }

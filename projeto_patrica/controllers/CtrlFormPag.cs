@@ -29,5 +29,9 @@ namespace projeto_pratica.controllers
 		{
 			return aDaoFormPag.Listar();
 		}
-	}
+        public FormaPagamento BuscarPorId(int id)
+        {
+            return aDaoFormPag.BuscarPorId(id);
+        }
+    }
 }
